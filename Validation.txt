@@ -1,33 +1,31 @@
 Verified 11 October 2026 with Xcode 27.0 / visionOS 27 SDK.
-Deployment target: visionOS 26.0. Current signed build: 1.0 (8).
+Deployment target: visionOS 26.0. Current source/simulator build: 1.0 (9).
 
-PASS: Native simulator — 132 tests in 14 suites in 14.216 seconds; TEST SUCCEEDED.
-PASS: Shared-physics package — 16 tests; new motion helper also covered by the native target.
-PASS: Signed device build 8.
-PASS: Background gesture suspension preserves an acquired mount; fresh foreground input is required.
-PASS: Missing initial knuckles cannot arm a grab; grip recovery and permission failures have distinct feedback.
-PASS: Separate hand-fit reset preserves palm position, other-hand preferences and motion disarming.
-PASS: Duplicate/reordered controller packets cannot move the racket or re-arm after loss/refit/background.
-PASS: Raw controller angular quality, fitted head speed, atomic connection refresh and bounded stopped-provider recovery.
-PASS: World-space rotating string contact, false local-chord rejection, contact-point angular lever and scaled cork radius.
-PASS: Actual in-game shaft-turn rebound with stationary string centre; implausible edge speed is rejected.
-PASS: Milo footwork continues during recovery between points.
-PASS: Existing automatic feeds, panel guards, measured contacts, fault chronology and all-difficulty/frame-rate regressions.
-PASS: Native home/court tracking setup visual review; hand/pace choice contrast repaired.
-PRIOR PASS: Original layered icon inspection; assets unchanged in build 8.
+PASS: Native simulator — 145 tests in 16 suites, 14.754 seconds; TEST SUCCEEDED.
+PASS: Shared-physics package — 16 tests in one suite.
+PASS: Unsigned Vision Pro Release SDK compile; BUILD SUCCEEDED. No hardware used.
+PASS: Milo feasible arm/face/impulse planning; all difficulties at 30/60/90 Hz return to the reachable descending player hitting area.
+PASS: Friendly/Club rallies continue through a second actual player string contact at 30/60/90 Hz.
+PASS: Timestamp-less input uses render intervals for quality and velocity; 5.5 m/s accepted at 30 Hz, >35 m/s rejected. Native timestamps unchanged.
+PASS: Variable-frame debug preview retains 5.5 m/s motion and requires actual string contact; 0.8 m miss produces no return.
+PASS: 1,000 queued callbacks produce one pending MainActor task with full elapsed time; background producer, cancellation and readiness regressions.
+PASS: Exact-mesh sharing with original topology, UVs, transforms and collision parents; 256-entry LRU eviction preserves live entities.
+PASS: Warm 20-racket batch generates zero extra meshes (1,420 cache hits); warm court generates zero extra meshes (612 hits, 164 retained entries).
+PASS: Prior grip acquisition/holding/release, background recovery, saved fits, controller ordering/recovery, rotating contact, impact velocity, automatic serving and panel guards.
+PASS: Actual native rally/miss recordings and paused cork/string screenshot visually inspected.
 
-Test log: /private/tmp/shuttle-build8-tests.log
-Result bundle: /private/tmp/shuttle-vision-build/Logs/Test/Test-ShuttleClub-2026.10.11_22-43-00-+0800.xcresult
-Core log: /private/tmp/shuttle-polish-core-tests.log
-Signed build log: /private/tmp/shuttle-build8-device-build.log
-Install attempt: /private/tmp/shuttle-build8-install-result.json
+Evidence: Verification/Build9/README.md, Native-Test-Summary.json, Native-Test-Output.txt, Core-Test-Output.txt, Contact-Measurements.json, Recording-Metadata.json and Source-Manifest.json.
+Test log: /private/tmp/shuttle-build9-verified-tests.log
+Result: /private/tmp/shuttle-vision-build/Logs/Test/Test-ShuttleClub-2026.10.11_23-18-42-+0800.xcresult
+Core log: /private/tmp/shuttle-build9-core-tests.log
+Release compile: /private/tmp/shuttle-build9-verified-release.log
 
-INSTALL PENDING: Device could not fulfill required usage assertions (CoreDevice error 4016). No successful build 8 installation or launch is claimed. Last independently confirmed installed version: 1.0 (7).
-Native build 8 setup captures: Preview/Build8-Home-Tracking.png and Preview/Build8-Court-Tracking.png.
-Approved A/B/C menu captures under Preview/ApprovedMenus remain build 6 captures. Reference PNGs are not scene backdrops.
-Simulator startup emitted backlight-observer/audio-queue warnings; tests completed successfully.
+NO PHYSICAL ACCESS: The user declined Vision Pro access. No device query, install or launch was performed for build 9. It is unsigned and not installed.
+PRIOR STATUS: Signed build 8 succeeded, but installation failed with CoreDevice 4016 (required usage assertions). Last independently confirmed installed version: 1.0 (7).
+Prior setup/menu/icon captures remain historical captures in Preview; reference PNGs are not scene backdrops.
 
-NOT VERIFIED: Physical grip thresholds/comfort, actual hand/controller tracking and latency, pairing/mapping/haptics, fast real swings, frame rate, headset audio, launcher appearance and direct UI operation.
-Physics parameters remain provisional. Scene visuals are a recreation with visible differences from the reference.
+LIMITS: Recordings/tests use artificial poses, not physical tracking. Initial serves are authored launches from visible strings; player and subsequent robot returns require actual collision. Process logs cover a slightly different interval from each video. Compression preserves the full timeline; encoded duration rounding is below one frame.
+NOT VERIFIED: Physical grip thresholds/comfort, hand/Sense tracking and latency, pairing/mapping/haptics, fast real swings, frame rate/thermal behaviour, headset audio and launcher appearance.
+Physics parameters remain provisional; visuals visibly differ from the reference. No exact-match percentage is claimed.
+Simulator startup logged backlight/audio warnings; recordings logged CoreText font notes. Tests/builds succeeded; these logs do not establish audio or frame-rate quality.
 No external asset-generation service used; geometry, textures, icon, music and effects were authored locally.
-The debug rally preview uses labelled artificial hand poses and requires actual string collision.

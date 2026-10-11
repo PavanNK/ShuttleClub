@@ -32,7 +32,7 @@ struct GameLoopTests {
     func beginIncoming(_ g:GameModel) {
         g.receiveHandPose(wrist(at:[2,1.6,-0.25]));g.serve();advanceServe(g)
     }
-    func swingIntoServe(_ g:GameModel,miss:Float=0,dt:Float=1/120) {
+    func swingIntoServe(_ g:GameModel,miss:Float=0,dt:Float=1/120,strength:Float=1) {
         advanceServe(g)
         guard let flight=g.shuttleState else { return }
         var probe=flight; var time:Float=0
@@ -44,7 +44,7 @@ struct GameLoopTests {
             let u=min(0.12,max(-0.12,Float(index+1)*dt-time))
             // A measured 5 m/s clear, rather than relying on wall-clock
             // fixture timing to inflate a slower 3 m/s net shot.
-            g.receiveHandPose(wrist(at:contact+[miss,3*u,-4*u],angle:0.6)); g.update(dt)
+            g.receiveHandPose(wrist(at:contact+[miss,3*u*strength,-4*u*strength],angle:0.6)); g.update(dt)
             if g.lastContact?.side == .player || g.shuttleState == nil { return }
         }
     }
@@ -300,6 +300,59 @@ struct GameLoopTests {
         #expect(simd_distance(contact.cork,contact.stringPoint)<=0.045)
         #expect(g.score.milo == 0);#expect(g.shuttleState != nil)
     }
+    @Test(arguments:[Float(5.5),Float(36)])
+    func timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:Float) {
+        let g=game(),dt=Float(1)/30,start=V3(2,1.6,-0.25)
+        // Establish a motion baseline without advancing the scene. A zero
+        // duration must never interpret placement as a measured swing.
+        g.receiveHandPose(wrist(at:start));g.update(0)
+        #expect(g.handHeadVelocity == .zero)
+        g.receiveHandPose(wrist(at:start));g.update(dt)
+        g.receiveHandPose(wrist(at:start+[0,speed*dt,0]));g.update(dt)
+        if speed<35 {
+            #expect(simd_distance(g.handHeadVelocity,V3(0,speed,0))<0.001)
+        } else {
+            #expect(g.handHeadVelocity == .zero)
+            #expect(g.lastContact == nil)
+        }
+    }
+    #if DEBUG
+    @Test(arguments:[false,true])
+    func previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:Bool) throws {
+        let g=game();beginIncoming(g)
+        var probe=try #require(g.shuttleState),contactAt:Float=0
+        for _ in 0..<600 {
+            if probe.position.z >= -0.25 { break }
+            probe.step(1/240);contactAt += 1/240
+        }
+        let contact=probe.position,offset:Float=miss ? 0.8:0
+        let initial=GameModel.previewHandPose(contact:contact,contactAt:contactAt,elapsed:0,delta:0,miss:offset)
+        g.receiveHandPose(initial);g.update(0)
+        let intervals:[Float]=[1/30,1/60,1/90]
+        var elapsed:Float=0,measuredFrames=0
+        for index in 0..<300 {
+            let dt=intervals[index%intervals.count]
+            let pose=GameModel.previewHandPose(contact:contact,contactAt:contactAt,elapsed:elapsed,delta:dt,miss:offset)
+            g.receiveHandPose(pose);g.update(dt)
+            // Only the unclamped portion is the deliberate 5.5 m/s swing.
+            if elapsed-contactAt >= -0.09,elapsed+dt-contactAt <= 0.14 {
+                #expect(simd_distance(g.handHeadVelocity,V3(0,3.3,-4.4))<0.001)
+                measuredFrames += 1
+            }
+            elapsed += dt
+            if g.lastContact?.side == .player || g.shuttleState == nil { break }
+        }
+        #expect(measuredFrames>0)
+        if miss {
+            #expect(g.lastContact == nil && g.rallyHits == 0 && g.score.milo == 1)
+        } else {
+            let hit=try #require(g.lastContact)
+            #expect(hit.side == .player && g.rallyHits == 1)
+            #expect(simd_distance(hit.cork,hit.stringPoint)<=0.040006)
+            #expect(simd_distance(hit.headVelocity,V3(0,3.3,-4.4))<0.001)
+        }
+    }
+    #endif
     @Test func miloMovementAndStrokeFreezeDuringPauseAndThenRecover() throws {
         let g=game();g.serve();swingIntoServe(g)
         #expect(g.lastContact?.side == .player)
@@ -476,15 +529,44 @@ struct GameLoopTests {
         let state=g.shuttleState
         var outgoing=try #require(state)
         #expect(outgoing.velocity.z > 0)
-        var crossed=false
+        var crossed=false,reachedPlayer=false
         for _ in 0..<600 {
             let before=outgoing.position; outgoing.step(1/240)
             if let height=Court.crossingHeight(from:before,to:outgoing.position) {
-                #expect(height >= Court.netHeight); crossed=true; break
+                #expect(height >= Court.netHeight); crossed=true
+            }
+            if before.z < -0.25,outgoing.position.z >= -0.25 {
+                let fraction=(-0.25-before.z)/(outgoing.position.z-before.z)
+                let arrival=before+(outgoing.position-before)*fraction
+                #expect(abs(arrival.x)<0.8)
+                #expect(arrival.y>1 && arrival.y<2.3)
+                #expect(outgoing.velocity.y<0)
+                reachedPlayer=true;break
             }
             if outgoing.position.y <= 0.04 { break }
         }
-        #expect(crossed)
+        #expect(crossed);#expect(reachedPlayer)
+    }
+    @Test(arguments:[Difficulty.friendly,.club],[Float(1)/30,Float(1)/60,Float(1)/90])
+    func approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:Difficulty,dt:Float) throws {
+        let g=game();g.difficulty=difficulty
+        beginIncoming(g);swingIntoServe(g,dt:dt,strength:1.1)
+        #expect(g.lastContact?.side == .player)
+        for _ in 0..<800 {
+            g.receiveHandPose(wrist(at:[2,1.6,-0.25]));g.update(dt)
+            if g.lastContact?.side == .milo || g.shuttleState == nil { break }
+        }
+        let robotContact=try #require(g.lastContact)
+        #expect(robotContact.side == .milo)
+        #expect(simd_distance(robotContact.cork,robotContact.stringPoint)<=0.040006)
+        #expect(g.rallyHits == 2 && g.score.player == 0 && g.score.milo == 0)
+        // Replay a measured swing against the returned flight. The second
+        // player hit must come through the ordinary finite string sweep.
+        swingIntoServe(g,dt:dt)
+        let playerContact=try #require(g.lastContact)
+        #expect(playerContact.side == .player)
+        #expect(simd_distance(playerContact.cork,playerContact.stringPoint)<=0.040006)
+        #expect(g.rallyHits == 3 && g.score.player == 0 && g.score.milo == 0)
     }
 }
 

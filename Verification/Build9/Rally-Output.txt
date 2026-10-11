@@ -1,0 +1,19 @@
+2026-10-11 23:19:46.573 ShuttleClub[99229:3520807] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-11 23:19:46.573 ShuttleClub[99229:3520807] CoreText performance note: Set a breakpoint on CTFontLogSuboptimalRequest to debug.
+2026-10-11 23:19:46.577 ShuttleClub[99229:3520807] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-11 23:19:46.581 ShuttleClub[99229:3520823] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+STRING CONTACT: player, cork SIMD3<Float>(0.3466284, 1.6264242, -0.25688422), strings SIMD3<Float>(0.3466284, 1.6038383, -0.22387046), fraction 0.18466318
+IMPACT MOTION: time 4.311084, incoming SIMD3<Float>(0.16207592, -6.5514846, 2.4613917), outgoing SIMD3<Float>(0.15235136, 3.1285062, -11.235504), centre SIMD3<Float>(0.0, 3.3000355, -4.4000497), strings SIMD3<Float>(0.0, 3.3000355, -4.4000497)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42660192, 0.9353169, -6.1547236), strings SIMD3<Float>(0.42763454, 0.9021032, -6.1769905), fraction 0.6310451
+IMPACT MOTION: time 5.0777593, incoming SIMD3<Float>(0.07244314, -4.0480776, -5.342485), outgoing SIMD3<Float>(-0.45959294, 13.163473, 6.3640223), centre SIMD3<Float>(-0.1778356, 5.6436715, 3.9483783), strings SIMD3<Float>(-0.17783558, 5.643671, 3.9483783)
+STRING CONTACT: player, cork SIMD3<Float>(3.1107804e-05, 1.5911549, -0.2479586), strings SIMD3<Float>(3.1107862e-05, 1.568569, -0.21494476), fraction 0.67756855
+IMPACT MOTION: time 6.8777823, incoming SIMD3<Float>(-0.12886187, -6.8798704, 1.784363), outgoing SIMD3<Float>(-0.12113016, 2.5126069, -11.422853), centre SIMD3<Float>(0.0, 3.3000355, -4.4000535), strings SIMD3<Float>(0.0, 3.3000355, -4.4000535)
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.050360464, 1.3352631, -5.0), Net fault.
+STRING CONTACT: player, cork SIMD3<Float>(-0.0895641, 1.6263975, -0.2565826), strings SIMD3<Float>(-0.0895641, 1.6038105, -0.22356732), fraction 0.68019134
+IMPACT MOTION: time 9.755552, incoming SIMD3<Float>(0.041851927, -6.5729413, 2.2145033), outgoing SIMD3<Float>(0.039340813, 2.9529548, -11.240458), centre SIMD3<Float>(0.0, 3.300057, -4.4000535), strings SIMD3<Float>(0.0, 3.300057, -4.4000535)
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.072962485, 1.5322059, -5.0), Net fault.
+STRING CONTACT: player, cork SIMD3<Float>(-0.32395968, 1.6265482, -0.25648218), strings SIMD3<Float>(-0.32395968, 1.6039612, -0.223467), fraction 0.6807754
+IMPACT MOTION: time 12.63885, incoming SIMD3<Float>(-0.025752125, -6.5731835, 2.2113667), outgoing SIMD3<Float>(-0.024206998, 2.950451, -11.24008), centre SIMD3<Float>(0.0, 3.3000355, -4.4000535), strings SIMD3<Float>(0.0, 3.3000355, -4.4000535)
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.33417544, 1.5311177, -5.0), Net fault.
+com.shuttleclub.vision: 99229
+

@@ -61,7 +61,7 @@ final class GameModel {
     private(set) var miloPhase:MiloAnimationPhase = .ready
     @ObservationIgnored var assets = SceneAssets()
     @ObservationIgnored private var subscription: EventSubscription?
-    @ObservationIgnored private var firstFrameCallback: (@MainActor () -> Void)?
+    @ObservationIgnored private var frameUpdates:FrameUpdateGate?
     @ObservationIgnored private var session = ARKitSession()
     @ObservationIgnored private var hands = HandTrackingProvider()
     @ObservationIgnored private var world = WorldTrackingProvider()
@@ -190,14 +190,13 @@ final class GameModel {
     }
     func subscribe(to content: RealityViewContent,onReady: @escaping @MainActor () -> Void = {}) {
         subscription?.cancel()
-        firstFrameCallback=onReady
-        subscription = content.subscribe(to: SceneEvents.Update.self) { [weak self] event in
-            let delta = event.deltaTime
-            Task { @MainActor [weak self] in
-                guard let self else { return }
-                update(Float(delta))
-                let ready=firstFrameCallback;firstFrameCallback=nil;ready?()
-            }
+        frameUpdates?.cancel()
+        let updates=FrameUpdateGate(onFrame:{ [weak self] delta in
+            self?.update(Float(delta))
+        },onReady:onReady)
+        frameUpdates=updates
+        subscription = content.subscribe(to: SceneEvents.Update.self) { event in
+            updates.submit(delta:event.deltaTime)
         }
     }
     private func startTracking(generation:UInt) async {
@@ -410,7 +409,7 @@ final class GameModel {
     }
     func stop() {
         subscription?.cancel(); subscription = nil
-        firstFrameCallback=nil
+        frameUpdates?.cancel();frameUpdates=nil
         trackingActive=false;endTracking();flight=nil;serveCountdown=0;canServe=true;showPlaySetup=false
         miloStroke=nil;miloFollowThrough=nil;miloPhase = .ready;assets.movement=0
         paused=false
@@ -639,7 +638,9 @@ final class GameModel {
             pauseForTrackingLoss(); trackingMessage="Headset tracking lost. Wait for tracking to recover, then Resume."
             assets.racket.isEnabled=false; return
         }
-        if collisionPreview { updatePreviewHand() }
+        #if DEBUG
+        if collisionPreview { updatePreviewHand(dt) }
+        #endif
         updateRacket(dt)
         if !canServe || paused || !trackedRacketReady { servePinch.reset() }
         if rallyInProgress && !trackedRacketReady { pauseForTrackingLoss() }
@@ -718,9 +719,10 @@ final class GameModel {
             var sampleVelocity=V3.zero
             var sampleAngularVelocity=V3.zero
             if wristTimestamp > lastPoseTimestamp {
-                let sampleInterval=Float(max(0.005,wristTimestamp-lastPoseTimestamp))
+                let sampleInterval=pendingHandHasTimestamp ? Float(max(0.005,wristTimestamp-lastPoseTimestamp)):max(0.005,dt)
                 let raw=(head-oldHead)/sampleInterval
-                poseValid=handRacketHeld && lastPoseTimestamp > 0 && simd_length(raw) < 35
+                poseValid=handRacketHeld && lastPoseTimestamp > 0 &&
+                    (pendingHandHasTimestamp || dt > 0) && simd_length(raw) < 35
                 if poseValid {
                     sampleVelocity=raw
                     sampleAngularVelocity=RacketMotion.angularVelocity(from:measuredRacket,to:local,duration:sampleInterval)
@@ -813,6 +815,7 @@ final class GameModel {
         var result=Flight(position:cork,velocity:velocity)
         #if DEBUG
         print("STRING CONTACT: \(side), cork \(cork), strings \(point), fraction \(hit.fraction)")
+        print("IMPACT MOTION: time \(elapsed), incoming \(incoming), outgoing \(velocity), centre \(headVelocity), strings \(contactVelocity)")
         if ProcessInfo.processInfo.arguments.contains("--pause-at-contact"), side == .player {
             paused=true; assets.racket.transform=pose; assets.shuttle.position=cork
             message="Paused at actual string contact"
@@ -849,47 +852,80 @@ final class GameModel {
     }
     private func makeMiloStroke(_ incoming:Flight)->MiloStroke? {
         var probe=incoming
-        var selected:(Flight,Float)?
-        var fallback:(Flight,Float)?
+        var fallback:MiloStroke?
+        var nextAttempt:Float=0
         for index in 1...480 {
             probe.step(1/240)
             if probe.position.y < 0.65,probe.velocity.y < 0 { break }
             let time=Float(index)/240
             guard probe.position.z < Court.netZ-0.45,probe.position.z > -11.7,
-                  probe.velocity.y < 0,probe.position.y <= 1.95,time > difficulty.reaction+0.14 else { continue }
-            let estimate=miloFace(normal:[0,sin(0.6),cos(0.6)],height:probe.position.y)
-            let wristHeight=probe.position.y-estimate.act(V3(0,0.37,0)).y*assets.milo.scale.x
-            let shoulderHeight=(assets.robotArm.position.y+assets.robotBody.position.y)*assets.milo.scale.x
-            guard abs(wristHeight-shoulderHeight)<simd_length(assets.robotRacket.position)*assets.milo.scale.x else { continue }
-            fallback=(probe,time)
-            let stance=miloStance(for:probe.position,face:estimate)
-            if simd_distance(stance,assets.milo.position) <= difficulty.speed*(time-difficulty.reaction-0.08) {
-                selected=(probe,time);break
+                  probe.velocity.y < 0,probe.position.y <= 1.95,time > difficulty.reaction+0.14,
+                  time >= nextAttempt else { continue }
+            // A bounded 40 Hz planning search runs once per incoming shot.
+            // Choose by the final face, reach and impulse, not body proximity.
+            nextAttempt=time+0.025
+            guard let stroke=planMiloStroke(sample:probe,time:time) else { continue }
+            fallback=stroke
+            if simd_distance(stroke.stance,assets.milo.position) <= difficulty.speed*(time-difficulty.reaction-0.10) {
+                return stroke
             }
         }
-        guard let (sample,time)=selected ?? fallback else { return nil }
-        var target=sample.position
-        target.x += sin(Float(rallyHits+rallyCount)*2.39996)*difficulty.error
-        // Plan the stroke once. Only the visible moving strings can apply it.
-        let shot=Flight.clearanceShot(from:target,to:[0,1.6,-0.25],duration:difficulty.returnTime)
+        // An unreachable shot may be attempted, but movement never teleports
+        // and only a real string collision can turn that attempt into a return.
+        return fallback
+    }
+    private func planMiloStroke(sample:Flight,time:Float)->MiloStroke? {
+        let shot=Flight.clearanceShot(from:sample.position,to:[0,1.6,-0.25],duration:difficulty.returnTime)
         let change=shot.velocity-sample.velocity
         guard simd_length(change)>0.1 else { return nil }
-        let normal=simd_normalize(change),face=miloFace(normal:normal,height:target.y)
-        let stance=miloStance(for:target,face:face)
-        let shoulder=stance+(assets.robotArm.position+assets.robotBody.position)*assets.milo.scale.x
-        let wrist=target-face.act(V3(0,0.37,0))*assets.milo.scale.x
-        let radial=wrist-shoulder
-        let tangent=simd_cross(radial,normal),gain=simd_length(tangent)
-        guard gain>0.02 else { return nil }
-        let transfer=(1+RacketKind.coral.restitution)/(1+RacketImpact.shuttleMass/RacketKind.coral.effectiveMass)
-        let speed=(simd_length(change)/transfer+simd_dot(sample.velocity,normal))/gain
-        return MiloStroke(point:target,time:time,stance:stance,face:face,axis:simd_normalize(tangent),angularSpeed:min(18,max(3,speed)))
+        let scale=assets.milo.scale.x,reach=simd_length(assets.robotRacket.position)*scale
+        let error=V3(sin(Float(rallyHits+rallyCount)*2.39996)*difficulty.error,0,0)
+        var normal=simd_normalize(change)
+        var result:MiloStroke?
+        for _ in 0..<3 {
+            // At the intended impact the cork is one radius in front of the
+            // strings. A centre-crossing plan would collide before its aim time.
+            let target=sample.position-normal*0.04+error
+            let face=miloFace(normal:normal,height:target.y)
+            let stance=miloStance(for:target,face:face)
+            let shoulder=stance+(assets.robotArm.position+assets.robotBody.position)*scale
+            let wrist=target-face.act(V3(0,0.37,0))*scale
+            let radial=wrist-shoulder
+            guard abs(simd_length(radial)-reach)<0.015 else { return nil }
+            let tangent=simd_cross(radial,normal),gain=simd_length(tangent)
+            guard gain>0.02 else { return nil }
+            let axis=simd_normalize(tangent),velocityPerRadian=simd_cross(axis,radial)
+            let localError=face.inverse.act(-error)/scale
+            let eccentricity=min(1,pow(localError.x/RacketKind.coral.radiusX,2)+pow(localError.y/RacketKind.coral.radiusY,2))
+            let bounce=RacketKind.coral.restitution*(1-0.35*eccentricity)
+            let transfer=(1+bounce)/(1+RacketImpact.shuttleMass/RacketKind.coral.effectiveMass)
+            let speed=(simd_dot(change,normal)/transfer+simd_dot(sample.velocity,normal))/gain
+            guard speed.isFinite,speed>0.1 else { return nil }
+            result=MiloStroke(point:target,time:time,stance:stance,face:face,axis:axis,angularSpeed:speed)
+            // Include the same tangential transfer used by the real solver.
+            // This adjusts the planned face; the actual rebound is untouched.
+            let relative=velocityPerRadian*speed-sample.velocity
+            let tangentImpulse=(relative-normal*simd_dot(relative,normal))*0.06
+            normal=simd_normalize(change-tangentImpulse)
+        }
+        guard let result,result.angularSpeed <= 18 else { return nil }
+        return result
     }
     private func miloFace(normal:V3,height:Float)->simd_quatf {
         let face=simd_quatf(from:[0,0,1],to:simd_normalize(normal))
-        // Low returns use the same real strings with the head below the grip.
-        // Rotating within the bed changes reach without changing its normal.
-        return height<1.4 ? face*simd_quatf(angle:.pi,axis:[0,0,1]):face
+        let scale=assets.milo.scale.x,headLength=0.37*scale
+        let reach=simd_length(assets.robotRacket.position)*scale
+        let shoulderHeight=(assets.robotArm.position.y+assets.robotBody.position.y)*scale
+        let yzLength=max(0.001,sqrt(normal.y*normal.y+normal.z*normal.z))
+        let desiredWristHeight=shoulderHeight-reach*normal.z/yzLength
+        let x=face.act(V3(1,0,0)).y,y=face.act(V3(0,1,0)).y
+        let verticalRange=sqrt(x*x+y*y)
+        guard verticalRange>0.001 else { return face }
+        let heightFraction=min(1,max(-1,(height-desiredWristHeight)/(headLength*verticalRange)))
+        let phase=atan2(x,y),roll=acos(heightFraction)-phase
+        // Roll within the bed to keep a useful shoulder lever. The string
+        // normal stays unchanged; high, weak-leverage shots are rejected later.
+        return face*simd_quatf(angle:roll,axis:[0,0,1])
     }
     private func moveMilo(to destination:V3,speed:Float,dt:Float) {
         let difference=destination-assets.milo.position,distance=simd_length(difference)
@@ -954,16 +990,25 @@ final class GameModel {
             if probe.position.y < 0.1 { break }
         }
     }
-    private func updatePreviewHand() {
-        guard collisionPreview else { return }
-        let time=min(0.14,max(-0.09,elapsed-previewContactAt))
-        let miss:Float=ProcessInfo.processInfo.arguments.contains("--demo-miss") ? 0.8 : 0
-        let centre=previewContactPosition+V3(miss,3.3*time,-4.4*time)
+    #if DEBUG
+    static func previewHandPose(contact:V3,contactAt:Float,elapsed:Float,delta:Float,miss:Float=0)->simd_float4x4 {
+        // The measured pose belongs to the same interval endpoint as the
+        // shuttle. Sampling its start would distort speed on variable frames.
+        let time=min(0.14,max(-0.09,elapsed+delta-contactAt))
+        let centre=contact+V3(miss,3.3*time,-4.4*time)
         let rotation=simd_quatf(angle:0.6,axis:[1,0,0])
         var pose=simd_float4x4(rotation)
         pose.columns.3=SIMD4(centre-rotation.act(V3(0,0.37,0)),1)
+        return pose
+    }
+    private func updatePreviewHand(_ dt:Float) {
+        guard collisionPreview else { return }
+        let miss:Float=ProcessInfo.processInfo.arguments.contains("--demo-miss") ? 0.8 : 0
+        let pose=Self.previewHandPose(contact:previewContactPosition,contactAt:previewContactAt,
+                                      elapsed:elapsed,delta:dt,miss:miss)
         receiveHandPose(assets.root.transformMatrix(relativeTo:nil)*pose)
     }
+    #endif
 
 }
 

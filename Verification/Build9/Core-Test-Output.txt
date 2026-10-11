@@ -1,0 +1,45 @@
+Building for debugging...
+[Using on-disk description]
+[1 / 5]
+Build complete! (0.44 secs)
+Test Suite 'All tests' started at 2026-10-11 23:14:37.985.
+Test Suite 'All tests' passed at 2026-10-11 23:14:37.989.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.003) seconds
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite RacketTests started.
+◇ Test dragSolverReachesTarget() started.
+◇ Test sweptRacketAndEdgeMiss() started.
+◇ Test opponentCanPlanShortAndDeepShots() started.
+◇ Test stableAcrossFrameRates() started.
+◇ Test legalAndIllegalLandings() started.
+◇ Test departingCorkAndOutsideStringsCannotCreateContact() started.
+◇ Test fastSmashSlowsAndStaysStableAcrossFrames() started.
+◇ Test clearDropAndSmashClearNetAndLandInCourt() started.
+◇ Test finiteStringsEdgeContactHasARealSurfacePoint() started.
+◇ Test speedFaceAngleAndSweetSpotAffectPhysicalReturn() started.
+◇ Test trackingGateRejectsStaleWeakAndImplausiblePoses() started.
+◇ Test racketChoiceChangesReboundAndInvalidInputsAreRejected() started.
+◇ Test netCrossingDoesNotTunnel() started.
+◇ Test controllerButtonsFireOncePerPress() started.
+◇ Test stationaryRacketReflectsWithoutAddingEnergy() started.
+◇ Test winByTwo() started.
+✔ Test legalAndIllegalLandings() passed after 0.001 seconds.
+✔ Test stableAcrossFrameRates() passed after 0.001 seconds.
+✔ Test trackingGateRejectsStaleWeakAndImplausiblePoses() passed after 0.001 seconds.
+✔ Test netCrossingDoesNotTunnel() passed after 0.001 seconds.
+✔ Test controllerButtonsFireOncePerPress() passed after 0.001 seconds.
+✔ Test stationaryRacketReflectsWithoutAddingEnergy() passed after 0.001 seconds.
+✔ Test winByTwo() passed after 0.001 seconds.
+✔ Test finiteStringsEdgeContactHasARealSurfacePoint() passed after 0.001 seconds.
+✔ Test sweptRacketAndEdgeMiss() passed after 0.001 seconds.
+✔ Test fastSmashSlowsAndStaysStableAcrossFrames() passed after 0.001 seconds.
+✔ Test racketChoiceChangesReboundAndInvalidInputsAreRejected() passed after 0.001 seconds.
+✔ Test speedFaceAngleAndSweetSpotAffectPhysicalReturn() passed after 0.001 seconds.
+✔ Suite RacketTests passed after 0.001 seconds.
+✔ Test departingCorkAndOutsideStringsCannotCreateContact() passed after 0.001 seconds.
+✔ Test dragSolverReachesTarget() passed after 0.005 seconds.
+✔ Test clearDropAndSmashClearNetAndLandInCourt() passed after 0.006 seconds.
+✔ Test opponentCanPlanShortAndDeepShots() passed after 0.007 seconds.
+✔ Test run with 16 tests in 1 suite passed after 0.008 seconds.

@@ -1,0 +1,886 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project ShuttleClub.xcodeproj -scheme ShuttleClub -configuration Debug -destination "platform=visionOS Simulator,id=EB6EBD31-2711-44B4-A19B-A668479B0BE0" -derivedDataPath /private/tmp/shuttle-vision-build CODE_SIGNING_ALLOWED=NO test
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = NO
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  ShuttleCore: /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/Core
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (4 targets)
+    Target 'ShuttleClubTests' in project 'ShuttleClub'
+        ➜ Explicit dependency on target 'ShuttleClub' in project 'ShuttleClub'
+    Target 'ShuttleClub' in project 'ShuttleClub'
+        ➜ Explicit dependency on target 'ShuttleCore-product' in project 'ShuttleCore'
+    Target 'ShuttleCore-product' in project 'ShuttleCore'
+        ➜ Explicit dependency on target 'ShuttleCore' in project 'ShuttleCore'
+    Target 'ShuttleCore' in project 'ShuttleCore' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/ShuttleClub.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -o /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache
+
+SwiftDriver ShuttleClub normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ShuttleClub -Onone @/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.SwiftFileList -DDEBUG -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -target arm64-apple-xros26.0-simulator -g -module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/shuttle-vision-build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache -output-file-map /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -sdk-module-cache-path /tmp/shuttle-vision-build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/shuttle-vision-build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-generated-files.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-own-target-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub-e700a37a07bc1680e23d56a33bb32436-VFS-xrsimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-project-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/include -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/DerivedSources-normal/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/DerivedSources/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub-Swift.h -working-directory /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision -experimental-emit-module-separately -disable-cmo
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ ShuttleClub (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    
+
+SwiftCompile normal arm64 Compiling\ GameModel.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/GameModel.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/GameModel.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile GameModel.swift
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for ShuttleClub (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftDriver\ Compilation\ Requirements ShuttleClub normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ShuttleClub -Onone @/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.SwiftFileList -DDEBUG -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -target arm64-apple-xros26.0-simulator -g -module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/shuttle-vision-build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache -output-file-map /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -sdk-module-cache-path /tmp/shuttle-vision-build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/shuttle-vision-build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-generated-files.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-own-target-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub-e700a37a07bc1680e23d56a33bb32436-VFS-xrsimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-project-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/include -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/DerivedSources-normal/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/DerivedSources/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub-Swift.h -working-directory /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision -experimental-emit-module-separately -disable-cmo
+
+Copy /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.swiftmodule/Project/arm64-apple-xros-simulator.swiftsourceinfo /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.swiftsourceinfo (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.swiftsourceinfo /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.swiftmodule/Project/arm64-apple-xros-simulator.swiftsourceinfo
+
+Copy /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.swiftmodule/arm64-apple-xros-simulator.swiftmodule /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.swiftmodule (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.swiftmodule /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.swiftmodule/arm64-apple-xros-simulator.swiftmodule
+
+Copy /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.swiftmodule/arm64-apple-xros-simulator.abi.json /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.abi.json (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.abi.json /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.swiftmodule/arm64-apple-xros-simulator.abi.json
+
+SwiftDriver ShuttleClubTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ShuttleClubTests -Onone @/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.SwiftFileList -DDEBUG -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -target arm64-apple-xros26.0-simulator -g -module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/shuttle-vision-build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache -output-file-map /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -sdk-module-cache-path /tmp/shuttle-vision-build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/shuttle-vision-build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-generated-files.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-own-target-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub-e700a37a07bc1680e23d56a33bb32436-VFS-xrsimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-project-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/include -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources-normal/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-Swift.h -working-directory /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision -experimental-emit-module-separately -disable-cmo
+
+SwiftCompile normal arm64 Compiling\ GameLoopTests.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/Tests/GameLoopTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/Tests/GameLoopTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile GameLoopTests.swift
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ ShuttleClubTests (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    
+
+SwiftCompile normal arm64 Compiling\ HandGripInteractionTests.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/Tests/HandGripInteractionTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/Tests/HandGripInteractionTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile HandGripInteractionTests.swift
+
+SwiftCompile normal arm64 Compiling\ ControllerGripCalibrationTests.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/Tests/ControllerGripCalibrationTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/Tests/ControllerGripCalibrationTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile ControllerGripCalibrationTests.swift
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for ShuttleClubTests (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftDriver\ Compilation\ Requirements ShuttleClubTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ShuttleClubTests -Onone @/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.SwiftFileList -DDEBUG -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -target arm64-apple-xros26.0-simulator -g -module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/shuttle-vision-build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache -output-file-map /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -sdk-module-cache-path /tmp/shuttle-vision-build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/shuttle-vision-build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-generated-files.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-own-target-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub-e700a37a07bc1680e23d56a33bb32436-VFS-xrsimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-project-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/include -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources-normal/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-Swift.h -working-directory /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision -experimental-emit-module-separately -disable-cmo
+
+Copy /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/Project/arm64-apple-xros-simulator.swiftsourceinfo /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftsourceinfo (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftsourceinfo /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/Project/arm64-apple-xros-simulator.swiftsourceinfo
+
+Copy /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/arm64-apple-xros-simulator.swiftmodule /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/arm64-apple-xros-simulator.swiftmodule
+
+Copy /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/arm64-apple-xros-simulator.abi.json /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.abi.json (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.abi.json /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/arm64-apple-xros-simulator.abi.json
+
+SwiftDriverJobDiscovery normal arm64 Compiling GameModel.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 Compiling\ ClubUI.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/ClubUI.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/ClubUI.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile ClubUI.swift
+
+SwiftCompile normal arm64 Compiling\ SenseGripSetup.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/SenseGripSetup.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/SenseGripSetup.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile SenseGripSetup.swift
+
+SwiftCompile normal arm64 Compiling\ RacketTrackingStatus.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/RacketTrackingStatus.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/RacketTrackingStatus.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile RacketTrackingStatus.swift
+
+SwiftCompile normal arm64 Compiling\ ClubLobby.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/ClubLobby.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/ClubLobby.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile ClubLobby.swift
+
+SwiftCompile normal arm64 Compiling\ ShuttleClubApp.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/ShuttleClubApp.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/ShuttleClubApp.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile ShuttleClubApp.swift
+
+SwiftCompile normal arm64 Compiling\ CourtView.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/CourtView.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/CourtView.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile CourtView.swift
+
+SwiftCompile normal arm64 Compiling\ RacketSelection.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/RacketSelection.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/RacketSelection.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile RacketSelection.swift
+
+SwiftDriverJobDiscovery normal arm64 Compiling ControllerGripCalibrationTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftDriverJobDiscovery normal arm64 Compiling HandGripInteractionTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftDriverJobDiscovery normal arm64 Compiling RacketTrackingStatus.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftDriverJobDiscovery normal arm64 Compiling ClubUI.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftDriverJobDiscovery normal arm64 Compiling ShuttleClubApp.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SenseGripSetup.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftDriverJobDiscovery normal arm64 Compiling CourtView.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftDriverJobDiscovery normal arm64 Compiling RacketSelection.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftDriverJobDiscovery normal arm64 Compiling ClubLobby.swift (in target 'ShuttleClub' from project 'ShuttleClub')
+
+SwiftDriver\ Compilation ShuttleClub normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ShuttleClub -Onone @/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.SwiftFileList -DDEBUG -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -target arm64-apple-xros26.0-simulator -g -module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/shuttle-vision-build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache -output-file-map /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -sdk-module-cache-path /tmp/shuttle-vision-build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/shuttle-vision-build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-generated-files.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-own-target-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub-e700a37a07bc1680e23d56a33bb32436-VFS-xrsimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-project-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/include -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/DerivedSources-normal/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/DerivedSources/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub-Swift.h -working-directory /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision -experimental-emit-module-separately -disable-cmo
+
+Ld /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub.debug.dylib normal (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-xros26.0-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/tmp/shuttle-vision-build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-xrsimulator -L/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -F/tmp/shuttle-vision-build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-xrsimulator -F/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -filelist /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.LinkFileList -install_name @rpath/ShuttleClub.debug.dylib -Xlinker -rpath -Xlinker @loader_path -Xlinker -rpath -Xlinker /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/xrsimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.swiftmodule -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -o /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub.debug.dylib
+
+ConstructStubExecutorLinkFileList /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-ExecutorLinkFileList-normal-arm64.txt (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    construct-stub-executor-link-file-list /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'ShuttleClub' from project 'ShuttleClub')
+
+Ld /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub normal (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-xros26.0-simulator -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -F/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @loader_path -Xlinker -rpath -Xlinker /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -Xlinker -rpath -Xlinker @executable_path/Frameworks -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub-ExecutorLinkFileList-normal-arm64.txt /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub.debug.dylib -o /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub
+
+SwiftDriverJobDiscovery normal arm64 Compiling GameLoopTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftDriver\ Compilation ShuttleClubTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ShuttleClubTests -Onone @/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.SwiftFileList -DDEBUG -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -target arm64-apple-xros26.0-simulator -g -module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/shuttle-vision-build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache -output-file-map /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -sdk-module-cache-path /tmp/shuttle-vision-build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/shuttle-vision-build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-generated-files.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-own-target-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub-e700a37a07bc1680e23d56a33bb32436-VFS-xrsimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-project-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/include -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources-normal/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-Swift.h -working-directory /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision -experimental-emit-module-separately -disable-cmo
+
+CopySwiftLibs /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub.debug.dylib --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/Frameworks --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/SystemExtensions --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/Extensions --platform xrsimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+Ignoring --strip-bitcode because --sign was not passed
+
+ExtractAppIntentsMetadata (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name ShuttleClub --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk --xcode-version 27A266a --platform-family xrOS --deployment-target 26.0 --bundle-identifier com.shuttleclub.vision --output /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app --target-triple arm64-apple-xros26.0-simulator --binary-file /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub --dependency-file /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub_dependency_info.dat --stringsdata-file /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.SwiftFileList --metadata-file-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub.DependencyMetadataFileList --static-metadata-file-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/ShuttleClub.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/Objects-normal/arm64/ShuttleClub.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-10-11 23:18:50.179 appintentsmetadataprocessor[98959:3518531] Starting appintentsmetadataprocessor export
+2026-10-11 23:18:50.181 appintentsmetadataprocessor[98959:3518531] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+Ld /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/ShuttleClubTests normal (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-xros26.0-simulator -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/tmp/shuttle-vision-build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-xrsimulator -L/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -L/Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib -F/tmp/shuttle-vision-build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-xrsimulator -F/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -iframework /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/Library/Frameworks -iframework /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk/Developer/Library/Frameworks -filelist /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.LinkFileList -Xlinker -rpath -Xlinker @loader_path -Xlinker -rpath -Xlinker /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -Xlinker -rpath -Xlinker @loader_path/Frameworks -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -bundle_loader /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub -Xlinker -object_path_lto -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/xrsimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule -Xlinker -needed_framework -Xlinker XCTest -framework XCTest -Xlinker -needed-lXCTestSwiftSupport -lXCTestSwiftSupport /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub.debug.dylib -o /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/ShuttleClubTests
+
+CopySwiftLibs /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/ShuttleClubTests --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/Frameworks --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/PlugIns --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/SystemExtensions --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/Extensions --platform xrsimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+Ignoring --strip-bitcode because --sign was not passed
+
+ExtractAppIntentsMetadata (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name ShuttleClubTests --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk --xcode-version 27A266a --platform-family xrOS --deployment-target 26.0 --bundle-identifier com.shuttleclub.ShuttleClubTests --output /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest --target-triple arm64-apple-xros26.0-simulator --binary-file /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/ShuttleClubTests --dependency-file /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_dependency_info.dat --stringsdata-file /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.SwiftFileList --metadata-file-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests.DependencyMetadataFileList --static-metadata-file-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-10-11 23:18:50.523 appintentsmetadataprocessor[98963:3518566] Starting appintentsmetadataprocessor export
+2026-10-11 23:18:50.529 appintentsmetadataprocessor[98963:3518566] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+Validate /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-validationUtility /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app -shallow-bundle -infoplist-subpath Info.plist
+
+PruneExplicitPrecompiledModules /tmp/shuttle-vision-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/shuttle-vision-build/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/shuttle-vision-build/SDKExplicitPrecompiledModules
+
+2026-10-11 23:19:01.562042+0800 ShuttleClub[98968:3519161] [assertions] failed to observe with mask <BLSXPCBacklightProxyObserverMask: 0x10337c920; didUpdateToState: YES; eventsArray: YES> error:<XPC error received on message reply handler (3:BSServiceConnectionErrorDomain) "The operation couldn’t be completed. XPC error received on message reply handler">
+2026-10-11 23:19:01.629454+0800 ShuttleClub[98968:3519137] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+2026-10-11 23:19:01.629868+0800 ShuttleClub[98968:3519137] [plugin] AddInstanceForFactory: No factory registered for id <CFUUID 0x103e72420> F8BB1C28-BAE8-11D6-9C31-00039315CD46
+2026-10-11 23:19:01.630209+0800 ShuttleClub[98968:3519137] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+2026-10-11 23:19:01.630468+0800 ShuttleClub[98968:3519137] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+2026-10-11 23:19:01.630584+0800 ShuttleClub[98968:3519137] AudioHardware-mac-imp.cpp:854    AudioObjectSetPropertyData: no object with given ID 0
+2026-10-11 23:19:01.630717+0800 ShuttleClub[98968:3519137] [as_client] AVAudioSessionImpl_Simulator.mm:108   Failed to set processVolumeScalar on device. Error: 560947818
+2026-10-11 23:19:01.630848+0800 ShuttleClub[98968:3519137] AudioHardware-mac-imp.cpp:854    AudioObjectSetPropertyData: no object with given ID 0
+2026-10-11 23:19:01.630959+0800 ShuttleClub[98968:3519137] [as_client] AVAudioSessionImpl_Simulator.mm:108   Failed to set processVolumeScalar on device. Error: 560947818
+2026-10-11 23:19:01.792806+0800 ShuttleClub[98968:3519167] AudioHardware-mac-imp.cpp:854    AudioObjectSetPropertyData: no object with given ID 0
+2026-10-11 23:19:01.792806+0800 ShuttleClub[98968:3518830] [Entry] Opening the club immersive space
+2026-10-11 23:19:01.793030+0800 ShuttleClub[98968:3519167] [as_client] AVAudioSessionImpl_Simulator.mm:108   Failed to set processVolumeScalar on device. Error: 560947818
+2026-10-11 23:19:01.806476+0800 ShuttleClub[98968:3519167] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+2026-10-11 23:19:01.806591+0800 ShuttleClub[98968:3519167]      HALDefaultDevice.cpp:746    Could not find default device for dOut
+2026-10-11 23:19:01.806697+0800 ShuttleClub[98968:3519167] [ddagg]        AggregateDevice.mm:912   couldn't get default output device, ID = 0, err = 0!
+2026-10-11 23:19:01.862614+0800 ShuttleClub[98968:3519161] [connection] nw_socket_copy_info [C1:2] getsockopt TCP_INFO failed [102: Operation not supported on socket]
+2026-10-11 23:19:01.862717+0800 ShuttleClub[98968:3519161] [] nw_socket_copy_info getsockopt TCP_INFO failed [102: Operation not supported on socket]
+2026-10-11 23:19:01.895542+0800 ShuttleClub[98968:3518830] [XPCErrors] non-launching port is incompatible with service identifier "com.apple.PointerUI.pointeruid.default-service"
+2026-10-11 23:19:01.916604+0800 ShuttleClub[98968:3519161] [carc] Invalidation handler: Connection cannot be formed.
+2026-10-11 23:19:01.918111+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.921511+0800 ShuttleClub[98968:3519165] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.921635+0800 ShuttleClub[98968:3519165]      CA_UISoundClient.cpp:161   * * * NULL AQIONode object
+2026-10-11 23:19:01.921658+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.921704+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.921845+0800 ShuttleClub[98968:3519165]      CA_UISoundClient.cpp:1124  Can't make UISound Renderer
+2026-10-11 23:19:01.922608+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.922885+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.922929+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.923154+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.923399+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.923445+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.924616+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.924891+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.924932+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.925174+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.925380+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.925417+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.925657+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.925875+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.925915+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.926915+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.927636+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.927703+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.927988+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.928270+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.928329+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.928579+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.928811+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.928854+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.929945+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.930492+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.930563+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.930820+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.931057+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.931100+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.931338+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.931574+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.931666+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.932799+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.933262+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.933308+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.933537+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.933737+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.933803+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.934038+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.934232+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.934270+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.934989+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.935306+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.935354+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.935578+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.935769+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.935821+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.936048+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.936241+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.936288+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.937048+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.937285+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.937335+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.937576+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.937803+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.937846+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.938090+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.938312+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.938363+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.939275+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.939727+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.939816+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.940114+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.940381+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.940426+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.940673+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.940901+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.940945+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.941974+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.942365+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.942412+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.942673+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.942916+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.942975+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.943243+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.943493+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.943573+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.944443+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.944780+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.944857+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.945110+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.945340+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.945380+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.945619+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.945852+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.945907+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.946908+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.947343+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.947388+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.947623+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.947838+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.947895+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.948136+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.948320+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.948366+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.948929+0800 ShuttleClub[98968:3518830] [carc] Message send exceeds rate-limit threshold and will be dropped. { reporterID=0, rateLimit=32hz }
+2026-10-11 23:19:01.949054+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.949714+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.949800+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:01.950108+0800 ShuttleClub[98968:3518830] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-11 23:19:01.950482+0800 ShuttleClub[98968:3518830] [aqme]                AQMEIO.cpp:364   error -66680 finding/initializing Default-InputOutput
+2026-10-11 23:19:01.950552+0800 ShuttleClub[98968:3518830] [AQ]      AudioQueueObject.cpp:3028  Prime: failed (-66680); will stop (11025/0 frames)
+2026-10-11 23:19:02.255081+0800 ShuttleClub[98968:3519158] AudioHardware-mac-imp.cpp:854    AudioObjectSetPropertyData: no object with given ID 0
+2026-10-11 23:19:02.255527+0800 ShuttleClub[98968:3519158] [as_client] AVAudioSessionImpl_Simulator.mm:108   Failed to set processVolumeScalar on device. Error: 560947818
+2026-10-11 23:19:02.697220+0800 ShuttleClub[98968:3519158] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+2026-10-11 23:19:03.763823+0800 ShuttleClub[98968:3519163] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+2026-10-11 23:19:04.121896+0800 ShuttleClub[98968:3519163] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-11 23:19:04.122065+0800 ShuttleClub[98968:3519163] CoreText performance note: Set a breakpoint on CTFontLogSuboptimalRequest to debug.
+2026-10-11 23:19:04.126730+0800 ShuttleClub[98968:3519158] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-11 23:19:04.131097+0800 ShuttleClub[98968:3519158] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-11 23:19:04.204944+0800 ShuttleClub[98968:3518830] [Foundation.IO] Could not locate file 'default-binaryarchive.metallib' in bundle.
+Test Suite 'All tests' started at 2026-10-11 23:19:04.685.
+Test Suite 'All tests' passed at 2026-10-11 23:19:04.686.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+2026-10-11 23:19:04.830491+0800 ShuttleClub[98968:3519170] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+IOSurfaceClientSetSurfaceNotify failed e00002c7
+2026-10-11 23:19:04.990174+0800 ShuttleClub[98968:3518830] [Entry] Immersive scene received its first update
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64-apple-xros1.0-simulator
+◇ Suite ControllerGripCalibrationTests started.
+◇ Test liveFitMovesMeasuredDisplayHandleAndHeadAndReloads() started.
+✔ Test liveFitMovesMeasuredDisplayHandleAndHeadAndReloads() passed after 0.020 seconds.
+◇ Test fitsAreSavedAndResetSeparatelyForEachControllerHand() started.
+✔ Test fitsAreSavedAndResetSeparatelyForEachControllerHand() passed after 0.050 seconds.
+◇ Test rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+◇ Test case passing 1 argument reason → .untracked to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .stale to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .wrongHand to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .invalidVelocity to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .invalidMatrix to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .singularMatrix to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​✔ Test rejectedSamplesCannotAdjustOrResetFit(reason:) with 6 test cases passed after 0.055 seconds.
+◇ Test inputHandAndBackgroundChangesRequireASelectedFreshGrip() started.
+✔ Test inputHandAndBackgroundChangesRequireASelectedFreshGrip() passed after 0.006 seconds.
+◇ Test alignAngleUsesCourtOrientationAndPreservesTheFittedHandlePosition() started.
+✔ Test alignAngleUsesCourtOrientationAndPreservesTheFittedHandlePosition() passed after 0.005 seconds.
+◇ Test activeRallyRejectsFitAndPausedFitKeepsFlightFrozenAndDisarmsContact() started.
+✔ Test activeRallyRejectsFitAndPausedFitKeepsFlightFrozenAndDisarmsContact() passed after 0.160 seconds.
+◇ Test idleRefitClearsSwingHistoryAndNextControllerSampleIsOnlyABaseline() started.
+✔ Test idleRefitClearsSwingHistoryAndNextControllerSampleIsOnlyABaseline() passed after 0.040 seconds.
+◇ Test reorderedAndDuplicatePacketsCannotMoveRacketOrRearmAfterLoss() started.
+✔ Test reorderedAndDuplicatePacketsCannotMoveRacketOrRearmAfterLoss() passed after 0.004 seconds.
+◇ Test foregroundAndRefitCannotReviveACachedControllerPacket() started.
+✔ Test foregroundAndRefitCannotReviveACachedControllerPacket() passed after 0.005 seconds.
+✔ Suite ControllerGripCalibrationTests passed after 0.354 seconds.
+◇ Suite FrameUpdateGateTests started.
+◇ Test queuedBurstPreservesElapsedTimeWithOneTaskAndReportsReadyOnce() started.
+✔ Test queuedBurstPreservesElapsedTimeWithOneTaskAndReportsReadyOnce() passed after 0.001 seconds.
+◇ Test backgroundProducerAccumulatesAnInterruptionWithoutClamping() started.
+✔ Test backgroundProducerAccumulatesAnInterruptionWithoutClamping() passed after 0.001 seconds.
+◇ Test cancellingQueuedSceneCannotRunItsUpdateOrReadyOnTheReplacement() started.
+✔ Test cancellingQueuedSceneCannotRunItsUpdateOrReadyOnTheReplacement() passed after 0.001 seconds.
+◇ Test teardownInsideFirstFrameSuppressesItsReadyCallback() started.
+✔ Test teardownInsideFirstFrameSuppressesItsReadyCallback() passed after 0.001 seconds.
+✔ Suite FrameUpdateGateTests passed after 0.001 seconds.
+◇ Suite GameLoopTests started.
+◇ Test missedServeAwardsOnePointAndCanRestart() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+✔ Test missedServeAwardsOnePointAndCanRestart() passed after 0.161 seconds.
+◇ Test pauseFreezesShuttleAndResumeContinues() started.
+✔ Test pauseFreezesShuttleAndResumeContinues() passed after 0.148 seconds.
+◇ Test controllerMenuCannotResumeShuttleBehindAnyCourtPanel() started.
+2026-10-11 23:19:05.897158+0800 ShuttleClub[98968:3519148] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+✔ Test controllerMenuCannotResumeShuttleBehindAnyCourtPanel() passed after 0.573 seconds.
+◇ Test controllerMenuNormallyPausesAndResumesTrackedFlight() started.
+✔ Test controllerMenuNormallyPausesAndResumesTrackedFlight() passed after 0.143 seconds.
+◇ Test stoppingPausedFlightClearsRallyAndAllowsAFreshServe() started.
+✔ Test stoppingPausedFlightClearsRallyAndAllowsAFreshServe() passed after 0.140 seconds.
+◇ Test permissionInterruptionDoesNotDisableAnIdleServe() started.
+✔ Test permissionInterruptionDoesNotDisableAnIdleServe() passed after 0.131 seconds.
+◇ Test serveWindupKeepsCorkAtVisibleStringsAndLaunchesFromReleasePose() started.
+✔ Test serveWindupKeepsCorkAtVisibleStringsAndLaunchesFromReleasePose() passed after 0.136 seconds.
+◇ Test pauseAndTrackingLossFreezeServePreparationUntilExplicitResume() started.
+✔ Test pauseAndTrackingLossFreezeServePreparationUntilExplicitResume() passed after 0.140 seconds.
+◇ Test preparationCannotResumeWithSamplesFromPreviousRacketHand() started.
+2026-10-11 23:19:06.963775+0800 ShuttleClub[98968:3519157] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+✔ Test preparationCannotResumeWithSamplesFromPreviousRacketHand() passed after 0.139 seconds.
+◇ Test inactivityAndRestartCannotLeakAPendingServe() started.
+✔ Test inactivityAndRestartCannotLeakAPendingServe() passed after 0.140 seconds.
+◇ Test deliberateFreeHandPinchStartsOneServeAndHeldPinchCannotReplayPoint() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+✔ Test deliberateFreeHandPinchStartsOneServeAndHeldPinchCannotReplayPoint() passed after 0.153 seconds.
+◇ Test freeHandPinchNeedsRacketTrackingAndMustRearmAfterSetup() started.
+✔ Test freeHandPinchNeedsRacketTrackingAndMustRearmAfterSetup() passed after 0.125 seconds.
+◇ Test pinchCannotCarryAnInactiveOpenHandIntoForegroundServe() started.
+✔ Test pinchCannotCarryAnInactiveOpenHandIntoForegroundServe() passed after 0.122 seconds.
+◇ Test automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) started.
+◇ Test case passing 1 argument mode → .practice to automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+​◇ Test case passing 1 argument mode → .targets to automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+​✔ Test automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) with 2 test cases passed after 0.301 seconds.
+◇ Test automaticServeReadinessResetsForLossPausePanelAndBackground() started.
+2026-10-11 23:19:08.030518+0800 ShuttleClub[98968:3519157] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+✔ Test automaticServeReadinessResetsForLossPausePanelAndBackground() passed after 0.128 seconds.
+◇ Test automaticServeStopsAtMatchWinnerAndRestartRestoresReadiness() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.085653335, 0.04, 0.24743913), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.33581638, 0.04, 0.2474026), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.1941325, 0.04, 0.24731465), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.30772513, 0.04, 0.24721828), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.25149044, 0.04, 0.24743424), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.22098328, 0.04, 0.2474445), 
+✔ Test automaticServeStopsAtMatchWinnerAndRestartRestoresReadiness() passed after 0.284 seconds.
+◇ Test controllerTriggerCannotServeBehindPanelsOrInactiveScene() started.
+✔ Test controllerTriggerCannotServeBehindPanelsOrInactiveScene() passed after 0.132 seconds.
+◇ Test slowFrameUsesItsActualTimeAndInterruptionRequiresResume() started.
+✔ Test slowFrameUsesItsActualTimeAndInterruptionRequiresResume() passed after 0.263 seconds.
+◇ Test heldRacketHasZeroSwingSpeedAndContactBeforeFloorWinsFrame() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.37787083, 0.14728412, 0.2175816), strings SIMD3<Float>(0.40925696, 0.171966, 0.21511045), fraction 0.90154237
+IMPACT MOTION: time 2.5166714, incoming SIMD3<Float>(0.13447085, -7.3361607, 2.042162), outgoing SIMD3<Float>(0.1264026, 2.8464239, 0.40076956), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(0.0, 0.0, 0.0)
+✔ Test heldRacketHasZeroSwingSpeedAndContactBeforeFloorWinsFrame() passed after 0.170 seconds.
+◇ Test timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) started.
+◇ Test case passing 1 argument speed → 5.5 to timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) started.
+​◇ Test case passing 1 argument speed → 36.0 to timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) started.
+2026-10-11 23:19:09.097146+0800 ShuttleClub[98968:3519147] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+​✔ Test timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) with 2 test cases passed after 0.256 seconds.
+◇ Test previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) started.
+◇ Test case passing 1 argument miss → false to previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34652096, 1.6236497, -0.25851655), strings SIMD3<Float>(0.34652096, 1.6010633, -0.22550185), fraction 0.680165
+IMPACT MOTION: time 2.3083322, incoming SIMD3<Float>(0.16203162, -6.55293, 2.4607148), outgoing SIMD3<Float>(0.15230973, 3.6759865, -12.038378), centre SIMD3<Float>(0.0, 3.2999969, -4.4000134), strings SIMD3<Float>(0.0, 3.2999969, -4.4000134)
+​◇ Test case passing 1 argument miss → true to previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37983727, 0.04, 0.2474455), 
+​✔ Test previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) with 2 test cases passed after 0.301 seconds.
+◇ Test miloMovementAndStrokeFreezeDuringPauseAndThenRecover() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647954, 1.6243565, -0.25914583), strings SIMD3<Float>(0.34647954, 1.6017702, -0.22613145), fraction 0.5529019
+IMPACT MOTION: time 2.3083358, incoming SIMD3<Float>(0.16204739, -6.5524335, 2.4609568), outgoing SIMD3<Float>(0.15232454, 3.2292454, -11.38678), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42752445, 0.90283775, -6.3175144), strings SIMD3<Float>(0.428551, 0.8696576, -6.3398314), fraction 0.5070329
+IMPACT MOTION: time 3.1000094, incoming SIMD3<Float>(0.07084931, -4.131285, -5.29623), outgoing SIMD3<Float>(-0.46469155, 13.271699, 6.5941644), centre SIMD3<Float>(-0.18071292, 5.5521436, 4.3014336), strings SIMD3<Float>(-0.18071292, 5.5521436, 4.3014336)
+✔ Test miloMovementAndStrokeFreezeDuringPauseAndThenRecover() passed after 0.172 seconds.
+◇ Test inactiveRallyStaysPausedUntilExplicitResume() started.
+✔ Test inactiveRallyStaysPausedUntilExplicitResume() passed after 0.132 seconds.
+◇ Test timedSwingMissingStringsCannotReturn() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+✔ Test timedSwingMissingStringsCannotReturn() passed after 0.150 seconds.
+◇ Test shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) started.
+◇ Test case passing 1 argument implausible → false to shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.30016786, 3.1483138, -0.96246463), strings SIMD3<Float>(0.30410844, 3.1483138, -0.9226553), fraction 0.49332753
+IMPACT MOTION: time 2.057512, incoming SIMD3<Float>(0.19828607, -5.2239494, 3.011301), outgoing SIMD3<Float>(-0.3653148, -4.9105124, -2.7428784), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(-0.10482398, 0.0, -1.0589681)
+​◇ Test case passing 1 argument implausible → true to shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) started.
+2026-10-11 23:19:10.163792+0800 ShuttleClub[98968:3519152] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+​✔ Test shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) with 2 test cases passed after 0.317 seconds.
+◇ Test targetHitAddsPointsAndNextMissResetsStreak() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647954, 1.6243565, -0.25914583), strings SIMD3<Float>(0.34647954, 1.6017702, -0.22613145), fraction 0.5529019
+IMPACT MOTION: time 2.3083358, incoming SIMD3<Float>(0.16204739, -6.5524335, 2.4609568), outgoing SIMD3<Float>(0.15232454, 3.2292454, -11.38678), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+RALLY FINISHED: player, landing SIMD3<Float>(0.43961495, 0.04, -7.2213197), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.085653335, 0.04, 0.24743913), 
+✔ Test targetHitAddsPointsAndNextMissResetsStreak() passed after 0.181 seconds.
+◇ Test quickMatchStopsAtWinner() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.085653335, 0.04, 0.24743913), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.33581638, 0.04, 0.2474026), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.1941325, 0.04, 0.24731465), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.30772513, 0.04, 0.24721828), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.25149044, 0.04, 0.24743424), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.22098328, 0.04, 0.2474445), 
+✔ Test quickMatchStopsAtWinner() passed after 0.294 seconds.
+◇ Test onlyTrackedInputsAreOfferedAndServeRequiresTracking() started.
+✔ Test onlyTrackedInputsAreOfferedAndServeRequiresTracking() passed after 0.127 seconds.
+◇ Test racketCannotChangeDuringRally() started.
+✔ Test racketCannotChangeDuringRally() passed after 0.126 seconds.
+◇ Test measuredIntersectionPlacesCorkAtVisibleStrings() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647954, 1.6243565, -0.25914583), strings SIMD3<Float>(0.34647954, 1.6017702, -0.22613145), fraction 0.5529019
+IMPACT MOTION: time 2.3083358, incoming SIMD3<Float>(0.16204739, -6.5524335, 2.4609568), outgoing SIMD3<Float>(0.15232454, 3.2292454, -11.38678), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+✔ Test measuredIntersectionPlacesCorkAtVisibleStrings() passed after 0.167 seconds.
+◇ Test lostHandPausesAndRecoveryNeedsExplicitResume() started.
+2026-10-11 23:19:11.230485+0800 ShuttleClub[98968:3519147] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+✔ Test lostHandPausesAndRecoveryNeedsExplicitResume() passed after 0.138 seconds.
+◇ Test staleHandDataCannotStartARally() started.
+✔ Test staleHandDataCannotStartARally() passed after 0.134 seconds.
+◇ Test lobbyInputChangesDiscardOldTrackingWithoutStartingProviders() started.
+✔ Test lobbyInputChangesDiscardOldTrackingWithoutStartingProviders() passed after 0.135 seconds.
+◇ Test racketHandChangeFreezesRallyAndRequiresNewPoseAndExplicitResume() started.
+✔ Test racketHandChangeFreezesRallyAndRequiresNewPoseAndExplicitResume() passed after 0.136 seconds.
+◇ Test setGripCorrectsOrientationAfterPalmFrameWithoutMovingPalm() started.
+✔ Test setGripCorrectsOrientationAfterPalmFrameWithoutMovingPalm() passed after 0.130 seconds.
+◇ Test miloCannotReturnByBodyProximityWithoutRacketContact() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647954, 1.6243565, -0.25914583), strings SIMD3<Float>(0.34647954, 1.6017702, -0.22613145), fraction 0.5529019
+IMPACT MOTION: time 2.3083358, incoming SIMD3<Float>(0.16204739, -6.5524335, 2.4609568), outgoing SIMD3<Float>(0.15232454, 3.2292454, -11.38678), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+RALLY FINISHED: player, landing SIMD3<Float>(0.43961495, 0.04, -7.2213197), 
+✔ Test miloCannotReturnByBodyProximityWithoutRacketContact() passed after 0.174 seconds.
+◇ Test miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.033333335 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34646142, 1.6238815, -0.25942183), strings SIMD3<Float>(0.34646142, 1.6012938, -0.22640556), fraction 0.38796896
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16204855, -6.5523963, 2.4609747), outgoing SIMD3<Float>(0.15232563, 3.230008, -11.387825), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42750338, 0.9022961, -6.3180923), strings SIMD3<Float>(0.4285299, 0.8691162, -6.340411), fraction 0.1272884
+IMPACT MOTION: time 3.124998, incoming SIMD3<Float>(0.070845425, -4.1311116, -5.2963862), outgoing SIMD3<Float>(-0.4606972, 13.189782, 6.4480968), centre SIMD3<Float>(-0.17609863, 6.1819406, 3.1968496), strings SIMD3<Float>(-0.17609863, 6.1819406, 3.1968496)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.016666668 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647724, 1.6242973, -0.25918114), strings SIMD3<Float>(0.34647724, 1.6017098, -0.22616509), fraction 0.776375
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16204755, -6.552428, 2.4609594), outgoing SIMD3<Float>(0.15232469, 3.2293496, -11.38692), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42752054, 0.9027317, -6.317509), strings SIMD3<Float>(0.42854708, 0.86955184, -6.3398266), fraction 0.25321728
+IMPACT MOTION: time 3.1083307, incoming SIMD3<Float>(0.0708492, -4.1312137, -5.296282), outgoing SIMD3<Float>(-0.46475068, 13.289393, 6.57531), centre SIMD3<Float>(-0.18004774, 5.792219, 3.9494703), strings SIMD3<Float>(-0.18004774, 5.792219, 3.9494703)
+2026-10-11 23:19:12.297130+0800 ShuttleClub[98968:3519148] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.011111111 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34657183, 1.6267564, -0.25773916), strings SIMD3<Float>(0.34657183, 1.6041704, -0.22472532), fraction 0.16819349
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16208608, -6.551167, 2.4615486), outgoing SIMD3<Float>(0.15236092, 3.2262008, -11.38003), centre SIMD3<Float>(0.0, 3.0000186, -4.000009), strings SIMD3<Float>(0.0, 3.0000186, -4.000009)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42745924, 0.91582876, -6.299344), strings SIMD3<Float>(0.42848715, 0.88267076, -6.3216968), fraction 0.13103832
+IMPACT MOTION: time 3.102772, incoming SIMD3<Float>(0.071059115, -4.1135106, -5.3074975), outgoing SIMD3<Float>(-0.46385944, 13.257723, 6.540809), centre SIMD3<Float>(-0.17931372, 5.899025, 3.740759), strings SIMD3<Float>(-0.17931372, 5.899025, 3.740759)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.033333335 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34646142, 1.6238815, -0.25942183), strings SIMD3<Float>(0.34646142, 1.6012938, -0.22640556), fraction 0.38796896
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16204855, -6.5523963, 2.4609747), outgoing SIMD3<Float>(0.15232563, 3.230008, -11.387825), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42570737, 1.0032216, -6.183823), strings SIMD3<Float>(0.42682415, 0.9713553, -6.207975), fraction 0.37611267
+IMPACT MOTION: time 3.0916648, incoming SIMD3<Float>(0.072290584, -3.9668338, -5.4044256), outgoing SIMD3<Float>(-0.46730632, 11.557023, 6.4818387), centre SIMD3<Float>(-0.16605912, 4.9251933, 3.345866), strings SIMD3<Float>(-0.16605912, 4.9251933, 3.345866)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.016666668 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647724, 1.6242973, -0.25918114), strings SIMD3<Float>(0.34647724, 1.6017098, -0.22616509), fraction 0.776375
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16204755, -6.552428, 2.4609594), outgoing SIMD3<Float>(0.15232469, 3.2293496, -11.38692), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4239045, 1.1011134, -6.0471964), strings SIMD3<Float>(0.42503017, 1.0693977, -6.0715446), fraction 0.2523035
+IMPACT MOTION: time 3.0583308, incoming SIMD3<Float>(0.07376323, -3.799622, -5.5141172), outgoing SIMD3<Float>(-0.46224636, 11.417484, 6.3016706), centre SIMD3<Float>(-0.16373633, 4.7921343, 3.3090017), strings SIMD3<Float>(-0.16373636, 4.792135, 3.3090017)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.011111111 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34657183, 1.6267564, -0.25773916), strings SIMD3<Float>(0.34657183, 1.6041704, -0.22472532), fraction 0.16819349
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16208608, -6.551167, 2.4615486), outgoing SIMD3<Float>(0.15236092, 3.2262008, -11.38003), centre SIMD3<Float>(0.0, 3.0000186, -4.000009), strings SIMD3<Float>(0.0, 3.0000186, -4.000009)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42566246, 1.0167474, -6.1651387), strings SIMD3<Float>(0.4267806, 0.9848901, -6.1893024), fraction 0.87815416
+IMPACT MOTION: time 3.069439, incoming SIMD3<Float>(0.0725076, -3.9489322, -5.4156866), outgoing SIMD3<Float>(-0.46830705, 11.560765, 6.516866), centre SIMD3<Float>(-0.16673148, 4.564138, 3.8484764), strings SIMD3<Float>(-0.16673148, 4.564138, 3.8484762)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.033333335 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34646142, 1.6238815, -0.25942183), strings SIMD3<Float>(0.34646142, 1.6012938, -0.22640556), fraction 0.38796896
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16204855, -6.5523963, 2.4609747), outgoing SIMD3<Float>(0.15232563, 3.230008, -11.387825), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42012143, 1.2821742, -5.766221), strings SIMD3<Float>(0.4213626, 1.2522392, -5.7927265), fraction 0.12575461
+IMPACT MOTION: time 3.0249982, incoming SIMD3<Float>(0.07679066, -3.4539557, -5.740848), outgoing SIMD3<Float>(-0.4656682, 9.749457, 6.062023), centre SIMD3<Float>(-0.14921127, 4.002979, 2.729802), strings SIMD3<Float>(-0.14921127, 4.002979, 2.729802)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.016666668 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647724, 1.6242973, -0.25918114), strings SIMD3<Float>(0.34647724, 1.6017098, -0.22616509), fraction 0.776375
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16204755, -6.552428, 2.4609594), outgoing SIMD3<Float>(0.15232469, 3.2293496, -11.38692), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42013913, 1.2826002, -5.7657175), strings SIMD3<Float>(0.42138037, 1.2526658, -5.79222), fraction 0.2507809
+IMPACT MOTION: time 3.0083308, incoming SIMD3<Float>(0.076794066, -3.4541395, -5.7406855), outgoing SIMD3<Float>(-0.46822214, 9.794644, 6.133834), centre SIMD3<Float>(-0.15080093, 3.772473, 3.0669305), strings SIMD3<Float>(-0.15080093, 3.772473, 3.0669305)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.011111111 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+2026-10-11 23:19:13.363817+0800 ShuttleClub[98968:3519144] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+STRING CONTACT: player, cork SIMD3<Float>(0.34657183, 1.6267564, -0.25773916), strings SIMD3<Float>(0.34657183, 1.6041704, -0.22472532), fraction 0.16819349
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16208608, -6.551167, 2.4615486), outgoing SIMD3<Float>(0.15236092, 3.2262008, -11.38003), centre SIMD3<Float>(0.0, 3.0000186, -4.000009), strings SIMD3<Float>(0.0, 3.0000186, -4.000009)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42005488, 1.2939295, -5.7462955), strings SIMD3<Float>(0.42129782, 1.2640079, -5.7728167), fraction 0.12575674
+IMPACT MOTION: time 3.0027728, incoming SIMD3<Float>(0.077021144, -3.434885, -5.752811), outgoing SIMD3<Float>(-0.46766, 9.779672, 6.106241), centre SIMD3<Float>(-0.15045583, 3.756498, 3.0585337), strings SIMD3<Float>(-0.15045583, 3.756498, 3.0585337)
+​✔ Test miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) with 9 test cases passed after 1.422 seconds.
+◇ Test approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.033333335 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.3464883, 1.6227876, -0.25901324), strings SIMD3<Float>(0.3464883, 1.6002003, -0.22599751), fraction 0.39296538
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16202587, -6.553114, 2.4606302), outgoing SIMD3<Float>(0.15230432, 3.677168, -12.040436), centre SIMD3<Float>(0.0, 3.2999966, -4.3999953), strings SIMD3<Float>(0.0, 3.2999966, -4.3999953)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42700702, 1.0737996, -6.6244183), strings SIMD3<Float>(0.42803258, 1.0412692, -6.6476717), fraction 0.5010671
+IMPACT MOTION: time 3.124998, incoming SIMD3<Float>(0.068342015, -4.014778, -5.4027896), outgoing SIMD3<Float>(-0.46477923, 13.007109, 6.916771), centre SIMD3<Float>(-0.177446, 5.628905, 4.023614), strings SIMD3<Float>(-0.17744592, 5.628905, 4.023614)
+STRING CONTACT: player, cork SIMD3<Float>(-0.00105608, 1.4310086, -0.25405002), strings SIMD3<Float>(-0.00105608, 1.408421, -0.2210338), fraction 0.010438133
+IMPACT MOTION: time 4.9583297, incoming SIMD3<Float>(-0.12458741, -6.9722385, 1.854092), outgoing SIMD3<Float>(-0.11711217, 2.603744, -11.619747), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.016666668 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34650427, 1.6232109, -0.2587703), strings SIMD3<Float>(0.34650427, 1.6006238, -0.22575478), fraction 0.7863532
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.1620249, -6.5531445, 2.4606156), outgoing SIMD3<Float>(0.15230341, 3.6765034, -12.039519), centre SIMD3<Float>(0.0, 3.3000038, -4.399996), strings SIMD3<Float>(0.0, 3.3000038, -4.399996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42703342, 1.0747161, -6.6245675), strings SIMD3<Float>(0.42805904, 1.0421822, -6.6478214), fraction 0.0038792726
+IMPACT MOTION: time 3.1249974, incoming SIMD3<Float>(0.0683429, -4.015205, -5.402479), outgoing SIMD3<Float>(-0.46489248, 13.039458, 6.8776197), centre SIMD3<Float>(-0.17744778, 6.1166377, 3.340387), strings SIMD3<Float>(-0.17744778, 6.1166377, 3.340387)
+STRING CONTACT: player, cork SIMD3<Float>(-0.0034038194, 1.3423332, -0.25667557), strings SIMD3<Float>(-0.0034038194, 1.3197455, -0.22365923), fraction 0.021008527
+IMPACT MOTION: time 4.9583426, incoming SIMD3<Float>(-0.1230783, -7.0301337, 1.8208197), outgoing SIMD3<Float>(-0.11569361, 2.5534053, -11.656991), centre SIMD3<Float>(0.0, 2.999997, -3.999995), strings SIMD3<Float>(0.0, 2.999997, -3.999995)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.011111111 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34659842, 1.625677, -0.2573358), strings SIMD3<Float>(0.34659842, 1.6030911, -0.22432205), fraction 0.18298714
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16206369, -6.551877, 2.4612083), outgoing SIMD3<Float>(0.15233986, 3.673309, -12.032555), centre SIMD3<Float>(0.0, 3.2999969, -4.400012), strings SIMD3<Float>(0.0, 3.2999969, -4.400012)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4272621, 1.0707074, -6.6285458), strings SIMD3<Float>(0.4282876, 1.0381634, -6.65178), fraction 0.630545
+IMPACT MOTION: time 3.113883, incoming SIMD3<Float>(0.06831696, -4.0244484, -5.396012), outgoing SIMD3<Float>(-0.46765593, 13.0899315, 6.9843745), centre SIMD3<Float>(-0.17911792, 5.602126, 4.1723156), strings SIMD3<Float>(-0.17911792, 5.602126, 4.1723156)
+STRING CONTACT: player, cork SIMD3<Float>(7.15818e-05, 1.5909454, -0.24852137), strings SIMD3<Float>(7.158186e-05, 1.5683594, -0.21550746), fraction 0.6632417
+IMPACT MOTION: time 4.913888, incoming SIMD3<Float>(-0.12664804, -6.897909, 1.891467), outgoing SIMD3<Float>(-0.119049154, 2.6597364, -11.56433), centre SIMD3<Float>(0.0, 3.0000186, -4.0000105), strings SIMD3<Float>(0.0, 3.0000186, -4.0000105)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.033333335 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.3464883, 1.6227876, -0.25901324), strings SIMD3<Float>(0.3464883, 1.6002003, -0.22599751), fraction 0.39296538
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16202587, -6.553114, 2.4606302), outgoing SIMD3<Float>(0.15230432, 3.677168, -12.040436), centre SIMD3<Float>(0.0, 3.2999966, -4.3999953), strings SIMD3<Float>(0.0, 3.2999966, -4.3999953)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42352775, 1.2670975, -6.3493667), strings SIMD3<Float>(0.42465055, 1.2361124, -6.37464), fraction 0.0011659171
+IMPACT MOTION: time 3.0916648, incoming SIMD3<Float>(0.071160465, -3.6789935, -5.625601), outgoing SIMD3<Float>(-0.4594804, 11.112178, 6.505895), centre SIMD3<Float>(-0.15994726, 5.1525054, 2.6947687), strings SIMD3<Float>(-0.15994726, 5.1525054, 2.6947687)
+STRING CONTACT: player, cork SIMD3<Float>(-0.00702719, 1.074473, -0.2530375), strings SIMD3<Float>(-0.00702719, 1.0518868, -0.22002323), fraction 0.51023614
+IMPACT MOTION: time 4.791663, incoming SIMD3<Float>(-0.13878568, -6.833439, 1.9650979), outgoing SIMD3<Float>(-0.13045853, 2.7474215, -11.534704), centre SIMD3<Float>(0.0, 2.9999952, -3.9999948), strings SIMD3<Float>(0.0, 2.9999952, -3.9999948)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.016666668 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34650427, 1.6232109, -0.2587703), strings SIMD3<Float>(0.34650427, 1.6006238, -0.22575478), fraction 0.7863532
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.1620249, -6.5531445, 2.4606156), outgoing SIMD3<Float>(0.15230341, 3.6765034, -12.039519), centre SIMD3<Float>(0.0, 3.3000038, -4.399996), strings SIMD3<Float>(0.0, 3.3000038, -4.399996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4235444, 1.2672359, -6.3487635), strings SIMD3<Float>(0.42466733, 1.236248, -6.374037), fraction 0.0023127268
+IMPACT MOTION: time 3.0749974, incoming SIMD3<Float>(0.07116306, -3.6792367, -5.6254106), outgoing SIMD3<Float>(-0.4647485, 11.235113, 6.6503525), centre SIMD3<Float>(-0.16326247, 4.878566, 3.217363), strings SIMD3<Float>(-0.16326247, 4.8785663, 3.217363)
+STRING CONTACT: player, cork SIMD3<Float>(-0.0025385916, 1.4510492, -0.25169572), strings SIMD3<Float>(-0.0025385916, 1.4284623, -0.21868046), fraction 0.27030474
+IMPACT MOTION: time 4.741673, incoming SIMD3<Float>(-0.14457653, -6.626158, 2.0688283), outgoing SIMD3<Float>(-0.13590194, 2.915871, -11.398618), centre SIMD3<Float>(0.0, 2.999997, -3.999995), strings SIMD3<Float>(0.0, 2.999997, -3.999995)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.011111111 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34659842, 1.625677, -0.2573358), strings SIMD3<Float>(0.34659842, 1.6030911, -0.22432205), fraction 0.18298714
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16206369, -6.551877, 2.4612083), outgoing SIMD3<Float>(0.15233986, 3.673309, -12.032555), centre SIMD3<Float>(0.0, 3.2999969, -4.400012), strings SIMD3<Float>(0.0, 3.2999969, -4.400012)
+2026-10-11 23:19:14.430519+0800 ShuttleClub[98968:3519152] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+STRING CONTACT: milo, cork SIMD3<Float>(0.42377475, 1.2637494, -6.3531003), strings SIMD3<Float>(0.42489755, 1.2327472, -6.378354), fraction 0.12813382
+IMPACT MOTION: time 3.069439, incoming SIMD3<Float>(0.07113572, -3.6888998, -5.618652), outgoing SIMD3<Float>(-0.46636465, 11.265933, 6.6970325), centre SIMD3<Float>(-0.16421825, 4.721074, 3.463397), strings SIMD3<Float>(-0.16421825, 4.721074, 3.463397)
+STRING CONTACT: player, cork SIMD3<Float>(-0.00079591083, 1.5657645, -0.25623804), strings SIMD3<Float>(-0.00079591083, 1.5431784, -0.22322394), fraction 0.16057162
+IMPACT MOTION: time 4.7249966, incoming SIMD3<Float>(-0.14652945, -6.5542145, 2.1041737), outgoing SIMD3<Float>(-0.13773769, 2.9705017, -11.346395), centre SIMD3<Float>(0.0, 3.0000186, -4.000009), strings SIMD3<Float>(0.0, 3.0000186, -4.000009)
+​✔ Test approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) with 6 test cases passed after 1.063 seconds.
+✔ Suite GameLoopTests passed after 9.108 seconds.
+◇ Suite HandRacketPoseTests started.
+◇ Test handleOriginIsInsidePalmAndAxesFollowKnuckles() started.
+✔ Test handleOriginIsInsidePalmAndAxesFollowKnuckles() passed after 0.001 seconds.
+◇ Test mirroredHandsProduceProperFramesWithIndexSideExit() started.
+✔ Test mirroredHandsProduceProperFramesWithIndexSideExit() passed after 0.001 seconds.
+◇ Test measuredFrameFollowsWorldRotationAndTranslation() started.
+✔ Test measuredFrameFollowsWorldRotationAndTranslation() passed after 0.001 seconds.
+◇ Test incompleteOrDegenerateGeometryCannotCreateARacket() started.
+✔ Test incompleteOrDegenerateGeometryCannotCreateARacket() passed after 0.001 seconds.
+✔ Suite HandRacketPoseTests passed after 0.001 seconds.
+◇ Suite HandGripFitTests started.
+◇ Test defaultAndRotatedOffsetsAreRigidAndKeepTheHandleOrigin() started.
+✔ Test defaultAndRotatedOffsetsAreRigidAndKeepTheHandleOrigin() passed after 0.001 seconds.
+◇ Test normalizationHandlesExtremeFiniteValuesAndEquivalentSigns() started.
+✔ Test normalizationHandlesExtremeFiniteValuesAndEquivalentSigns() passed after 0.001 seconds.
+◇ Test leftAndRightFitsPersistSeparatelyAndResetIndependently() started.
+✔ Test leftAndRightFitsPersistSeparatelyAndResetIndependently() passed after 0.005 seconds.
+◇ Test invalidQuaternionsCannotReplacePreviousSavedData() started.
+✔ Test invalidQuaternionsCannotReplacePreviousSavedData() passed after 0.003 seconds.
+◇ Test corruptedPersistedDataFallsBackWithoutChangingTheOtherHand() started.
+✔ Test corruptedPersistedDataFallsBackWithoutChangingTheOtherHand() passed after 0.006 seconds.
+✔ Suite HandGripFitTests passed after 0.017 seconds.
+◇ Suite HandGripGestureTests started.
+◇ Test openThenCloseAcquiresExactlyOnceAndHeldClosedAtStartCannotAcquire() started.
+✔ Test openThenCloseAcquiresExactlyOnceAndHeldClosedAtStartCannotAcquire() passed after 0.001 seconds.
+◇ Test bothOpenAndCloseRequireContinuousDwellAtThresholds() started.
+✔ Test bothOpenAndCloseRequireContinuousDwellAtThresholds() passed after 0.001 seconds.
+◇ Test relaxedGripBriefOpenJitterAndMissingFingersDoNotDropRacket() started.
+✔ Test relaxedGripBriefOpenJitterAndMissingFingersDoNotDropRacket() passed after 0.001 seconds.
+◇ Test sustainedOpenReleasesOnceAndCanDeliberatelyGrabAgain() started.
+✔ Test sustainedOpenReleasesOnceAndCanDeliberatelyGrabAgain() passed after 0.001 seconds.
+◇ Test interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+◇ Test case passing 1 argument interruption → .missing to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .stale to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .reordered to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .gap to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .nonfiniteCurl to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .future to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .invalidTime to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​✔ Test interruptedSamplesCannotCompleteAnArmedGrab(_:) with 7 test cases passed after 0.008 seconds.
+◇ Test duplicateSamplesCannotArmGrabOrRelease() started.
+✔ Test duplicateSamplesCannotArmGrabOrRelease() passed after 0.001 seconds.
+◇ Test staleOrReorderedSamplesBreakReleaseDwellWithoutDropping() started.
+✔ Test staleOrReorderedSamplesBreakReleaseDwellWithoutDropping() passed after 0.001 seconds.
+◇ Test suspensionDisarmsAnOpenSequenceAndPartiallyCompletedGrab() started.
+✔ Test suspensionDisarmsAnOpenSequenceAndPartiallyCompletedGrab() passed after 0.001 seconds.
+◇ Test suspensionRequiresANewFullOpenDwellBeforeArming() started.
+✔ Test suspensionRequiresANewFullOpenDwellBeforeArming() passed after 0.001 seconds.
+◇ Test suspensionKeepsHoldingAndRestartsTheFullReleaseDwell() started.
+✔ Test suspensionKeepsHoldingAndRestartsTheFullReleaseDwell() passed after 0.001 seconds.
+◇ Test medianCurlIsInvariantUnderHandSizeRigidMovementAndOneNoisyFinger() started.
+✔ Test medianCurlIsInvariantUnderHandSizeRigidMovementAndOneNoisyFinger() passed after 0.001 seconds.
+◇ Test curlRejectsInsufficientInvalidAndDegenerateFingerData() started.
+✔ Test curlRejectsInsufficientInvalidAndDegenerateFingerData() passed after 0.001 seconds.
+✔ Suite HandGripGestureTests passed after 0.010 seconds.
+◇ Suite HandGripInteractionTests started.
+◇ Test anInitiallyClosedHandCannotAcquireServeOrCalibrate() started.
+✔ Test anInitiallyClosedHandCannotAcquireServeOrCalibrate() passed after 0.005 seconds.
+◇ Test anOpenThenClosedDwellAcquiresTheMeasuredRacketAndAllowsServe() started.
+✔ Test anOpenThenClosedDwellAcquiresTheMeasuredRacketAndAllowsServe() passed after 0.129 seconds.
+◇ Test relaxedAndMissingFingersRetainTheLockedMountWhileTheWristMoves() started.
+✔ Test relaxedAndMissingFingersRetainTheLockedMountWhileTheWristMoves() passed after 0.004 seconds.
+◇ Test wristLossBetweenRenderFramesPausesAndRecoveryIsOnlyABaseline() started.
+✔ Test wristLossBetweenRenderFramesPausesAndRecoveryIsOnlyABaseline() passed after 0.136 seconds.
+◇ Test sustainedOpenReleasePausesAFlightAndCannotCreateAContact() started.
+✔ Test sustainedOpenReleasePausesAFlightAndCannotCreateAContact() passed after 0.139 seconds.
+◇ Test anchorVelocityUsesSixtyHertzSampleTimeAndRepeatedRenderFramesAreStill() started.
+✔ Test anchorVelocityUsesSixtyHertzSampleTimeAndRepeatedRenderFramesAreStill() passed after 0.005 seconds.
+◇ Test staleOrUnheldSamplesCannotReplaceASavedHandFit() started.
+✔ Test staleOrUnheldSamplesCannotReplaceASavedHandFit() passed after 0.006 seconds.
+◇ Test duplicatedOrReorderedInputCannotTeleportTheHeldRacketOrInventSpeed() started.
+✔ Test duplicatedOrReorderedInputCannotTeleportTheHeldRacketOrInventSpeed() passed after 0.004 seconds.
+◇ Test pausedAlignmentPreservesTheHandleFreezesFlightAndClearsSwingHistory() started.
+✔ Test pausedAlignmentPreservesTheHandleFreezesFlightAndClearsSwingHistory() passed after 0.137 seconds.
+◇ Test inputAndHandPreferencesReloadSeparateFitsWithoutRevivingOldSamples() started.
+✔ Test inputAndHandPreferencesReloadSeparateFitsWithoutRevivingOldSamples() passed after 0.009 seconds.
+◇ Test missingInitialLittleKnuckleCannotArmGrabAndExplainsPalmRecovery() started.
+✔ Test missingInitialLittleKnuckleCannotArmGrabAndExplainsPalmRecovery() passed after 0.004 seconds.
+◇ Test backgroundOpenCloseCannotAcquireAndForegroundRequiresNewOpen() started.
+✔ Test backgroundOpenCloseCannotAcquireAndForegroundRequiresNewOpen() passed after 0.004 seconds.
+◇ Test backgroundPreservesLockedMountButCannotReleaseOrResumeWithoutFreshHand() started.
+✔ Test backgroundPreservesLockedMountButCannotReleaseOrResumeWithoutFreshHand() passed after 0.135 seconds.
+◇ Test expiredHandShowsRecoveryMessageAndResetFitPreservesPalmAndOtherHand() started.
+✔ Test expiredHandShowsRecoveryMessageAndResetFitPreservesPalmAndOtherHand() passed after 0.007 seconds.
+◇ Test noHandSamplesCannotOverwritePermissionOrProviderFailureFeedback() started.
+✔ Test noHandSamplesCannotOverwritePermissionOrProviderFailureFeedback() passed after 0.002 seconds.
+✔ Suite HandGripInteractionTests passed after 0.735 seconds.
+◇ Suite HandGripTrackerTests started.
+◇ Test translatedAndRotatedWristFollowsTheAcquiredMountExactly() started.
+✔ Test translatedAndRotatedWristFollowsTheAcquiredMountExactly() passed after 0.001 seconds.
+◇ Test movedAndLostKnucklesDoNotRefitAnAcquiredGrip() started.
+✔ Test movedAndLostKnucklesDoNotRefitAnAcquiredGrip() passed after 0.001 seconds.
+◇ Test missingWristHidesTheRacketAndFreshWristUsesCachedLocalMount() started.
+✔ Test missingWristHidesTheRacketAndFreshWristUsesCachedLocalMount() passed after 0.001 seconds.
+◇ Test incompleteDegenerateAndDistantInitialKnucklesCannotEstablishAMount() started.
+✔ Test incompleteDegenerateAndDistantInitialKnucklesCannotEstablishAMount() passed after 0.001 seconds.
+◇ Test resetRequiresFreshKnuckleAcquisition() started.
+✔ Test resetRequiresFreshKnuckleAcquisition() passed after 0.001 seconds.
+◇ Test mirroredHandsKeepProperRotationsWhenFollowingTheWrist() started.
+✔ Test mirroredHandsKeepProperRotationsWhenFollowingTheWrist() passed after 0.001 seconds.
+◇ Test invalidWristMatricesCannotCreateOrReviveAWorldPose() started.
+✔ Test invalidWristMatricesCannotCreateOrReviveAWorldPose() passed after 0.001 seconds.
+◇ Test captureLocksAnOpenHandPreviewThroughGrabClosure() started.
+✔ Test captureLocksAnOpenHandPreviewThroughGrabClosure() passed after 0.001 seconds.
+◇ Test invalidCaptureDoesNotAttachOrOverwriteAGoodMount() started.
+✔ Test invalidCaptureDoesNotAttachOrOverwriteAGoodMount() passed after 0.001 seconds.
+✔ Suite HandGripTrackerTests passed after 0.004 seconds.
+◇ Suite MiloAnimationTests started.
+◇ Test visualAnimationCannotMoveThePhysicalRacketRig() started.
+✔ Test visualAnimationCannotMoveThePhysicalRacketRig() passed after 0.129 seconds.
+◇ Test walkingFeetStayLevelAndAboveTheirRestingSole() started.
+✔ Test walkingFeetStayLevelAndAboveTheirRestingSole() passed after 0.002 seconds.
+◇ Test reactionsDecayInElapsedTimeAcrossDifferentFrameRates() started.
+✔ Test reactionsDecayInElapsedTimeAcrossDifferentFrameRates() passed after 0.001 seconds.
+◇ Test recoveringBetweenRalliesStillMovesTheFeet() started.
+✔ Test recoveringBetweenRalliesStillMovesTheFeet() passed after 0.002 seconds.
+◇ Test reducedMotionResetsVisualJointsWithoutChangingPhysicalPose() started.
+✔ Test reducedMotionResetsVisualJointsWithoutChangingPhysicalPose() passed after 0.001 seconds.
+✔ Suite MiloAnimationTests passed after 0.137 seconds.
+◇ Suite RacketMotionContactTests started.
+◇ Test fixedFaceAndTranslatedFaceKeepTheirMeasuredContactFractions() started.
+✔ Test fixedFaceAndTranslatedFaceKeepTheirMeasuredContactFractions() passed after 0.001 seconds.
+◇ Test aRotatingLocalChordCannotInventAContactOutsideTheWorldStrings() started.
+✔ Test aRotatingLocalChordCannotInventAContactOutsideTheWorldStrings() passed after 0.001 seconds.
+◇ Test aMovingEdgeCanStrikeWhileItsStringCentreHasNoVelocity() started.
+✔ Test aMovingEdgeCanStrikeWhileItsStringCentreHasNoVelocity() passed after 0.001 seconds.
+◇ Test measuredSampleDurationControlsAngularVelocityAndOppositeSignsAreEquivalent() started.
+✔ Test measuredSampleDurationControlsAngularVelocityAndOppositeSignsAreEquivalent() passed after 0.001 seconds.
+◇ Test rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+◇ Test case passing 1 argument dt → 0.033333335 to rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+​◇ Test case passing 1 argument dt → 0.016666668 to rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+​◇ Test case passing 1 argument dt → 0.011111111 to rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+​✔ Test rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) with 3 test cases passed after 0.001 seconds.
+◇ Test contactVelocityRotatesAndScalesTheActualOffCentreLever() started.
+✔ Test contactVelocityRotatesAndScalesTheActualOffCentreLever() passed after 0.001 seconds.
+◇ Test scaledStringsKeepTheCorkRadiusInWorldMetres() started.
+✔ Test scaledStringsKeepTheCorkRadiusInWorldMetres() passed after 0.001 seconds.
+◇ Test departingTangentialAndStationaryCorksCannotCreateReturns() started.
+✔ Test departingTangentialAndStationaryCorksCannotCreateReturns() passed after 0.001 seconds.
+◇ Test invalidPosesAndNonfiniteMotionCannotCreateContacts() started.
+✔ Test invalidPosesAndNonfiniteMotionCannotCreateContacts() passed after 0.001 seconds.
+✔ Suite RacketMotionContactTests passed after 0.002 seconds.
+◇ Suite RallyEventsTests started.
+◇ Test earliestFloorContactWinsOverLaterNetCrossing() started.
+✔ Test earliestFloorContactWinsOverLaterNetCrossing() passed after 0.001 seconds.
+◇ Test earliestNetContactWinsOverLaterFloorContact() started.
+✔ Test earliestNetContactWinsOverLaterFloorContact() passed after 0.001 seconds.
+◇ Test landingUsesFirstFloorPositionInsteadOfOvershootingEndpoint() started.
+✔ Test landingUsesFirstFloorPositionInsteadOfOvershootingEndpoint() passed after 0.001 seconds.
+◇ Test airborneShuttleMayCrossSidelineAndClearNet() started.
+✔ Test airborneShuttleMayCrossSidelineAndClearNet() passed after 0.001 seconds.
+◇ Test runawayDistanceHasSweptExitFraction() started.
+✔ Test runawayDistanceHasSweptExitFraction() passed after 0.001 seconds.
+◇ Test alreadyGroundedShuttleFaultsAtFrameStart() started.
+✔ Test alreadyGroundedShuttleFaultsAtFrameStart() passed after 0.001 seconds.
+◇ Test nonfiniteEndpointsAreRejected() started.
+✔ Test nonfiniteEndpointsAreRejected() passed after 0.001 seconds.
+✔ Suite RallyEventsTests passed after 0.002 seconds.
+◇ Suite SceneResourceReuseTests started.
+◇ Test repeatedPrimitivesShareResourcesAndKeepIndependentTransformsMaterialsAndParents() started.
+✔ Test repeatedPrimitivesShareResourcesAndKeepIndependentTransformsMaterialsAndParents() passed after 0.008 seconds.
+◇ Test primitiveKeysPreserveExactDimensionsRoundingAndNativeTopology() started.
+✔ Test primitiveKeysPreserveExactDimensionsRoundingAndNativeTopology() passed after 0.057 seconds.
+◇ Test authoredRingsLeavesAndFloorKeepTessellationAndUVKeys() started.
+✔ Test authoredRingsLeavesAndFloorKeepTessellationAndUVKeys() passed after 0.004 seconds.
+◇ Test twentyAuthoredRacketsReuseEveryMeshOnTheSecondBatchAndReportConstructionTime() started.
+2026-10-11 23:19:15.497102+0800 ShuttleClub[98968:3519164] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+2026-10-11 23:19:16.563744+0800 ShuttleClub[98968:3519164] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+2026-10-11 23:19:17.630445+0800 ShuttleClub[98968:3519164] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+SceneResourceReuse rackets=20 cold_ms=1271.3470458984375 warm_ms=1256.653070449829 cold_generated=12 warm_generated=0 warm_hits=1420 cache_entries=12
+✔ Test twentyAuthoredRacketsReuseEveryMeshOnTheSecondBatchAndReportConstructionTime() passed after 2.766 seconds.
+◇ Test cacheStaysBoundedEvictsLeastUsedAndNeverInvalidatesLiveEntities() started.
+✔ Test cacheStaysBoundedEvictsLeastUsedAndNeverInvalidatesLiveEntities() passed after 0.401 seconds.
+◇ Test repeatedCourtBuildReusesCachedGeometryAndReportsMeshColdWarmTimes() started.
+2026-10-11 23:19:18.697157+0800 ShuttleClub[98968:3519148] [AMCP]          HALC_ProxyObjectMap.cpp:516   HALC_ProxyObjectMap::_CreateSystemObject: there is no system object
+SceneResourceReuse court_mesh_cold_ms=597.756028175354 court_mesh_warm_ms=452.68797874450684 cached_cold_generated=164 cached_warm_generated=0 warm_hits=612 cache_entries=164 textures_not_reset=true
+✔ Test repeatedCourtBuildReusesCachedGeometryAndReportsMeshColdWarmTimes() passed after 1.120 seconds.
+✔ Suite SceneResourceReuseTests passed after 4.359 seconds.
+◇ Suite SenseGripFitTests started.
+◇ Test leftAndRightFitsPersistIndependentlyThroughCodable() started.
+✔ Test leftAndRightFitsPersistIndependentlyThroughCodable() passed after 0.007 seconds.
+◇ Test defaultMountKeepsHandleAtGripAndHeadAlongGripMinusZ() started.
+✔ Test defaultMountKeepsHandleAtGripAndHeadAlongGripMinusZ() passed after 0.001 seconds.
+◇ Test fineAdjustmentIsLocalToCalibratedBaseAndDoesNotRotateTranslation() started.
+✔ Test fineAdjustmentIsLocalToCalibratedBaseAndDoesNotRotateTranslation() passed after 0.001 seconds.
+◇ Test calibrationPreservesTrimAndTranslationAndFollowsMovedCourt() started.
+✔ Test calibrationPreservesTrimAndTranslationAndFollowsMovedCourt() passed after 0.001 seconds.
+◇ Test velocityUsesFittedHeadLeverArmAndAnchorLocalAngularVelocity() started.
+✔ Test velocityUsesFittedHeadLeverArmAndAnchorLocalAngularVelocity() passed after 0.001 seconds.
+◇ Test finiteBoundsClampButNonfiniteAndZeroQuaternionCannotPersist() started.
+✔ Test finiteBoundsClampButNonfiniteAndZeroQuaternionCannotPersist() passed after 0.003 seconds.
+◇ Test decoderRejectsNonfiniteAndMalformedPersistedData() started.
+✔ Test decoderRejectsNonfiniteAndMalformedPersistedData() passed after 0.001 seconds.
+✔ Suite SenseGripFitTests passed after 0.013 seconds.
+◇ Suite SenseRacketMountTests started.
+◇ Test racketExtendsFromGripTowardThumbAfterWorldMovement() started.
+✔ Test racketExtendsFromGripTowardThumbAfterWorldMovement() passed after 0.001 seconds.
+◇ Test mountIsAProperRigidRotation() started.
+✔ Test mountIsAProperRigidRotation() passed after 0.001 seconds.
+✔ Suite SenseRacketMountTests passed after 0.001 seconds.
+◇ Suite SenseTrackingQualityTests started.
+◇ Test angularMotionUsesTheVisibleHeadLeverArmAndWorldRotation() started.
+✔ Test angularMotionUsesTheVisibleHeadLeverArmAndWorldRotation() passed after 0.001 seconds.
+◇ Test invalidAngularVelocityCannotBecomeAValidStationaryRacket() started.
+✔ Test invalidAngularVelocityCannotBecomeAValidStationaryRacket() passed after 0.001 seconds.
+◇ Test stationaryAnchorCannotHideAnImplausiblyFastRotatingRacketHead() started.
+✔ Test stationaryAnchorCannotHideAnImplausiblyFastRotatingRacketHead() passed after 0.001 seconds.
+◇ Test weakOrStaleTrackingCannotArmContactEvenWithPlausibleMotion() started.
+✔ Test weakOrStaleTrackingCannotArmContactEvenWithPlausibleMotion() passed after 0.001 seconds.
+◇ Test stoppedAccessoryGetsOneAutomaticRecoveryWithoutRepeatedSessionStarts() started.
+✔ Test stoppedAccessoryGetsOneAutomaticRecoveryWithoutRepeatedSessionStarts() passed after 0.001 seconds.
+◇ Test failedConfigurationWaitsForRetryOrChangedConnectionsAndNeverRerunsStoppedWorld() started.
+✔ Test failedConfigurationWaitsForRetryOrChangedConnectionsAndNeverRerunsStoppedWorld() passed after 0.001 seconds.
+✔ Suite SenseTrackingQualityTests passed after 0.002 seconds.
+◇ Suite ServePinchGestureTests started.
+◇ Test heldPinchOnFirstAcquisitionCannotServe() started.
+✔ Test heldPinchOnFirstAcquisitionCannotServe() passed after 0.001 seconds.
+◇ Test deliberatePinchFiresOnceUntilTheFingersReopen() started.
+✔ Test deliberatePinchFiresOnceUntilTheFingersReopen() passed after 0.001 seconds.
+◇ Test partialReleaseAndThresholdJitterRequireANewSustainedHold() started.
+✔ Test partialReleaseAndThresholdJitterRequireANewSustainedHold() passed after 0.001 seconds.
+◇ Test untrackedOrStaleSampleDisarmsAndHeldReacquisitionDoesNotServe() started.
+✔ Test untrackedOrStaleSampleDisarmsAndHeldReacquisitionDoesNotServe() passed after 0.001 seconds.
+◇ Test sampleGapInterruptsHoldAndRequiresOpenHandAgain() started.
+✔ Test sampleGapInterruptsHoldAndRequiresOpenHandAgain() passed after 0.001 seconds.
+◇ Test duplicateAndBackwardSamplesCannotCompleteAFalseHold() started.
+✔ Test duplicateAndBackwardSamplesCannotCompleteAFalseHold() passed after 0.001 seconds.
+◇ Test invalidValuesAndExplicitResetRequireOpenHandAgain() started.
+✔ Test invalidValuesAndExplicitResetRequireOpenHandAgain() passed after 0.001 seconds.
+✔ Suite ServePinchGestureTests passed after 0.001 seconds.
+✔ Test run with 145 tests in 16 suites passed after 14.754 seconds.
+2026-10-11 23:19:20.053 xcodebuild[98890:3518106] [MT] IDETestOperationsObserverDebug: 29.484 elapsed -- Testing started completed.
+2026-10-11 23:19:20.053 xcodebuild[98890:3518106] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-11 23:19:20.053 xcodebuild[98890:3518106] [MT] IDETestOperationsObserverDebug: 29.484 sec, +29.484 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/shuttle-vision-build/Logs/Test/Test-ShuttleClub-2026.10.11_23-18-42-+0800.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started

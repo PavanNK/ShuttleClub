@@ -1,0 +1,8 @@
+2026-10-11 23:21:46.861 ShuttleClub[99589:3523623] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-11 23:21:46.861 ShuttleClub[99589:3523623] CoreText performance note: Set a breakpoint on CTFontLogSuboptimalRequest to debug.
+2026-10-11 23:21:46.865 ShuttleClub[99589:3523623] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-11 23:21:46.869 ShuttleClub[99589:3523623] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+STRING CONTACT: player, cork SIMD3<Float>(0.34662563, 1.6263617, -0.2569208), strings SIMD3<Float>(0.34662563, 1.6037757, -0.22390704), fraction 0.18454796
+IMPACT MOTION: time 4.305529, incoming SIMD3<Float>(0.16207536, -6.5515, 2.461382), outgoing SIMD3<Float>(0.15235083, 3.1286044, -11.235679), centre SIMD3<Float>(0.0, 3.3000355, -4.4000497), strings SIMD3<Float>(0.0, 3.3000355, -4.4000497)
+com.shuttleclub.vision: 99589
+

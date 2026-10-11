@@ -1,0 +1,10 @@
+2026-10-11 23:20:23.930 ShuttleClub[99366:3521730] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-11 23:20:23.930 ShuttleClub[99366:3521730] CoreText performance note: Set a breakpoint on CTFontLogSuboptimalRequest to debug.
+2026-10-11 23:20:23.935 ShuttleClub[99366:3521730] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-11 23:20:23.939 ShuttleClub[99366:3521730] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.38001448, 0.04, 0.2501398), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.08563103, 0.04, 0.25035575), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.33588174, 0.04, 0.2501862), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.19425884, 0.040000003, 0.25028664), 
+com.shuttleclub.vision: 99366
+

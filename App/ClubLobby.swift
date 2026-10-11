@@ -6,14 +6,18 @@ import ShuttleCore
 @MainActor @Observable final class ClubLobbyScene {
     let assets=ClubScene.build()
     var subscription:EventSubscription?
+    @ObservationIgnored private var frameUpdates:FrameUpdateGate?
     var clock:Float=0
     var displayedKind:RacketKind?
     var rackets:[RacketKind:Entity]=[:]
-    var platforms:[RacketKind:ModelEntity]=[:]
     let floatingShuttle=Entity()
-    var reportedReady=false
 
     func attach(_ content:RealityViewContent,attachments:RealityViewAttachments,game:GameModel,onReady:@escaping @MainActor ()->Void) {
+        stop()
+        // A reattachment replaces its previews rather than leaving old meshes
+        // under the retained court root, including an obsolete selected racket.
+        for racket in rackets.values { racket.removeFromParent() }
+        rackets.removeAll();displayedKind=nil
         let root=assets.root
         assets.racket.isEnabled=false;assets.shuttle.isEnabled=false;assets.targets.isEnabled=false
         assets.milo.position=[0.4,0,-8]
@@ -24,15 +28,14 @@ import ShuttleCore
             racket.position=[0.75,0.43,-2.5];racket.scale=[3.3,3.3,3.3]
             root.addChild(racket);rackets[kind]=racket
         }
-        ClubScene.makeShuttle(floatingShuttle);floatingShuttle.scale=[2.5,2.5,2.5]
+        if floatingShuttle.children.isEmpty { ClubScene.makeShuttle(floatingShuttle) }
+        floatingShuttle.scale=[2.5,2.5,2.5]
         floatingShuttle.position=[-1.35,2.43,-4.6];root.addChild(floatingShuttle)
         content.add(root);select(game.racketKind)
-        subscription=content.subscribe(to:SceneEvents.Update.self) { [weak self] event in
-            let delta=Float(event.deltaTime)
-            Task { @MainActor [weak self] in
+        let updates=FrameUpdateGate(onFrame:{ [weak self] elapsed in
                 guard let self else { return }
-                if !reportedReady { reportedReady=true;onReady() }
-                clock += min(delta,0.05)
+                let delta=Float(elapsed)
+                clock += delta
                 assets.animateMilo(time:clock,active:false,dt:delta,reducedMotion:game.reducedMotion)
                 if !game.reducedMotion {
                     assets.robotFreeArm.orientation=simd_quatf(angle:2.4+sin(clock*3.4)*0.15,axis:[0,0,1])
@@ -46,8 +49,15 @@ import ShuttleCore
                     racket.position.y=0.43+(game.reducedMotion ? 0:sin(clock*2.2)*0.009)
                     racket.orientation=simd_quatf(angle:-0.35,axis:[0,0,1])*simd_quatf(angle:selected && !game.reducedMotion ? 0.08+sin(clock*0.85)*0.025:0.08,axis:[0,1,0])
                 }
-            }
+            },onReady:onReady)
+        frameUpdates=updates
+        subscription=content.subscribe(to:SceneEvents.Update.self) { event in
+            updates.submit(delta:event.deltaTime)
         }
+    }
+    func stop() {
+        subscription?.cancel();subscription=nil
+        frameUpdates?.cancel();frameUpdates=nil
     }
     func place(_ attachments:RealityViewAttachments,style:ClubHomeStyle,presentingPanel:Bool,rackets:Bool) {
         func place(_ id:String,at position:SIMD3<Float>,scale:Float,visible:Bool) {
@@ -64,13 +74,11 @@ import ShuttleCore
         place("panelShade",at:[0,1.6,-2.9],scale:4.8,visible:presentingPanel && rackets)
         place("main",at:[0,rackets ? 1.7:1.83,-2.8],scale:rackets ? 4.7:3.0,visible:presentingPanel)
         for (kind,entity) in self.rackets { entity.isEnabled = !presentingPanel && kind == displayedKind }
-        for (kind,entity) in platforms { entity.isEnabled = !presentingPanel && kind == displayedKind }
         assets.milo.isEnabled = !presentingPanel
         floatingShuttle.isEnabled = !presentingPanel
     }
     func select(_ kind:RacketKind) {
         guard displayedKind != kind else { return };displayedKind=kind
-        for (key,platform) in platforms { platform.isEnabled=key == kind;platform.scale=[1.10,1.6,1.10] }
         for (key,racket) in rackets { racket.isEnabled=key == kind }
     }
 }
@@ -146,7 +154,7 @@ struct ClubLobby:View {
             if ProcessInfo.processInfo.arguments.contains("--preview-home-tracking") { setup=true }
             #endif
         }
-        .onDisappear { scene.subscription?.cancel() }
+        .onDisappear { scene.stop() }
     }
     private func cue() { if game.soundEnabled { SoundBank.play(.select) } }
     private func openRackets() { game.showRackets=true;cue() }

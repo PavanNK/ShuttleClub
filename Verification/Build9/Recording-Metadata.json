@@ -1,0 +1,44 @@
+{
+  "build": "1.0 (9)",
+  "date": "2026-10-11",
+  "physical_headset_access": false,
+  "inputs": "Artificial hand poses; native finite string sweep and impact solver required for returns.",
+  "processing": "Local AVFoundation 1920x1080 export, full timeline, no cuts/overlays/generated frames; container duration rounding is below one frame.",
+  "video_metadata_is_not_headset_frame_rate": true,
+  "recordings": [
+    {
+      "file": "Native-Rally.mp4",
+      "original_dimensions": [
+        3840,
+        2160
+      ],
+      "stored_dimensions": [
+        1920,
+        1080
+      ],
+      "original_duration_seconds": 18.831666666666667,
+      "stored_duration_seconds": 18.835,
+      "original_bytes": 81362444,
+      "stored_bytes": 29372220,
+      "original_sha256": "16470a50c146e65d3b9d0e2b5c07f4eec555a6dda2b63a9db8df5cb3fa5f85c8",
+      "stored_sha256": "d33c1d0403444b238257b47e32b19859c61e426612bd077ceb390c1bdb246a4a"
+    },
+    {
+      "file": "Deliberate-Miss.mp4",
+      "original_dimensions": [
+        3840,
+        2160
+      ],
+      "stored_dimensions": [
+        1920,
+        1080
+      ],
+      "original_duration_seconds": 18.841666666666665,
+      "stored_duration_seconds": 18.851666666666667,
+      "original_bytes": 72260617,
+      "stored_bytes": 27218921,
+      "original_sha256": "0723d2ea0de646684e21a7ddafc9ce0767564ee83321f4795dacf7d4e7973aad",
+      "stored_sha256": "144d89ef67b95d916229929b2a07c8243cdd72b2d2a19cd342ef18a55ff8ff31"
+    }
+  ]
+}

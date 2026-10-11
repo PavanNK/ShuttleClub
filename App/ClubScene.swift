@@ -109,6 +109,82 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
 
 @MainActor enum ClubScene {
     private static var textureCache: [String:TextureResource] = [:]
+    // Exact dimensions are keys: no unit-mesh scaling or changed tessellation.
+    // Shared resources stay immutable; each entity retains its own materials,
+    // transform and parent. LRU eviction only drops our retained reference.
+    private enum MeshKey: Hashable {
+        case box(V3, Float), sphere(Float), cylinder(Float, Float), cone(Float, Float)
+        case ring(Float, Float, Float), leafBlade, racketDecal
+        case tiledFloor(SIMD2<Float>, SIMD2<Float>), mergedBoxes([V3])
+        case foliage(Int), daylightSky
+
+        var canCache: Bool {
+            func positive(_ value:Float)->Bool { value.isFinite && value > 0 }
+            switch self {
+            case let .box(size,corner): return positive(size.x) && positive(size.y) && positive(size.z) && corner.isFinite && corner >= 0
+            case let .sphere(radius): return positive(radius)
+            case let .cylinder(height,radius),let .cone(height,radius): return positive(height) && positive(radius)
+            case let .ring(rx,ry,tube): return positive(rx) && positive(ry) && positive(tube)
+            case let .tiledFloor(size,uv): return positive(size.x) && positive(size.y) && uv.x.isFinite && uv.y.isFinite
+            case let .mergedBoxes(values):
+                // Zero-width string ends are intentional in the authored mesh.
+                return values.count <= 2048 && values.enumerated().allSatisfy { index,value in
+                    value.isFiniteVector && (index % 2 != 0 || (value.x >= 0 && value.y >= 0 && value.z >= 0))
+                }
+            case .leafBlade,.racketDecal,.foliage,.daylightSky: return true
+            }
+        }
+    }
+    private struct CachedMesh {
+        let resource: MeshResource
+        var lastUse: UInt64
+    }
+    private static let meshCacheCapacity = 256
+    private static var meshCache: [MeshKey:CachedMesh] = [:]
+    private static var meshUseClock: UInt64 = 0
+    #if DEBUG
+    struct MeshCacheMetrics: Equatable {
+        let entries: Int
+        let capacity: Int
+        let hits: Int
+        let generations: Int
+        let evictions: Int
+    }
+    private static var meshHits = 0, meshGenerations = 0, meshEvictions = 0
+    static var meshCacheMetrics: MeshCacheMetrics {
+        .init(entries:meshCache.count,capacity:meshCacheCapacity,hits:meshHits,
+              generations:meshGenerations,evictions:meshEvictions)
+    }
+    /// Clears only retained mesh references/counters, never a live entity.
+    static func resetMeshCacheForTesting() {
+        meshCache.removeAll(keepingCapacity:true);meshUseClock=0
+        meshHits=0;meshGenerations=0;meshEvictions=0
+    }
+    #endif
+    private static func cachedMesh(_ key:MeshKey,generate:() throws -> MeshResource) rethrows -> MeshResource {
+        guard key.canCache else { return try generate() }
+        meshUseClock &+= 1
+        if var cached=meshCache[key] {
+            cached.lastUse=meshUseClock;meshCache[key]=cached
+            #if DEBUG
+            meshHits += 1
+            #endif
+            return cached.resource
+        }
+        let resource=try generate()
+        if meshCache.count >= meshCacheCapacity,
+           let oldest=meshCache.min(by:{ $0.value.lastUse < $1.value.lastUse })?.key {
+            meshCache.removeValue(forKey:oldest)
+            #if DEBUG
+            meshEvictions += 1
+            #endif
+        }
+        meshCache[key]=CachedMesh(resource:resource,lastUse:meshUseClock)
+        #if DEBUG
+        meshGenerations += 1
+        #endif
+        return resource
+    }
     static let teal = UIColor(red: 0.035, green: 0.67, blue: 0.69, alpha: 1)
     static let purple = UIColor(red: 0.36, green: 0.12, blue: 0.65, alpha: 1)
     static let coral = UIColor(red: 1, green: 0.29, blue: 0.36, alpha: 1)
@@ -122,41 +198,51 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
     }
     static func glow(_ color: UIColor) -> UnlitMaterial { UnlitMaterial(color: color) }
     @discardableResult static func box(_ parent: Entity, _ size: V3, _ position: V3, _ mat: any Material, round: Float = 0) -> ModelEntity {
-        let e = ModelEntity(mesh: .generateBox(size: size, cornerRadius: round), materials: [mat]); e.position = position; parent.addChild(e); return e
+        let mesh=cachedMesh(.box(size,round)) { .generateBox(size:size,cornerRadius:round) }
+        let e = ModelEntity(mesh:mesh, materials: [mat]); e.position = position; parent.addChild(e); return e
     }
     @discardableResult static func sphere(_ parent: Entity, _ radius: Float, _ position: V3, _ mat: any Material, scale: V3 = [1,1,1]) -> ModelEntity {
-        let e = ModelEntity(mesh: .generateSphere(radius: radius), materials: [mat]); e.position = position; e.scale = scale; parent.addChild(e); return e
+        let mesh=cachedMesh(.sphere(radius)) { .generateSphere(radius:radius) }
+        let e = ModelEntity(mesh:mesh, materials: [mat]); e.position = position; e.scale = scale; parent.addChild(e); return e
     }
     @discardableResult static func rod(_ parent: Entity, _ a: V3, _ b: V3, _ radius: Float, _ mat: any Material) -> ModelEntity {
         let d = b-a
-        let e = ModelEntity(mesh: .generateCylinder(height: max(0.001, simd_length(d)), radius: radius), materials: [mat])
+        let height=max(0.001,simd_length(d))
+        let mesh=cachedMesh(.cylinder(height,radius)) { .generateCylinder(height:height,radius:radius) }
+        let e = ModelEntity(mesh:mesh, materials: [mat])
         e.position = (a+b)/2; e.orientation = simd_quatf(from: [0,1,0], to: simd_normalize(d)); parent.addChild(e); return e
     }
     @discardableResult static func ring(_ parent: Entity, rx: Float, ry: Float, tube: Float, at position: V3, mat: any Material) -> ModelEntity? {
-        var p: [V3] = [], n: [V3] = [], idx: [UInt32] = []
-        let steps = 80, sides = 8
-        for i in 0...steps {
-            let a = Float(i)/Float(steps) * .pi * 2
-            for j in 0...sides {
-                let b = Float(j)/Float(sides) * .pi * 2
-                let normal = V3(cos(a)*cos(b), sin(a)*cos(b), sin(b))
-                p.append(V3(rx*cos(a), ry*sin(a), 0) + normal*tube); n.append(normal)
-                if i < steps && j < sides {
-                    let k = UInt32(i*(sides+1)+j), s = UInt32(sides+1)
-                    idx += [k,k+1,k+s,k+1,k+s+1,k+s]
+        let mesh=try? cachedMesh(.ring(rx,ry,tube)) {
+            var p: [V3] = [], n: [V3] = [], idx: [UInt32] = []
+            let steps = 80, sides = 8
+            for i in 0...steps {
+                let a = Float(i)/Float(steps) * .pi * 2
+                for j in 0...sides {
+                    let b = Float(j)/Float(sides) * .pi * 2
+                    let normal = V3(cos(a)*cos(b), sin(a)*cos(b), sin(b))
+                    p.append(V3(rx*cos(a), ry*sin(a), 0) + normal*tube); n.append(normal)
+                    if i < steps && j < sides {
+                        let k = UInt32(i*(sides+1)+j), s = UInt32(sides+1)
+                        idx += [k,k+1,k+s,k+1,k+s+1,k+s]
+                    }
                 }
             }
+            var d = MeshDescriptor(name: "elliptical rim"); d.positions = .init(p); d.normals = .init(n); d.primitives = .triangles(idx)
+            return try MeshResource.generate(from:[d])
         }
-        var d = MeshDescriptor(name: "elliptical rim"); d.positions = .init(p); d.normals = .init(n); d.primitives = .triangles(idx)
-        if let mesh = try? MeshResource.generate(from: [d]) { let e = ModelEntity(mesh: mesh, materials: [mat]); e.position = position; parent.addChild(e); return e }
+        if let mesh { let e = ModelEntity(mesh: mesh, materials: [mat]); e.position = position; parent.addChild(e); return e }
         return nil
     }
     static func tiledFloor(_ parent: Entity, size: SIMD2<Float>, repeatUV: SIMD2<Float>, at position: V3, mat: any Material) {
-        let x=size.x/2,z=size.y/2
-        var d=MeshDescriptor(name:"tiled floor"); d.positions = .init([[-x,0,-z],[-x,0,z],[x,0,z],[x,0,-z]])
-        d.normals = .init(Array(repeating:[0,1,0],count:4)); d.textureCoordinates = .init([[0,0],[0,repeatUV.y],repeatUV,[repeatUV.x,0]])
-        d.primitives = .triangles([0,1,2,0,2,3])
-        if let mesh=try? MeshResource.generate(from:[d]) { let e=ModelEntity(mesh:mesh,materials:[mat]); e.position=position; parent.addChild(e) }
+        let mesh=try? cachedMesh(.tiledFloor(size,repeatUV)) {
+            let x=size.x/2,z=size.y/2
+            var d=MeshDescriptor(name:"tiled floor"); d.positions = .init([[-x,0,-z],[-x,0,z],[x,0,z],[x,0,-z]])
+            d.normals = .init(Array(repeating:[0,1,0],count:4)); d.textureCoordinates = .init([[0,0],[0,repeatUV.y],repeatUV,[repeatUV.x,0]])
+            d.primitives = .triangles([0,1,2,0,2,3])
+            return try MeshResource.generate(from:[d])
+        }
+        if let mesh { let e=ModelEntity(mesh:mesh,materials:[mat]); e.position=position; parent.addChild(e) }
     }
     static func texture(_ name: String, width: Int, height: Int, draw: (CGContext, CGSize) -> Void) -> TextureResource? {
         if let cached=textureCache[name] { return cached }
@@ -308,11 +394,15 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
         return a
     }
     static func mergedBoxes(_ parent: Entity, _ boxes: [(V3,V3)], mat: any Material) {
-        var positions: [V3]=[], normals:[V3]=[], indices:[UInt32]=[]
-        let faces: [(V3,[V3])] = [([0,0,1],[[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]]),([0,0,-1],[[1,-1,-1],[-1,-1,-1],[-1,1,-1],[1,1,-1]]),([1,0,0],[[1,-1,1],[1,-1,-1],[1,1,-1],[1,1,1]]),([-1,0,0],[[-1,-1,-1],[-1,-1,1],[-1,1,1],[-1,1,-1]]),([0,1,0],[[-1,1,1],[1,1,1],[1,1,-1],[-1,1,-1]]),([0,-1,0],[[-1,-1,-1],[1,-1,-1],[1,-1,1],[-1,-1,1]])]
-        for (size,center) in boxes { for (normal,vertices) in faces { let base=UInt32(positions.count); positions += vertices.map{ center+$0*size/2 }; normals += Array(repeating:normal,count:4); indices += [base,base+1,base+2,base,base+2,base+3] } }
-        var d=MeshDescriptor(name:"batched structure"); d.positions = .init(positions); d.normals = .init(normals); d.primitives = .triangles(indices)
-        if let mesh=try? MeshResource.generate(from:[d]) { parent.addChild(ModelEntity(mesh:mesh,materials:[mat])) }
+        let key=MeshKey.mergedBoxes(boxes.flatMap { [$0.0,$0.1] })
+        let mesh=try? cachedMesh(key) {
+            var positions: [V3]=[], normals:[V3]=[], indices:[UInt32]=[]
+            let faces: [(V3,[V3])] = [([0,0,1],[[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]]),([0,0,-1],[[1,-1,-1],[-1,-1,-1],[-1,1,-1],[1,1,-1]]),([1,0,0],[[1,-1,1],[1,-1,-1],[1,1,-1],[1,1,1]]),([-1,0,0],[[-1,-1,-1],[-1,-1,1],[-1,1,1],[-1,1,-1]]),([0,1,0],[[-1,1,1],[1,1,1],[1,1,-1],[-1,1,-1]]),([0,-1,0],[[-1,-1,-1],[1,-1,-1],[1,-1,1],[-1,-1,1]])]
+            for (size,center) in boxes { for (normal,vertices) in faces { let base=UInt32(positions.count); positions += vertices.map{ center+$0*size/2 }; normals += Array(repeating:normal,count:4); indices += [base,base+1,base+2,base,base+2,base+3] } }
+            var d=MeshDescriptor(name:"batched structure"); d.positions = .init(positions); d.normals = .init(normals); d.primitives = .triangles(indices)
+            return try MeshResource.generate(from:[d])
+        }
+        if let mesh { parent.addChild(ModelEntity(mesh:mesh,materials:[mat])) }
     }
     static func makeRacket(_ kind: RacketKind = .coral) -> Entity {
         let r=Entity(), head: V3=[0,0.37,0], frame=material(kind.frameColour,metal:0.65,rough:0.2), violet=material(kind.gripColour,metal:0.45,rough:0.28)
@@ -332,7 +422,12 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
         for i in 0..<11 {
             rod(r,[-0.009,-0.07+Float(i)*0.012,0.009],[0.009,-0.058+Float(i)*0.012,0.009],0.0007,material(.init(white:0.83,alpha:1),rough:0.8))
         }
-        let decal=panel(r,size:[0.013,0.048],corner:0.004,depth:0.001,at:[0,0.10,0.006],mat:material(.white))
+        let decalMaterial=material(.white)
+        let decalMesh=cachedMesh(.racketDecal) {
+            let source=panel(Entity(),size:[0.013,0.048],corner:0.004,depth:0.001,at:.zero,mat:decalMaterial)
+            return source.model?.mesh ?? .generateBox(size:[0.013,0.048,0.001])
+        }
+        let decal=ModelEntity(mesh:decalMesh,materials:[decalMaterial]);decal.position=[0,0.10,0.006];r.addChild(decal)
         decal.name="original club racket decal"
         return r
     }
@@ -474,36 +569,41 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
         }
     }
     static func leafBlade() -> MeshResource? {
-        var p:[V3]=[],n:[V3]=[],uv:[SIMD2<Float>]=[],indices:[UInt32]=[]
-        let rows=20, columns=6
-        for row in 0...rows { for col in 0...columns {
-            let t=Float(row)/Float(rows), u=Float(col)/Float(columns)*2-1, width=0.145*pow(max(0.001,sin(t * .pi)),0.75)
-            p.append([u*width,t*0.65,0.08*sin(t * .pi)-0.025*u*u]); n.append(simd_normalize(V3(u*0.3,-0.25*cos(t * .pi),1))); uv.append([(u+1)/2,t])
-            if row < rows && col < columns {
-                let k=UInt32(row*(columns+1)+col),s=UInt32(columns+1)
-                indices += [k,k+1,k+s,k+1,k+s+1,k+s,k,k+s,k+1,k+1,k+s,k+s+1]
-            }
-        } }
-        var d=MeshDescriptor(name:"curved leaf blade"); d.positions = .init(p); d.normals = .init(n); d.textureCoordinates = .init(uv); d.primitives = .triangles(indices)
-        return try? MeshResource.generate(from:[d])
+        try? cachedMesh(.leafBlade) {
+            var p:[V3]=[],n:[V3]=[],uv:[SIMD2<Float>]=[],indices:[UInt32]=[]
+            let rows=20, columns=6
+            for row in 0...rows { for col in 0...columns {
+                let t=Float(row)/Float(rows), u=Float(col)/Float(columns)*2-1, width=0.145*pow(max(0.001,sin(t * .pi)),0.75)
+                p.append([u*width,t*0.65,0.08*sin(t * .pi)-0.025*u*u]); n.append(simd_normalize(V3(u*0.3,-0.25*cos(t * .pi),1))); uv.append([(u+1)/2,t])
+                if row < rows && col < columns {
+                    let k=UInt32(row*(columns+1)+col),s=UInt32(columns+1)
+                    indices += [k,k+1,k+s,k+1,k+s+1,k+s,k,k+s,k+1,k+1,k+s,k+s+1]
+                }
+            } }
+            var d=MeshDescriptor(name:"curved leaf blade"); d.positions = .init(p); d.normals = .init(n); d.textureCoordinates = .init(uv); d.primitives = .triangles(indices)
+            return try MeshResource.generate(from:[d])
+        }
     }
     static func foliage(_ parent: Entity, seed: Int) {
-        var state=UInt64(seed+1)
-        func random() -> Float { state = state &* 6364136223846793005 &+ 1; return Float((state >> 32) % 100000)/100000 }
-        var positions:[V3]=[], normals:[V3]=[], indices:[UInt32]=[], faces:[UInt32]=[]
-        for _ in 0..<1150 {
-            let y=2.0+random()*4.7, a=random()*2*Float.pi, radius=sqrt(random())*(0.95+1.0*sin((y-2.0)/4.7 * .pi))
-            let center=V3(cos(a)*radius,y,sin(a)*radius)
-            let normal=simd_normalize(V3(random()-0.5,0.35+random(),random()-0.5))
-            let tangent=simd_normalize(simd_cross(normal,V3(0,0,1))), other=simd_cross(normal,tangent)
-            let length: Float=0.046+random()*0.056, width=length*0.52, index=UInt32(positions.count), color=UInt32(random()*4)
-            positions.append(center+normal*0.018); normals.append(normal)
-            for j in 0..<8 { let angle=Float(j) * .pi/4; positions.append(center+tangent*cos(angle)*length+other*sin(angle)*width); normals.append(normal) }
-            for j in 0..<8 { let first=index+UInt32(j)+1,next=index+UInt32((j+1)%8)+1; indices += [index,first,next,index,next,first]; faces += [color,color] }
+        let mesh=try? cachedMesh(.foliage(seed)) {
+            var state=UInt64(seed+1)
+            func random() -> Float { state = state &* 6364136223846793005 &+ 1; return Float((state >> 32) % 100000)/100000 }
+            var positions:[V3]=[], normals:[V3]=[], indices:[UInt32]=[], faces:[UInt32]=[]
+            for _ in 0..<1150 {
+                let y=2.0+random()*4.7, a=random()*2*Float.pi, radius=sqrt(random())*(0.95+1.0*sin((y-2.0)/4.7 * .pi))
+                let center=V3(cos(a)*radius,y,sin(a)*radius)
+                let normal=simd_normalize(V3(random()-0.5,0.35+random(),random()-0.5))
+                let tangent=simd_normalize(simd_cross(normal,V3(0,0,1))), other=simd_cross(normal,tangent)
+                let length: Float=0.046+random()*0.056, width=length*0.52, index=UInt32(positions.count), color=UInt32(random()*4)
+                positions.append(center+normal*0.018); normals.append(normal)
+                for j in 0..<8 { let angle=Float(j) * .pi/4; positions.append(center+tangent*cos(angle)*length+other*sin(angle)*width); normals.append(normal) }
+                for j in 0..<8 { let first=index+UInt32(j)+1,next=index+UInt32((j+1)%8)+1; indices += [index,first,next,index,next,first]; faces += [color,color] }
+            }
+            var d=MeshDescriptor(name:"individual garden leaves"); d.positions = .init(positions); d.normals = .init(normals); d.primitives = .triangles(indices); d.materials = .perFace(faces)
+            return try MeshResource.generate(from:[d])
         }
-        var d=MeshDescriptor(name:"individual garden leaves"); d.positions = .init(positions); d.normals = .init(normals); d.primitives = .triangles(indices); d.materials = .perFace(faces)
         let mats: [any Material]=(0..<4).map{ material(UIColor(red:0.26+CGFloat($0)*0.05,green:0.49+CGFloat($0)*0.055,blue:0.14+CGFloat($0)*0.025,alpha:1),rough:0.85) }
-        if let mesh=try? MeshResource.generate(from:[d]) { let leaves=ModelEntity(mesh:mesh,materials:mats); leaves.name="garden leaves";parent.addChild(leaves) }
+        if let mesh { let leaves=ModelEntity(mesh:mesh,materials:mats); leaves.name="garden leaves";parent.addChild(leaves) }
     }
     static func shuttleLogo(_ r: Entity) {
         sphere(r,0.25,[0,-0.45,0],glow(.white),scale:[1,1,0.08])
@@ -523,22 +623,25 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
 
         // Explicit inward triangles keep the entire outdoor background visible
         // from inside. It sits beyond the club and cannot obstruct play.
-        let rows=32,columns=64,radius:Float=40
-        var positions:[V3]=[],normals:[V3]=[],uv:[SIMD2<Float>]=[],indices:[UInt32]=[]
-        for row in 0...rows { for column in 0...columns {
-            let v=Float(row)/Float(rows),u=Float(column)/Float(columns)
-            let latitude=v * .pi,longitude=u * .pi * 2
-            let normal=V3(sin(latitude)*cos(longitude),cos(latitude),sin(latitude)*sin(longitude))
-            positions.append(normal*radius);normals.append(-normal);uv.append([u,v])
-            if row < rows && column < columns {
-                let index=UInt32(row*(columns+1)+column),nextRow=UInt32(columns+1)
-                indices += [index,index+nextRow,index+1,index+1,index+nextRow,index+nextRow+1]
-            }
-        } }
-        var descriptor=MeshDescriptor(name:"continuous inward daylight sky")
-        descriptor.positions = .init(positions);descriptor.normals = .init(normals)
-        descriptor.textureCoordinates = .init(uv);descriptor.primitives = .triangles(indices)
-        if let mesh=try? MeshResource.generate(from:[descriptor]) {
+        let mesh=try? cachedMesh(.daylightSky) {
+            let rows=32,columns=64,radius:Float=40
+            var positions:[V3]=[],normals:[V3]=[],uv:[SIMD2<Float>]=[],indices:[UInt32]=[]
+            for row in 0...rows { for column in 0...columns {
+                let v=Float(row)/Float(rows),u=Float(column)/Float(columns)
+                let latitude=v * .pi,longitude=u * .pi * 2
+                let normal=V3(sin(latitude)*cos(longitude),cos(latitude),sin(latitude)*sin(longitude))
+                positions.append(normal*radius);normals.append(-normal);uv.append([u,v])
+                if row < rows && column < columns {
+                    let index=UInt32(row*(columns+1)+column),nextRow=UInt32(columns+1)
+                    indices += [index,index+nextRow,index+1,index+1,index+nextRow,index+nextRow+1]
+                }
+            } }
+            var descriptor=MeshDescriptor(name:"continuous inward daylight sky")
+            descriptor.positions = .init(positions);descriptor.normals = .init(normals)
+            descriptor.textureCoordinates = .init(uv);descriptor.primitives = .triangles(indices)
+            return try MeshResource.generate(from:[descriptor])
+        }
+        if let mesh {
             let surround=ModelEntity(mesh:mesh,materials:[sky]);surround.name="daylight sky surround"
             surround.position=[0,3,0];surround.components.set(DynamicLightShadowComponent(castsShadow:false));r.addChild(surround)
         }
@@ -570,7 +673,8 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
         r.addChild(fill)
         for x: Float in [-3.8,0,3.8] { for z: Float in [-10,-2] {
             rod(r,[x,5.5,z],[x,5.0,z],0.02,material(dark))
-            let lamp=ModelEntity(mesh:.generateCone(height:0.18,radius:0.16),materials:[material(dark,metal:0.4)]); lamp.position=[x,4.95,z]; r.addChild(lamp)
+            let lampMesh=cachedMesh(.cone(0.18,0.16)) { .generateCone(height:0.18,radius:0.16) }
+            let lamp=ModelEntity(mesh:lampMesh,materials:[material(dark,metal:0.4)]); lamp.position=[x,4.95,z]; r.addChild(lamp)
             sphere(r,0.13,[x,4.87,z],glow(.init(red:1,green:0.92,blue:0.72,alpha:1)),scale:[1,0.2,1])
         } }
     }

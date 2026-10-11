@@ -1,0 +1,118 @@
+{
+  "Rally-Output.txt": {
+    "scope": "Full process output; capture and process intervals are not exactly identical.",
+    "player_contacts": 4,
+    "milo_contacts": 1,
+    "maximum_gap_metres": 0.040002265966797367,
+    "within_cork_radius_plus_6_micrometres": true,
+    "events": [
+      {
+        "side": "player",
+        "cork": [
+          0.3466284,
+          1.6264242,
+          -0.25688422
+        ],
+        "strings": [
+          0.3466284,
+          1.6038383,
+          -0.22387046
+        ],
+        "gap_metres": 0.0400003903499403,
+        "fraction": 0.18466318
+      },
+      {
+        "side": "milo",
+        "cork": [
+          0.42660192,
+          0.9353169,
+          -6.1547236
+        ],
+        "strings": [
+          0.42763454,
+          0.9021032,
+          -6.1769905
+        ],
+        "gap_metres": 0.04000038759017717,
+        "fraction": 0.6310451
+      },
+      {
+        "side": "player",
+        "cork": [
+          3.1107804e-05,
+          1.5911549,
+          -0.2479586
+        ],
+        "strings": [
+          3.1107862e-05,
+          1.568569,
+          -0.21494476
+        ],
+        "gap_metres": 0.04000045637684146,
+        "fraction": 0.67756855
+      },
+      {
+        "side": "player",
+        "cork": [
+          -0.0895641,
+          1.6263975,
+          -0.2565826
+        ],
+        "strings": [
+          -0.0895641,
+          1.6038105,
+          -0.22356732
+        ],
+        "gap_metres": 0.040002265966797367,
+        "fraction": 0.68019134
+      },
+      {
+        "side": "player",
+        "cork": [
+          -0.32395968,
+          1.6265482,
+          -0.25648218
+        ],
+        "strings": [
+          -0.32395968,
+          1.6039612,
+          -0.223467
+        ],
+        "gap_metres": 0.040002183433312695,
+        "fraction": 0.6807754
+      }
+    ]
+  },
+  "Miss-Output.txt": {
+    "scope": "Full process output; capture and process intervals are not exactly identical.",
+    "player_contacts": 0,
+    "milo_contacts": 0,
+    "maximum_gap_metres": null,
+    "within_cork_radius_plus_6_micrometres": null,
+    "events": []
+  },
+  "Contact-Output.txt": {
+    "scope": "Full process output; capture and process intervals are not exactly identical.",
+    "player_contacts": 1,
+    "milo_contacts": 0,
+    "maximum_gap_metres": 0.04000044681422446,
+    "within_cork_radius_plus_6_micrometres": true,
+    "events": [
+      {
+        "side": "player",
+        "cork": [
+          0.34662563,
+          1.6263617,
+          -0.2569208
+        ],
+        "strings": [
+          0.34662563,
+          1.6037757,
+          -0.22390704
+        ],
+        "gap_metres": 0.04000044681422446,
+        "fraction": 0.18454796
+      }
+    ]
+  }
+}

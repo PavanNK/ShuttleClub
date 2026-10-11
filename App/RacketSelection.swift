@@ -181,22 +181,26 @@ private extension RacketKind {
     var kind: RacketKind?
     var reducedMotion = false
     var highlighted = false
+    private var frameUpdates: FrameUpdateGate?
+    private var studioLightInstalled = false
     private var clock: Float = 0
 
     func attach(_ content: RealityViewContent, kind: RacketKind, reducedMotion: Bool, highlighted: Bool) {
-        root.addChild(model)
+        stop()
+        if model.parent !== root { root.addChild(model) }
         root.position = [0, -0.067, 0]
         root.scale = [0.27, 0.27, 0.27]
         content.add(root)
-        ClubScene.studioLight(root)
+        if !studioLightInstalled { ClubScene.studioLight(root); studioLightInstalled = true }
         configure(kind: kind, reducedMotion: reducedMotion, highlighted: highlighted)
-        subscription = content.subscribe(to: SceneEvents.Update.self) { [weak self] event in
-            let delta = Float(event.deltaTime)
-            Task { @MainActor [weak self] in
-                guard let self else { return }
-                clock += min(0.05, max(0, delta))
-                pose()
-            }
+        let updates = FrameUpdateGate(onFrame: { [weak self] delta in
+            guard let self else { return }
+            clock += Float(delta)
+            pose()
+        })
+        frameUpdates = updates
+        subscription = content.subscribe(to: SceneEvents.Update.self) { event in
+            updates.submit(delta: event.deltaTime)
         }
     }
     func configure(kind: RacketKind, reducedMotion: Bool, highlighted: Bool) {
@@ -213,7 +217,10 @@ private extension RacketKind {
         let yaw: Float = reducedMotion ? 0.18 : 0.18 + sin(clock * 0.7) * (highlighted ? 0.19 : 0.10)
         root.orientation = simd_quatf(angle: -0.22, axis: [0, 0, 1]) * simd_quatf(angle: yaw, axis: [0, 1, 0])
     }
-    func stop() { subscription?.cancel(); subscription = nil }
+    func stop() {
+        subscription?.cancel(); subscription = nil
+        frameUpdates?.cancel(); frameUpdates = nil
+    }
 }
 
 struct RacketPreview: View {
