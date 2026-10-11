@@ -1,0 +1,649 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0BD03174DAD3636361C8D2DC /* ShuttleCore in Frameworks */ = {isa = PBXBuildFile; productRef = CE5A420336B4F836BE2B5BBE /* ShuttleCore */; };
+		180A0A50A3599F5AB75646FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD12B10376EE0F970038C06C /* Assets.xcassets */; };
+		18A930C315198C33D2F9ABC2 /* HandGripFit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F7A851D46B933F53B10981 /* HandGripFit.swift */; };
+		290AFC5A988FB48B111C494E /* GameLoopTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF0F42E1D94A8F11C042305 /* GameLoopTests.swift */; };
+		2A41159160E06C7F47C02FC6 /* HandGripTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5956EE97D9FD0DC323C410 /* HandGripTrackerTests.swift */; };
+		2C1BFFCF7010A6DC5EFEF9E4 /* SenseGripFitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AFB5FBA78D6B7A957C7CE2 /* SenseGripFitTests.swift */; };
+		2F294A7966FD6CA7364AB937 /* ControllerGripCalibrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74179E510A3A36B1E5C8AD63 /* ControllerGripCalibrationTests.swift */; };
+		3508A299513596923389AFB4 /* ClubLoop.wav in Resources */ = {isa = PBXBuildFile; fileRef = EE24A3ED4C0E2942BECD605A /* ClubLoop.wav */; };
+		3A0410C6299940AD46DB9C9D /* ClubHeroMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BD0DFDFBAC3BF07CFB175F /* ClubHeroMenu.swift */; };
+		41D15DC271B89C39C9C4D5F2 /* Menu.wav in Resources */ = {isa = PBXBuildFile; fileRef = 573C262EAD63576C2834462F /* Menu.wav */; };
+		47E495215EBCEFF19AC5EFF9 /* RallyEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB2583F9DBC4BC5B416DBFA /* RallyEvents.swift */; };
+		4C1ABE1E707CA4DAAF87F70D /* ServePinchGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48649F476897649EE55B754 /* ServePinchGesture.swift */; };
+		4F4EAB2961335DD6752688E0 /* ClubLobby.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09B71113EF0B97E8608A267 /* ClubLobby.swift */; };
+		51165FB048073BFB9E5A1D58 /* MiloAnimationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467DCF528DF025CDA570C382 /* MiloAnimationTests.swift */; };
+		519902836696DE4BC4748E15 /* SenseRacketMountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14A5EA9A4AF31929D8F19E3 /* SenseRacketMountTests.swift */; };
+		5AF70EC0BEA9C1DE3AC8BF0B /* Hit1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 18A7E1BAAE9A0D7388BB97C1 /* Hit1.wav */; };
+		5C1149D35ABF52368E4DE042 /* ClubDesignReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AF673B35765993EA264F3B /* ClubDesignReview.swift */; };
+		5EED59EB9F5B9A886D679D10 /* Target.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8EBD77FD96D17D4DBFFD78A3 /* Target.wav */; };
+		6419C7BA8C8EE4E3D97D9438 /* ShuttleClubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED698FA4A9CD64048D2919B /* ShuttleClubApp.swift */; };
+		734A54147263C664A8035170 /* Serve.wav in Resources */ = {isa = PBXBuildFile; fileRef = 664CAA00D01F3AA73D9C4AE6 /* Serve.wav */; };
+		759C1837782510CB8B74CC13 /* AudioLicense.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8CB1251ED87829A29C4F7D0B /* AudioLicense.txt */; };
+		77A14BC05726D9B9D247669A /* MiloDesignOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2088226A17F3A4494A74A5CA /* MiloDesignOptions.swift */; };
+		7966CC6F2FFE51212900C654 /* ServePinchGestureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D171BF17BA2F9F437BE0768 /* ServePinchGestureTests.swift */; };
+		796B6ADA6C8DE08DA582C9B5 /* ClubUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0058F84874AA85DD42715D9 /* ClubUI.swift */; };
+		869A4FF135240A674A047D63 /* ArtGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B6C9425A33D1ED4E599C20 /* ArtGeometry.swift */; };
+		8DAE98E33C66C58C85410535 /* AudioManifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C7385D46603787AD05E0841 /* AudioManifest.json */; };
+		8DBF9D22FFB5AEBE59B3A7FF /* HandRacketPose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69666D12DC505F31B70D357F /* HandRacketPose.swift */; };
+		98E111260D61104C1114E086 /* HandGripFitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58832FD96AE8944EF8ADFA35 /* HandGripFitTests.swift */; };
+		9E3A063FE9AFEB52F8252C02 /* Hit2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 971FC44AC190847D4BDD61FD /* Hit2.wav */; };
+		A879607DC508007556BF79E9 /* ClubMenuOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA27E3020C8AF4F45E229A8 /* ClubMenuOptions.swift */; };
+		B15AE65FFA98157DFB4A08D9 /* VisualReference.png in Resources */ = {isa = PBXBuildFile; fileRef = F880A1A054F0DF046A22EFA2 /* VisualReference.png */; };
+		B5AFF21CFAD9F16D80223AAD /* HandGripGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA48287118458E36C82D046 /* HandGripGesture.swift */; };
+		B851895B136C8CF2768D1A6C /* RacketSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8495A2FA5E98FBD804F6EDF0 /* RacketSelection.swift */; };
+		C151574627118643FBEF7FE1 /* Select.wav in Resources */ = {isa = PBXBuildFile; fileRef = 30148B15AC00AC09CBD3C74F /* Select.wav */; };
+		C590F338754AF021A4385837 /* SenseControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4925A3FB557F8AD49C601FDF /* SenseControllers.swift */; };
+		C84FB1B31E85CA3307EBC07D /* SenseGripFit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368B042FC61CA1850BD8942E /* SenseGripFit.swift */; };
+		CD2C84F4ADB465367848F74C /* Pause.wav in Resources */ = {isa = PBXBuildFile; fileRef = FC3549546EF38B2F6545F8B8 /* Pause.wav */; };
+		CDEFA9126F4D149433F3534A /* Net.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0E47167F5A0B2DC43A2A544A /* Net.wav */; };
+		CF486B26F5700D476185A11E /* SoundBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC229DA6CA11A0420A7045B7 /* SoundBank.swift */; };
+		D53F534BD96AE1D6B62F8F77 /* Step.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0BA8CB5941CBA4FB0BE475B1 /* Step.wav */; };
+		D804D2E094467A7C74EF710D /* Win.wav in Resources */ = {isa = PBXBuildFile; fileRef = 711A7B0695BDCC57E3799D2B /* Win.wav */; };
+		DC7AE1CBF13DA8AC5A8FB5E1 /* SenseGripSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7C6E56786BB548ABEE2E92 /* SenseGripSetup.swift */; };
+		DD0DF0C377CF5E3ADAB38010 /* CourtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAB16ED6403D422F7080BBD /* CourtView.swift */; };
+		E56E3337ADA568FC020E650D /* ClubScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ADD05699876B1B3F099A0C /* ClubScene.swift */; };
+		EB37A0EFAB3D053EDABAB2EF /* HandGripInteractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E380B580FF933841151EDEA4 /* HandGripInteractionTests.swift */; };
+		EC68B2C8304BF088E5A2D889 /* RallyEventsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6858D7F7E8EBE77C8976772 /* RallyEventsTests.swift */; };
+		ECA69D64CA464E9EF671B9E9 /* Miss.wav in Resources */ = {isa = PBXBuildFile; fileRef = E287E2F8BEE8ADB9C934D836 /* Miss.wav */; };
+		EF209F0A9B1C9BA20C53CCCC /* HandGripGestureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683C8CAACF03DF9498834516 /* HandGripGestureTests.swift */; };
+		F73D514E0F4B58C65F7629C2 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2FA01D63E77754DD4F6FF4 /* GameModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B90BB5ED52E22E2AC2746E8F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2F0523FB6BEF79E07BF0EB96 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2DD17B0A37BFE3AEFB7EE169;
+			remoteInfo = ShuttleClub;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0BA8CB5941CBA4FB0BE475B1 /* Step.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Step.wav; sourceTree = "<group>"; };
+		0E47167F5A0B2DC43A2A544A /* Net.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Net.wav; sourceTree = "<group>"; };
+		15BD0DFDFBAC3BF07CFB175F /* ClubHeroMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubHeroMenu.swift; sourceTree = "<group>"; };
+		18A7E1BAAE9A0D7388BB97C1 /* Hit1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Hit1.wav; sourceTree = "<group>"; };
+		2088226A17F3A4494A74A5CA /* MiloDesignOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiloDesignOptions.swift; sourceTree = "<group>"; };
+		21F7A851D46B933F53B10981 /* HandGripFit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandGripFit.swift; sourceTree = "<group>"; };
+		30148B15AC00AC09CBD3C74F /* Select.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Select.wav; sourceTree = "<group>"; };
+		368B042FC61CA1850BD8942E /* SenseGripFit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseGripFit.swift; sourceTree = "<group>"; };
+		42AF673B35765993EA264F3B /* ClubDesignReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubDesignReview.swift; sourceTree = "<group>"; };
+		467DCF528DF025CDA570C382 /* MiloAnimationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiloAnimationTests.swift; sourceTree = "<group>"; };
+		4925A3FB557F8AD49C601FDF /* SenseControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseControllers.swift; sourceTree = "<group>"; };
+		573C262EAD63576C2834462F /* Menu.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Menu.wav; sourceTree = "<group>"; };
+		58832FD96AE8944EF8ADFA35 /* HandGripFitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandGripFitTests.swift; sourceTree = "<group>"; };
+		5C7385D46603787AD05E0841 /* AudioManifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AudioManifest.json; sourceTree = "<group>"; };
+		5C7C6E56786BB548ABEE2E92 /* SenseGripSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseGripSetup.swift; sourceTree = "<group>"; };
+		5D171BF17BA2F9F437BE0768 /* ServePinchGestureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServePinchGestureTests.swift; sourceTree = "<group>"; };
+		5DB2583F9DBC4BC5B416DBFA /* RallyEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RallyEvents.swift; sourceTree = "<group>"; };
+		6561A36D93BAC8700C52D835 /* ShuttleClub.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ShuttleClub.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		664CAA00D01F3AA73D9C4AE6 /* Serve.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Serve.wav; sourceTree = "<group>"; };
+		683C8CAACF03DF9498834516 /* HandGripGestureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandGripGestureTests.swift; sourceTree = "<group>"; };
+		69666D12DC505F31B70D357F /* HandRacketPose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandRacketPose.swift; sourceTree = "<group>"; };
+		6C6285D3F66F11E8D71207A6 /* Core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Core; path = Core; sourceTree = SOURCE_ROOT; };
+		711A7B0695BDCC57E3799D2B /* Win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Win.wav; sourceTree = "<group>"; };
+		74179E510A3A36B1E5C8AD63 /* ControllerGripCalibrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerGripCalibrationTests.swift; sourceTree = "<group>"; };
+		78B6C9425A33D1ED4E599C20 /* ArtGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtGeometry.swift; sourceTree = "<group>"; };
+		7E2FA01D63E77754DD4F6FF4 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
+		7EA48287118458E36C82D046 /* HandGripGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandGripGesture.swift; sourceTree = "<group>"; };
+		81ADD05699876B1B3F099A0C /* ClubScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubScene.swift; sourceTree = "<group>"; };
+		8495A2FA5E98FBD804F6EDF0 /* RacketSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacketSelection.swift; sourceTree = "<group>"; };
+		8CB1251ED87829A29C4F7D0B /* AudioLicense.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = AudioLicense.txt; sourceTree = "<group>"; };
+		8EBD77FD96D17D4DBFFD78A3 /* Target.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Target.wav; sourceTree = "<group>"; };
+		8F5956EE97D9FD0DC323C410 /* HandGripTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandGripTrackerTests.swift; sourceTree = "<group>"; };
+		971FC44AC190847D4BDD61FD /* Hit2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Hit2.wav; sourceTree = "<group>"; };
+		9773E502591F0AF0A7C7FBC0 /* ShuttleClubTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ShuttleClubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FF0F42E1D94A8F11C042305 /* GameLoopTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLoopTests.swift; sourceTree = "<group>"; };
+		A14A5EA9A4AF31929D8F19E3 /* SenseRacketMountTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseRacketMountTests.swift; sourceTree = "<group>"; };
+		A3AFB5FBA78D6B7A957C7CE2 /* SenseGripFitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseGripFitTests.swift; sourceTree = "<group>"; };
+		A6858D7F7E8EBE77C8976772 /* RallyEventsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RallyEventsTests.swift; sourceTree = "<group>"; };
+		A9EFEBE02AF66AF6831CA4FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		ABA27E3020C8AF4F45E229A8 /* ClubMenuOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubMenuOptions.swift; sourceTree = "<group>"; };
+		ABAB16ED6403D422F7080BBD /* CourtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourtView.swift; sourceTree = "<group>"; };
+		B48649F476897649EE55B754 /* ServePinchGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServePinchGesture.swift; sourceTree = "<group>"; };
+		C0058F84874AA85DD42715D9 /* ClubUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubUI.swift; sourceTree = "<group>"; };
+		C09B71113EF0B97E8608A267 /* ClubLobby.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubLobby.swift; sourceTree = "<group>"; };
+		CC229DA6CA11A0420A7045B7 /* SoundBank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundBank.swift; sourceTree = "<group>"; };
+		CD12B10376EE0F970038C06C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DED698FA4A9CD64048D2919B /* ShuttleClubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleClubApp.swift; sourceTree = "<group>"; };
+		E287E2F8BEE8ADB9C934D836 /* Miss.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Miss.wav; sourceTree = "<group>"; };
+		E380B580FF933841151EDEA4 /* HandGripInteractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandGripInteractionTests.swift; sourceTree = "<group>"; };
+		EE24A3ED4C0E2942BECD605A /* ClubLoop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ClubLoop.wav; sourceTree = "<group>"; };
+		F880A1A054F0DF046A22EFA2 /* VisualReference.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VisualReference.png; sourceTree = "<group>"; };
+		FC3549546EF38B2F6545F8B8 /* Pause.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Pause.wav; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		952069361AFA5FF5D8EBF6F0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BD03174DAD3636361C8D2DC /* ShuttleCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1763E3C3CE3A077C55F92A31 = {
+			isa = PBXGroup;
+			children = (
+				8B9B1B46CB5B229D139FAF49 /* App */,
+				5A5D53923E12F08063FD4A04 /* Packages */,
+				559DB27B61BA442E8EF420D2 /* Resources */,
+				717D598D28C85491BACAED4C /* Tests */,
+				A1B175B97D7F4B4F01D8879D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		559DB27B61BA442E8EF420D2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CD12B10376EE0F970038C06C /* Assets.xcassets */,
+				F880A1A054F0DF046A22EFA2 /* VisualReference.png */,
+				818CC5628F14229EAD646134 /* Audio */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5A5D53923E12F08063FD4A04 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				6C6285D3F66F11E8D71207A6 /* Core */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		717D598D28C85491BACAED4C /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				74179E510A3A36B1E5C8AD63 /* ControllerGripCalibrationTests.swift */,
+				9FF0F42E1D94A8F11C042305 /* GameLoopTests.swift */,
+				58832FD96AE8944EF8ADFA35 /* HandGripFitTests.swift */,
+				683C8CAACF03DF9498834516 /* HandGripGestureTests.swift */,
+				E380B580FF933841151EDEA4 /* HandGripInteractionTests.swift */,
+				8F5956EE97D9FD0DC323C410 /* HandGripTrackerTests.swift */,
+				467DCF528DF025CDA570C382 /* MiloAnimationTests.swift */,
+				A6858D7F7E8EBE77C8976772 /* RallyEventsTests.swift */,
+				A3AFB5FBA78D6B7A957C7CE2 /* SenseGripFitTests.swift */,
+				A14A5EA9A4AF31929D8F19E3 /* SenseRacketMountTests.swift */,
+				5D171BF17BA2F9F437BE0768 /* ServePinchGestureTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		818CC5628F14229EAD646134 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				8CB1251ED87829A29C4F7D0B /* AudioLicense.txt */,
+				5C7385D46603787AD05E0841 /* AudioManifest.json */,
+				EE24A3ED4C0E2942BECD605A /* ClubLoop.wav */,
+				18A7E1BAAE9A0D7388BB97C1 /* Hit1.wav */,
+				971FC44AC190847D4BDD61FD /* Hit2.wav */,
+				573C262EAD63576C2834462F /* Menu.wav */,
+				E287E2F8BEE8ADB9C934D836 /* Miss.wav */,
+				0E47167F5A0B2DC43A2A544A /* Net.wav */,
+				FC3549546EF38B2F6545F8B8 /* Pause.wav */,
+				30148B15AC00AC09CBD3C74F /* Select.wav */,
+				664CAA00D01F3AA73D9C4AE6 /* Serve.wav */,
+				0BA8CB5941CBA4FB0BE475B1 /* Step.wav */,
+				8EBD77FD96D17D4DBFFD78A3 /* Target.wav */,
+				711A7B0695BDCC57E3799D2B /* Win.wav */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		8B9B1B46CB5B229D139FAF49 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				78B6C9425A33D1ED4E599C20 /* ArtGeometry.swift */,
+				42AF673B35765993EA264F3B /* ClubDesignReview.swift */,
+				15BD0DFDFBAC3BF07CFB175F /* ClubHeroMenu.swift */,
+				C09B71113EF0B97E8608A267 /* ClubLobby.swift */,
+				ABA27E3020C8AF4F45E229A8 /* ClubMenuOptions.swift */,
+				81ADD05699876B1B3F099A0C /* ClubScene.swift */,
+				C0058F84874AA85DD42715D9 /* ClubUI.swift */,
+				ABAB16ED6403D422F7080BBD /* CourtView.swift */,
+				7E2FA01D63E77754DD4F6FF4 /* GameModel.swift */,
+				21F7A851D46B933F53B10981 /* HandGripFit.swift */,
+				7EA48287118458E36C82D046 /* HandGripGesture.swift */,
+				69666D12DC505F31B70D357F /* HandRacketPose.swift */,
+				A9EFEBE02AF66AF6831CA4FF /* Info.plist */,
+				2088226A17F3A4494A74A5CA /* MiloDesignOptions.swift */,
+				8495A2FA5E98FBD804F6EDF0 /* RacketSelection.swift */,
+				5DB2583F9DBC4BC5B416DBFA /* RallyEvents.swift */,
+				4925A3FB557F8AD49C601FDF /* SenseControllers.swift */,
+				368B042FC61CA1850BD8942E /* SenseGripFit.swift */,
+				5C7C6E56786BB548ABEE2E92 /* SenseGripSetup.swift */,
+				B48649F476897649EE55B754 /* ServePinchGesture.swift */,
+				DED698FA4A9CD64048D2919B /* ShuttleClubApp.swift */,
+				CC229DA6CA11A0420A7045B7 /* SoundBank.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A1B175B97D7F4B4F01D8879D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6561A36D93BAC8700C52D835 /* ShuttleClub.app */,
+				9773E502591F0AF0A7C7FBC0 /* ShuttleClubTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2DD17B0A37BFE3AEFB7EE169 /* ShuttleClub */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3ED165C21FE97A43C8D57C94 /* Build configuration list for PBXNativeTarget "ShuttleClub" */;
+			buildPhases = (
+				F218A881B4926A1BC63815FC /* Sources */,
+				DDB4FACC7BE1CBD47A35FA8A /* Resources */,
+				952069361AFA5FF5D8EBF6F0 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShuttleClub;
+			packageProductDependencies = (
+				CE5A420336B4F836BE2B5BBE /* ShuttleCore */,
+			);
+			productName = ShuttleClub;
+			productReference = 6561A36D93BAC8700C52D835 /* ShuttleClub.app */;
+			productType = "com.apple.product-type.application";
+		};
+		58995975597FC4E64617EB8E /* ShuttleClubTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 589530BCCBADD91B75DC1544 /* Build configuration list for PBXNativeTarget "ShuttleClubTests" */;
+			buildPhases = (
+				AA24224409A9408658B28EC6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8E22D1C4FC225081D22BA73B /* PBXTargetDependency */,
+			);
+			name = ShuttleClubTests;
+			packageProductDependencies = (
+			);
+			productName = ShuttleClubTests;
+			productReference = 9773E502591F0AF0A7C7FBC0 /* ShuttleClubTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2F0523FB6BEF79E07BF0EB96 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					2DD17B0A37BFE3AEFB7EE169 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					58995975597FC4E64617EB8E = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 455E6E3238A6091D8DF992C2 /* Build configuration list for PBXProject "ShuttleClub" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 1763E3C3CE3A077C55F92A31;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CDA3F98E7E4949C3317BE4DE /* XCLocalSwiftPackageReference "Core" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A1B175B97D7F4B4F01D8879D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2DD17B0A37BFE3AEFB7EE169 /* ShuttleClub */,
+				58995975597FC4E64617EB8E /* ShuttleClubTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DDB4FACC7BE1CBD47A35FA8A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				180A0A50A3599F5AB75646FE /* Assets.xcassets in Resources */,
+				759C1837782510CB8B74CC13 /* AudioLicense.txt in Resources */,
+				8DAE98E33C66C58C85410535 /* AudioManifest.json in Resources */,
+				3508A299513596923389AFB4 /* ClubLoop.wav in Resources */,
+				5AF70EC0BEA9C1DE3AC8BF0B /* Hit1.wav in Resources */,
+				9E3A063FE9AFEB52F8252C02 /* Hit2.wav in Resources */,
+				41D15DC271B89C39C9C4D5F2 /* Menu.wav in Resources */,
+				ECA69D64CA464E9EF671B9E9 /* Miss.wav in Resources */,
+				CDEFA9126F4D149433F3534A /* Net.wav in Resources */,
+				CD2C84F4ADB465367848F74C /* Pause.wav in Resources */,
+				C151574627118643FBEF7FE1 /* Select.wav in Resources */,
+				734A54147263C664A8035170 /* Serve.wav in Resources */,
+				D53F534BD96AE1D6B62F8F77 /* Step.wav in Resources */,
+				5EED59EB9F5B9A886D679D10 /* Target.wav in Resources */,
+				B15AE65FFA98157DFB4A08D9 /* VisualReference.png in Resources */,
+				D804D2E094467A7C74EF710D /* Win.wav in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA24224409A9408658B28EC6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2F294A7966FD6CA7364AB937 /* ControllerGripCalibrationTests.swift in Sources */,
+				290AFC5A988FB48B111C494E /* GameLoopTests.swift in Sources */,
+				98E111260D61104C1114E086 /* HandGripFitTests.swift in Sources */,
+				EF209F0A9B1C9BA20C53CCCC /* HandGripGestureTests.swift in Sources */,
+				EB37A0EFAB3D053EDABAB2EF /* HandGripInteractionTests.swift in Sources */,
+				2A41159160E06C7F47C02FC6 /* HandGripTrackerTests.swift in Sources */,
+				51165FB048073BFB9E5A1D58 /* MiloAnimationTests.swift in Sources */,
+				EC68B2C8304BF088E5A2D889 /* RallyEventsTests.swift in Sources */,
+				2C1BFFCF7010A6DC5EFEF9E4 /* SenseGripFitTests.swift in Sources */,
+				519902836696DE4BC4748E15 /* SenseRacketMountTests.swift in Sources */,
+				7966CC6F2FFE51212900C654 /* ServePinchGestureTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F218A881B4926A1BC63815FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				869A4FF135240A674A047D63 /* ArtGeometry.swift in Sources */,
+				5C1149D35ABF52368E4DE042 /* ClubDesignReview.swift in Sources */,
+				3A0410C6299940AD46DB9C9D /* ClubHeroMenu.swift in Sources */,
+				4F4EAB2961335DD6752688E0 /* ClubLobby.swift in Sources */,
+				A879607DC508007556BF79E9 /* ClubMenuOptions.swift in Sources */,
+				E56E3337ADA568FC020E650D /* ClubScene.swift in Sources */,
+				796B6ADA6C8DE08DA582C9B5 /* ClubUI.swift in Sources */,
+				DD0DF0C377CF5E3ADAB38010 /* CourtView.swift in Sources */,
+				F73D514E0F4B58C65F7629C2 /* GameModel.swift in Sources */,
+				18A930C315198C33D2F9ABC2 /* HandGripFit.swift in Sources */,
+				B5AFF21CFAD9F16D80223AAD /* HandGripGesture.swift in Sources */,
+				8DBF9D22FFB5AEBE59B3A7FF /* HandRacketPose.swift in Sources */,
+				77A14BC05726D9B9D247669A /* MiloDesignOptions.swift in Sources */,
+				B851895B136C8CF2768D1A6C /* RacketSelection.swift in Sources */,
+				47E495215EBCEFF19AC5EFF9 /* RallyEvents.swift in Sources */,
+				C590F338754AF021A4385837 /* SenseControllers.swift in Sources */,
+				C84FB1B31E85CA3307EBC07D /* SenseGripFit.swift in Sources */,
+				DC7AE1CBF13DA8AC5A8FB5E1 /* SenseGripSetup.swift in Sources */,
+				4C1ABE1E707CA4DAAF87F70D /* ServePinchGesture.swift in Sources */,
+				6419C7BA8C8EE4E3D97D9438 /* ShuttleClubApp.swift in Sources */,
+				CF486B26F5700D476185A11E /* SoundBank.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8E22D1C4FC225081D22BA73B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2DD17B0A37BFE3AEFB7EE169 /* ShuttleClub */;
+			targetProxy = B90BB5ED52E22E2AC2746E8F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1316EF03EBC3EE3EE25CDEE7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		2128F073EEA94829F275DACB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.shuttleclub.ShuttleClubTests;
+				SDKROOT = xros;
+				TARGETED_DEVICE_FAMILY = 7;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ShuttleClub.app/ShuttleClub";
+			};
+			name = Release;
+		};
+		6D056ECABDC43DBB22037FA4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				XROS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
+		74CBA0BBB8542D4922710AD8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.shuttleclub.vision;
+				SDKROOT = xros;
+				TARGETED_DEVICE_FAMILY = 7;
+			};
+			name = Debug;
+		};
+		9890C60A3E1B6679254D43AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.shuttleclub.ShuttleClubTests;
+				SDKROOT = xros;
+				TARGETED_DEVICE_FAMILY = 7;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ShuttleClub.app/ShuttleClub";
+			};
+			name = Debug;
+		};
+		DEDD0F58F53404A434F61477 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.shuttleclub.vision;
+				SDKROOT = xros;
+				TARGETED_DEVICE_FAMILY = 7;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3ED165C21FE97A43C8D57C94 /* Build configuration list for PBXNativeTarget "ShuttleClub" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				74CBA0BBB8542D4922710AD8 /* Debug */,
+				DEDD0F58F53404A434F61477 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		455E6E3238A6091D8DF992C2 /* Build configuration list for PBXProject "ShuttleClub" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1316EF03EBC3EE3EE25CDEE7 /* Debug */,
+				6D056ECABDC43DBB22037FA4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		589530BCCBADD91B75DC1544 /* Build configuration list for PBXNativeTarget "ShuttleClubTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9890C60A3E1B6679254D43AE /* Debug */,
+				2128F073EEA94829F275DACB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		CDA3F98E7E4949C3317BE4DE /* XCLocalSwiftPackageReference "Core" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Core;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CE5A420336B4F836BE2B5BBE /* ShuttleCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ShuttleCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 2F0523FB6BEF79E07BF0EB96 /* Project object */;
+}

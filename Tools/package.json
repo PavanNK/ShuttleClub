@@ -1,0 +1,10 @@
+{
+  "name": "shuttleclub-art-tools",
+  "private": true,
+  "scripts": {
+    "app-icon": "node make-app-icon.js"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

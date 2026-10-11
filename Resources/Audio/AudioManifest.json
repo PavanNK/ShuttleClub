@@ -1,0 +1,81 @@
+{
+  "source": "Original oscillator/noise synthesis",
+  "licence": "CC0-1.0",
+  "rate": 44100,
+  "bpm": 110,
+  "seed": 20261011,
+  "files": {
+    "ClubLoop": {
+      "seconds": 34.9091,
+      "channels": 2,
+      "peak": 0.86,
+      "rms_db": -14.53
+    },
+    "Hit1": {
+      "seconds": 0.14,
+      "channels": 1,
+      "peak": 0.86,
+      "rms_db": -19.36
+    },
+    "Hit2": {
+      "seconds": 0.14,
+      "channels": 1,
+      "peak": 0.86,
+      "rms_db": -21.01
+    },
+    "Net": {
+      "seconds": 0.28,
+      "channels": 1,
+      "peak": 0.86,
+      "rms_db": -18.3
+    },
+    "Serve": {
+      "seconds": 0.28,
+      "channels": 1,
+      "peak": 0.86,
+      "rms_db": -18.58
+    },
+    "Step": {
+      "seconds": 0.16,
+      "channels": 1,
+      "peak": 0.86,
+      "rms_db": -21.0
+    },
+    "Win": {
+      "seconds": 0.9,
+      "channels": 1,
+      "peak": 0.86,
+      "rms_db": -12.9
+    },
+    "Miss": {
+      "seconds": 0.5,
+      "channels": 1,
+      "peak": 0.86,
+      "rms_db": -11.22
+    },
+    "Target": {
+      "seconds": 0.65,
+      "channels": 1,
+      "peak": 0.86,
+      "rms_db": -14.15
+    },
+    "Menu": {
+      "seconds": 0.3,
+      "channels": 1,
+      "peak": 0.86,
+      "rms_db": -10.63
+    },
+    "Select": {
+      "seconds": 0.3,
+      "channels": 1,
+      "peak": 0.86,
+      "rms_db": -10.88
+    },
+    "Pause": {
+      "seconds": 0.3,
+      "channels": 1,
+      "peak": 0.86,
+      "rms_db": -10.59
+    }
+  }
+}

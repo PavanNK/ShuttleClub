@@ -1,2 +1,75 @@
-# ShuttleClub
-ShuttleClub
+# Shuttle Club for Apple Vision Pro
+
+A native SwiftUI / RealityKit badminton prototype based on the supplied colourful indoor-club image. All gameplay geometry, textures, character construction and sound cues are authored locally in code. No external asset-generation service was used for this build.
+
+**Status:** build 7 compiles, is signed and installed on the user's Vision Pro; an independent app query confirms version 1.0 (7). All **105 native simulator tests in 12 suites** passed in **12.931 seconds**. Hands now use open→close acquisition and a wrist-locked grip. Input/hand choices and separate hand/controller fits are saved. The approved native menus and layered icon from build 6 are included. Open Shuttle Club manually from the headset launcher; physical grip comfort, tracking, haptics, performance and headset audio still require validation. This is a development prototype with recreated visuals and provisional physics parameters.
+
+## Play on Vision Pro
+
+Requires visionOS 26 or later and Xcode 27 for this source project.
+
+1. Open `ShuttleClub.xcodeproj`. Choose the ShuttleClub scheme and your connected Vision Pro. Select your own development team for signing, then Run.
+2. The default **Minimal** home follows approved option B, with a wordmark above the court, one **Play with Milo** button and compact Racket, game-mode and gear controls. The gear opens simple home settings: choose **Playful** for approved option A, or open tracking / racket-hand / pace setup and sound / comfort. Your home style is saved locally. The game-mode control shows the selected Free play, Quick match or Target rush mode.
+3. Open **Racket** for the wide approved option C chooser. Three cards show actual 3D rackets against a dimmed colour background; the world behind it is not blurred. Tap a card to preview it, then **Choose** to save; Back cancels an unconfirmed preview. Coral and Mint remain visible, and **Also try Solar / Midnight** switches the third card. All four virtual presets remain available. The home displays the saved racket in the foreground without a pedestal; changes are allowed between rallies.
+4. Enter the court and allow the requested tracking permission. Stay in place and use small, controlled swings.
+5. For hands, **open your selected hand, then close it** to grab. The faint preview becomes solid when held. The racket locks to the wrist; relaxed fingers or temporarily missing fingertip data do not release it. **Open fully for about 0.3 seconds** to release. Release or wrist-tracking loss pauses an active rally; grab/recover, then choose Resume. **Align racket** fits an upright racket to a comfortable ready pose when idle or paused, and saves the angle separately for each hand. For Sense, open the court menu → **Racket & tracking** → **Adjust fit**. Hold the controller comfortably and choose **Align angle**, then adjust Position or Angle. Position follows the controller grip; Twist rotates around the shaft. Fits save separately for each controller; **Reset fit** restores the selected hand. **Recenter** aligns the court to your facing direction. Input mode and racket-hand selection survive relaunch.
+6. Keep the selected racket held and tracked for two ready seconds. Milo serves automatically, with a visible 0.65-second windup, and feeds the next rally after each point. Opening a panel, pausing, losing tracking or entering the background resets readiness; a completed match stops automatic serves. For an earlier serve, open the free hand and hold a deliberate pinch, or press the Sense trigger. Return the shuttle by swinging the tracked racket into it.
+7. Tracking loss pauses an active rally. Bring the hand/controller into view and choose Resume after tracking recovers. Pause, Restart and Leave remain session controls.
+
+For PS VR2 Sense, pair the left and right controllers individually in Vision Pro's Bluetooth settings before playing. The chosen racket hand selects the corresponding controller. Trigger requests an earlier serve; Menu toggles pause when no court panel is open. It cannot resume a rally behind an open panel. Leaving the court clears pause after stopping tracking and flight, restoring the configured lobby music level. Haptics are generated on racket contact when the controller exposes a haptic engine. Ordinary non-spatial gamepads are not treated as tracked rackets.
+
+Apple's implementation guidance: [Explore spatial accessory input on visionOS](https://developer.apple.com/videos/play/wwdc2025/289/).
+
+## Rackets and play
+
+The racket menu uses the actual locally constructed 3D models, including string beds and wrapped grips. Each card has a gently turning preview and a short handling description; reduced motion keeps the preview still. Browsing does not change the saved racket until Choose is pressed. Effective collision mass and rebound coefficients vary between virtual presets; the Midnight model also has a smaller string bed. These presets do not change the physical weight of a Sense controller.
+
+Tracked returns use measured racket contact, head velocity, face normal and distance from the string-bed centre. Hand-grip capture preserves the open-palm mount relative to a measured wrist. Native hand head velocity uses acquisition timestamps rather than the render interval; repeated anchors add no new swing speed. Preview rackets cannot hit or start a serve. Duplicate or reordered native hand packets cannot move a held racket, and tracking loss immediately disarms contact history. Controller angular motion contributes to head velocity. A moving, finite-mass string-bed collision sets the returned shuttle velocity; tracked player shots receive no automatic landing correction. The visible controller racket and collision both use the same measured pose. Sense grip and anchor conversion use ARKit's `.rendered` correction to align with the physical controller in passthrough. Saved per-hand position and quaternion / angle adjustments are applied before both pose conversion and angular lever-arm velocity. A fit change discards swing history and restarts readiness; its first fresh sample is a contact-disabled baseline. Stale, low-accuracy or implausible tracking is rejected.
+
+The shuttle uses gravity and quadratic air drag with bounded substeps. The drag coefficient, racket mass transfer, restitution, grip orientation and string-bed tolerances are provisional tuning estimates, not measured matches to a real racket or shuttle. A still image does not contain the motion data needed to establish such a match. There is no spin-resolved feather aerodynamics model.
+
+Milo starts serves at his visible strings with a numerically planned launch. Subsequent returns require swept cork-to-string contact with his actual visible racket and use the same moving-racket impact model as player returns. He approaches interception positions at bounded speeds, winds up a timed shoulder stroke, scoops low shots with the head below the grip, follows through and recovers to his ready position. His head watches the shuttle and his feet respond to movement. Unreachable shots miss. Speed, reaction and positioning error vary across Friendly, Club and Challenge. Quick match is first to seven, win by two. Target rush scores landing targets and streaks. Stationary play and quick matches are arcade adaptations rather than complete tournament badminton rules.
+
+## Original scene
+
+The immersive scene includes a turquoise court, white court lines, net and purple posts, procedural maple floor, coral / yellow / violet mural, tall windows, garden foliage, benches, plants, bag, ceiling beams and lights, a feathered shuttle, and an orange / ivory Milo robot with cyan face. A rear wall, closed entry and lockers enclose the room behind the player; continuous procedural daylight covers the outdoor view beyond the windows. Build 6 uses calmer court grain, removes baked architectural shadow bands from that texture, and uses a 17,000-intensity directional key with a 5,000-intensity soft fill. Scene lighting supplies the architectural shadows.
+
+`App/ClubScene.swift` builds the scene. `Resources/VisualReference.png` stores the supplied art reference. The court and racket previews are rendered 3D geometry; the approved menu compositions are implemented in SwiftUI with locally drawn glyphs. Reference and mockup PNGs are not used as scene backdrops.
+
+Current native menu captures are [Minimal home](Preview/ApprovedMenus/Home-Minimal.png), [Playful home](Preview/ApprovedMenus/Home-Playful.png), [racket selection](Preview/ApprovedMenus/Racket-Selection.png) and [home settings](Preview/ApprovedMenus/Home-Settings.png). Native visual inspection covered composition, text legibility, control sizing and the actual 3D racket models. The Minimal and Playful captures were refreshed from the final sources after the passing test run. [App icon](Preview/ApprovedMenus/App-Icon.png) previews the locally drawn racket / shuttle design. `Tools/make-app-icon.js` reproduces its three 1024×1024 layers in `Resources/Assets.xcassets/AppIcon.solidimagestack`; visionOS applies the circular mask and layer depth. Asset inspection confirmed all three vision / 2x layers and a SolidImageStack in the signed `Assets.car`, plus AppIcon metadata in `CFBundleIcons`. Launcher appearance still requires device verification.
+
+To regenerate the existing original icon layers, install the optional local art-tool dependency and Chromium: run `npm install`, `npx playwright install chromium`, and `npm run app-icon` from `Tools/`. The game itself uses the committed icon PNGs and does not require Node.js or Playwright.
+
+`Preview/SimpleMenu-Build4.png` is the historical build 4 / 5 menu, superseded by the approved build 6 layouts. The older `Preview/RacketMenu.png`, `Preview/SimulatorCourt.png` and `Preview/RacketContact.png` are also actual simulator captures. `Preview/RacketContact.mp4` records the running native simulator with artificial hand poses; it shows incoming flight and then freezes at contact. The contact capture pauses at the collision time with the cork touching the strings; its debug inspection scene is offset 0.8 m away from the simulator camera to keep the impact visible. This changes the inspection framing, not the relative contact positions.
+
+## Verification
+
+### Native visual options (11 October 2026)
+
+Three original robot models and earlier SwiftUI home-menu variants remain available as a separate design review. `App/MiloDesignOptions.swift` defines Sunny, Playful and Sport geometry with actual rackets inside modeled grips; `App/ClubMenuOptions.swift` defines their distinct menu layouts. Debug launch arguments `--design-review=sunny`, `--design-review=playful` and `--design-review=sport` open them inside the existing club. This preview uses static poses and does not run rallies; its menu callbacks are intentionally unconnected. These review rigs remain separate from the production rally rig. Build 6's production home instead implements the approved A / B compositions in `App/ClubHeroMenu.swift`, with option C in `App/RacketSelection.swift`.
+
+`Preview/DesignOptions/*-Native.png` are full native simulator screenshots of the final options. `Robot-Options.png` and `Menu-Options.png` arrange unaltered screenshot crops for comparison; `make_comparison.py` reproduces them. The simulator build succeeded after final material and contrast changes. The captures were inspected for menu clipping, text contrast, joined limbs, grip contact and floor placement. These visual previews do not validate robot animation or physical tracking, and no external asset-generation service was used.
+
+Run the core suite with `cd Core && swift test`. Sixteen tests cover drag targeting, normal and high-speed frame-rate consistency, net crossing, landing faults, win-by-two, swept contact, shot planning, opponent interception, impact energy, speed / angle / sweet-spot response, racket differences, invalid input rejection, tracking-quality rejection and controller button edges.
+
+Use Xcode's Test action on the ShuttleClub scheme. The final build 7 run passed **105 tests in 12 suites in 12.931 seconds**. New tests cover open→close grab, relaxed holding, sustained-open release, wrist-locked motion, finger occlusion, wrist loss/recovery between render frames, duplicate/reordered samples, acquisition-time velocity at different render rates, saved hand fits and input/hand preferences. Existing suites retain automatic feeds, actual string contacts, chronological contact/fault handling, paused fitting, menu protection, Milo movement/recovery, and returns on all difficulties at 30 / 60 / 90 Hz.
+
+The tests use artificial measured poses through the native interaction and collision path; they do not validate physical grip comfort, tracking accuracy or latency. The simulator emitted backlight-observer and audio-queue warnings during startup. Direct headset audio, UI and tracking still require device checks. Native approved-menu captures were inspected in build 6 and remain a rendering reference for the current menus.
+
+Test log: `/private/tmp/shuttle-grab-tests.log`. Result bundle: `/private/tmp/shuttle-vision-build/Logs/Test/Test-ShuttleClub-2026.10.11_22-21-18-+0800.xcresult`. Signed build log: `/private/tmp/shuttle-grab-device-build.log`.
+
+Simulator build:
+
+```sh
+xcodebuild -project ShuttleClub.xcodeproj -scheme ShuttleClub \
+  -destination 'generic/platform=visionOS Simulator' \
+  -derivedDataPath /tmp/shuttle-vision-build CODE_SIGNING_ALLOWED=NO build
+```
+
+For an unsigned headset compile, use `generic/platform=visionOS`. Signed build 7 succeeded and installed successfully. An independent app query confirms version 1.0 (7). Open the app manually; a running process and physical input interaction are not confirmed by installation. See `HeadsetInstall.md` for evidence.
+
+The simulator cannot provide genuine hand or Sense tracking. Debug-only `--preview-court --demo` supplies artificial hand poses for inspecting rendering and collision. The preview cannot return the shuttle without an actual string collision. It is labelled “Simulated hand poses · collision required,” is not a selectable play mode and is absent from release launches. Add `--pause-at-contact` to inspect the impact or `--demo-miss` to make the racket swing 0.8 m wide and miss. `--preview-rackets` opens the real racket chooser, `--preview-home-poster` opens Playful home, and `--preview-home-settings` / `--preview-home-mode` open those home panels for inspection. There is no direct automatic-return or manual swing helper.
+
+## Before release
+
+See `HardwareValidation.md`. Headset validation, measured physics calibration, further art refinement against the reference, performance optimisation, controller grip alignment and haptic tuning, audio validation, accessible settings, launcher-icon validation and production signing / packaging remain necessary. An exact visual or physics match has not been achieved or promised.

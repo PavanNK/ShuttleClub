@@ -1,0 +1,65 @@
+name: ShuttleClub
+options:
+  bundleIdPrefix: com.shuttleclub
+  deploymentTarget:
+    visionOS: "26.0"
+packages:
+  ShuttleCore:
+    path: Core
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+targets:
+  ShuttleClub:
+    type: application
+    platform: visionOS
+    sources:
+      - path: App
+      - path: Resources
+        buildPhase: resources
+    dependencies:
+      - package: ShuttleCore
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Shuttle Club
+        CFBundleVersion: "7"
+        CFBundleShortVersionString: "1.0"
+        NSHandsTrackingUsageDescription: Your hand moves the virtual badminton racket.
+        NSAccessoryTrackingUsageDescription: Your PS VR2 Sense controller moves the virtual badminton racket.
+        GCSupportsControllerUserInteraction: true
+        GCSupportedGameControllers:
+          - ProfileName: SpatialGamepad
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+          UIApplicationPreferredDefaultSceneSessionRole: UIWindowSceneSessionRoleApplication
+        UILaunchScreen: {}
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.shuttleclub.vision
+        TARGETED_DEVICE_FAMILY: 7
+        GENERATE_INFOPLIST_FILE: false
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+  ShuttleClubTests:
+    type: bundle.unit-test
+    platform: visionOS
+    sources:
+      - path: Tests
+    dependencies:
+      - target: ShuttleClub
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: true
+schemes:
+  ShuttleClub:
+    build:
+      targets:
+        ShuttleClub: all
+    run:
+      config: Debug
+    test:
+      targets:
+        - ShuttleClubTests

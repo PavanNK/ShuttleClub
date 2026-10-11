@@ -1,0 +1,18 @@
+Original Shuttle Club audio — CC0 1.0 Universal
+
+All WAV files in Resources/Audio were composed and synthesized for this project
+from oscillators, envelopes and seeded noise. No third-party recordings, samples,
+MIDI compositions or external generation services were used.
+
+To the extent copyright or related rights exist in these original audio files,
+they are dedicated to the public domain under CC0 1.0 Universal.
+No attribution is required. Copying, modification, distribution and commercial
+use are permitted under that dedication.
+
+Canonical dedication and legal code:
+https://creativecommons.org/publicdomain/zero/1.0/
+https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+This dedication applies only to the newly synthesized WAV files and composer
+script. It does not purport to relicense Apple frameworks, system symbols, or
+the user's reference image.
