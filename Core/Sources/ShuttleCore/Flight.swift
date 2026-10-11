@@ -128,7 +128,7 @@ public enum RacketContact {
         }
         return nil
     }
-    private static func nearestStringPoint(to centre:V3,radiusX:Float,radiusY:Float) -> V3 {
+    static func nearestStringPoint(to centre:V3,radiusX:Float,radiusY:Float) -> V3 {
         let x=abs(centre.x),y=abs(centre.y)
         if pow(x/radiusX,2)+pow(y/radiusY,2) <= 1 { return [centre.x,centre.y,0] }
         let rx2=radiusX*radiusX,ry2=radiusY*radiusY

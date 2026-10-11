@@ -179,6 +179,55 @@ struct HandGripGestureTests {
         }
     }
 
+    @Test func suspensionDisarmsAnOpenSequenceAndPartiallyCompletedGrab() {
+        var gesture = HandGripGesture()
+        var event = gesture.update(curl: 1.8, timestamp: 0, now: 0)
+        event = gesture.update(curl: 1.8, timestamp: 0.10, now: 0.10)
+        event = gesture.update(curl: 1.1, timestamp: 0.12, now: 0.12)
+        #expect(event == nil && !gesture.isHeld)
+        gesture.suspend()
+        for index in 0...10 {
+            let time = 0.14 + Double(index) * 0.02
+            event = gesture.update(curl: 1.1, timestamp: time, now: time)
+            #expect(event == nil && !gesture.isHeld)
+        }
+        let events = acquire(&gesture, at: 0.36)
+        #expect(events == [.grabbed] && gesture.isHeld)
+    }
+
+    @Test func suspensionRequiresANewFullOpenDwellBeforeArming() {
+        var gesture = HandGripGesture()
+        var event = gesture.update(curl: 1.8, timestamp: 1, now: 1)
+        event = gesture.update(curl: 1.8, timestamp: 1.08, now: 1.08)
+        gesture.suspend()
+        event = gesture.update(curl: 1.8, timestamp: 1.10, now: 1.10)
+        event = gesture.update(curl: 1.8, timestamp: 1.18, now: 1.18)
+        for index in 0...8 {
+            let time = 1.20 + Double(index) * 0.02
+            event = gesture.update(curl: 1.1, timestamp: time, now: time)
+            #expect(event == nil && !gesture.isHeld)
+        }
+        let events = acquire(&gesture, at: 1.38)
+        #expect(events == [.grabbed])
+    }
+
+    @Test func suspensionKeepsHoldingAndRestartsTheFullReleaseDwell() {
+        var gesture = HandGripGesture()
+        let acquired = acquire(&gesture)
+        #expect(acquired == [.grabbed])
+        var event = gesture.update(curl: 1.8, timestamp: 0.24, now: 0.24)
+        event = gesture.update(curl: 1.8, timestamp: 0.34, now: 0.34)
+        gesture.suspend()
+        #expect(gesture.isHeld)
+        for index in 0...14 {
+            let time = 0.36 + Double(index) * 0.02
+            event = gesture.update(curl: 1.8, timestamp: time, now: time)
+            #expect(event == nil && gesture.isHeld)
+        }
+        event = gesture.update(curl: 1.8, timestamp: 0.66, now: 0.66)
+        #expect(event == .released && !gesture.isHeld)
+    }
+
     @Test func medianCurlIsInvariantUnderHandSizeRigidMovementAndOneNoisyFinger() throws {
         let fingers: [(knuckle: V3, tip: V3)] = [
             ([0, 0.07, 0], [0, 0.14, 0]),

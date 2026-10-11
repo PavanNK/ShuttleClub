@@ -143,6 +143,7 @@ struct ClubLobby:View {
             if ProcessInfo.processInfo.arguments.contains("--preview-rackets") { game.showRackets=true }
             if ProcessInfo.processInfo.arguments.contains("--preview-home-settings") { homeSettings=true }
             if ProcessInfo.processInfo.arguments.contains("--preview-home-mode") { choosingMode=true }
+            if ProcessInfo.processInfo.arguments.contains("--preview-home-tracking") { setup=true }
             #endif
         }
         .onDisappear { scene.subscription?.cancel() }
@@ -199,7 +200,7 @@ struct ClubHomeSettings:View {
     private func settingsRow(_ title:String,_ detail:String,icon:String)->some View {
         HStack(spacing:16) {
             Image(systemName:icon).font(.system(size:24)).foregroundStyle(Color.clubViolet).frame(width:36)
-            VStack(alignment:.leading,spacing:5) { Text(title).font(.system(size:19,weight:.bold,design:.rounded));Text(detail).font(.system(size:13)).foregroundStyle(Color.clubInk.opacity(0.65)) }
+            VStack(alignment:.leading,spacing:5) { Text(title).font(.system(size:19,weight:.bold,design:.rounded));Text(detail).font(.system(size:15)).foregroundStyle(Color.clubInk.opacity(0.65)) }
             Spacer();Image(systemName:"chevron.right").font(.system(size:13,weight:.semibold))
         }.padding(19).foregroundStyle(Color.clubInk).background(.white,in:RoundedRectangle(cornerRadius:22))
     }
@@ -216,8 +217,8 @@ struct GameModeSelection:View {
                     HStack(spacing:17) {
                         Image(systemName:mode == .practice ? "infinity":mode == .match ? "trophy":"scope").font(.title2).frame(width:30)
                         VStack(alignment:.leading,spacing:5) {
-                            Text(mode == .practice ? "Free play":mode == .match ? "Quick match":"Target rush").font(.headline)
-                            Text(mode == .practice ? "Keep the rally going with Milo.":mode == .match ? "First to seven, win by two.":"Milo feeds shuttles. Aim for the floor targets.").font(.caption).foregroundStyle(.secondary)
+                            Text(mode == .practice ? "Free play":mode == .match ? "Quick match":"Target rush").font(.system(size:20,weight:.bold,design:.rounded))
+                            Text(mode == .practice ? "Keep the rally going with Milo.":mode == .match ? "First to seven, win by two.":"Milo feeds shuttles. Aim for the floor targets.").font(.system(size:15)).foregroundStyle(.secondary)
                         }
                         Spacer();if game.mode == mode { Image(systemName:"checkmark.circle.fill") }
                     }.padding(20).foregroundStyle(Color.clubInk).background(game.mode == mode ? Color.clubMint.opacity(0.18):.white,in:RoundedRectangle(cornerRadius:20))
@@ -247,49 +248,128 @@ struct PlaySetup:View {
     @Environment(GameModel.self) private var game
     @Environment(\.dismiss) private var dismiss
     @State private var adjustingController=false
+    @State private var showingMore=false
     var inCourt=false
     var onClose:(@MainActor ()->Void)? = nil
     var body:some View {
-        if adjustingController,inCourt,game.input == .sense {
-            SenseGripSetup(onBack:{adjustingController=false})
-        } else {
-            setupContent
-        }
+        Group {
+            if adjustingController,inCourt,game.input == .sense {
+                SenseGripSetup(onBack:{adjustingController=false})
+            } else {
+                setupContent
+            }
+        }.onChange(of:game.input) { _,_ in adjustingController=false }
     }
     @ViewBuilder private var setupContent:some View {
-        @Bindable var game=game
         VStack(alignment:.leading,spacing:20) {
-            HStack { Text("Ready your racket").font(.system(size:30,weight:.heavy,design:.rounded));Spacer();Button("Done") { if let onClose { onClose() } else { dismiss() } } }
-            Picker("Play with",selection:$game.input) { ForEach(InputMode.allCases) { Text($0.rawValue).tag($0) } }.pickerStyle(.segmented)
-            Picker("Racket hand",selection:$game.leftHand) { Text("Right hand").tag(false);Text("Left hand").tag(true) }.pickerStyle(.segmented)
-            Picker("Milo’s pace",selection:$game.difficulty) { ForEach(Difficulty.allCases) { Text($0.rawValue).tag($0) } }.pickerStyle(.segmented)
-            VStack(alignment:.leading,spacing:10) {
-                Label(game.input == .hands ? "Your hand holds the racket":"Your controller holds the racket",systemImage:game.input == .hands ? "hand.raised.fill":"gamecontroller.fill").font(.headline)
-                Text(game.input == .hands ? "Open your racket hand, then close it to grab. Your grip locks, so you can relax your fingers and swing. Open fully for a moment to release. Milo serves when you are holding the racket." : "Connect your PS VR2 Sense controllers in Vision Pro Bluetooth settings. Keep your selected controller in view. Milo serves automatically after two ready seconds; its trigger starts sooner.").font(.subheadline).foregroundStyle(.secondary)
-                if inCourt {
-                    Label(tracked ? "\(game.leftHand ? "Left":"Right") \(game.input == .hands ? "hand":"controller") tracked" : "Waiting for \(game.leftHand ? "left":"right") \(game.input == .hands ? "hand":"controller")",systemImage:tracked ? "checkmark.circle.fill":"exclamationmark.circle").font(.subheadline.bold()).foregroundStyle(tracked ? Color.clubViolet:Color.clubInk)
-                    if !game.trackingMessage.isEmpty { Text(game.trackingMessage).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal:false,vertical:true) }
-                    HStack {
-                        Button("Retry tracking") { game.reconfigureTracking() }.accessibilityIdentifier("retryTracking")
-                        if game.input == .hands { Button("Align racket") { game.setGrip() }.disabled(!game.canAdjustHandGrip).accessibilityIdentifier("calibrateGrip") }
-                        Button("Recenter") { game.recenter() }.disabled(!game.canServe)
-                    }.buttonStyle(.bordered)
-                    if game.input == .hands { Text("Once grabbed, hold a comfortable ready pose and choose Align racket if the angle feels wrong. Your fit is saved for this hand.").font(.caption).foregroundStyle(.secondary) }
-                    if game.input == .sense {
-                        HStack {
-                            Button("Set grip") { game.setGrip() }.disabled(!game.canAdjustControllerGrip).accessibilityIdentifier("calibrateControllerGrip")
-                            Button("Adjust fit") { adjustingController=true }.disabled(!game.canAdjustControllerGrip).accessibilityIdentifier("adjustControllerFit")
-                        }.buttonStyle(.bordered)
-                        Text("Fit changes save separately for your left and right controllers.").font(.caption).foregroundStyle(.secondary)
+            HStack {
+                Text("Ready your racket").font(.system(size:30,weight:.heavy,design:.rounded))
+                Spacer()
+                Button("Done",action:close).font(.system(size:16,weight:.bold,design:.rounded))
+                    .padding(.horizontal,16).frame(height:42)
+                    .background(setupGold,in:RoundedRectangle(cornerRadius:15))
+                    .buttonStyle(.plain).hoverEffect(.lift)
+            }
+            HStack(spacing:12) { inputChoice(.hands);inputChoice(.sense) }
+            HStack(spacing:18) {
+                Text("Racket hand").font(.system(size:17,weight:.bold,design:.rounded))
+                Spacer(minLength:0)
+                HStack(spacing:8) {
+                    setupChoice("Right",selected:!game.leftHand,identifier:"racketHandRight") { game.leftHand=false }
+                    setupChoice("Left",selected:game.leftHand,identifier:"racketHandLeft") { game.leftHand=true }
+                }.frame(width:260)
+            }
+            if inCourt {
+                RacketTrackingStatus().padding(18).frame(maxWidth:.infinity,alignment:.leading)
+                    .background(.white,in:RoundedRectangle(cornerRadius:22))
+                gripControls
+                Text("Fit saves separately for your left and right \(game.input == .hands ? "hands":"controllers").")
+                    .font(.system(size:14)).foregroundStyle(Color.clubInk.opacity(0.65))
+            } else {
+                VStack(alignment:.leading,spacing:9) {
+                    Text(game.input == .hands ? "Open. Close. Rally." : "Your controller, your racket.")
+                        .font(.system(size:20,weight:.bold,design:.rounded))
+                    Text(game.input == .hands ? "Open your palm, then close to grab. Your grip locks so you can relax your fingers. Open fully for a moment to release." : "Pair your Sense controllers in Vision Pro Bluetooth settings. Trigger starts a serve; Menu pauses play.")
+                        .font(.system(size:16)).foregroundStyle(Color.clubInk.opacity(0.70))
+                        .fixedSize(horizontal:false,vertical:true)
+                }.padding(20).frame(maxWidth:.infinity,alignment:.leading)
+                    .background(.white,in:RoundedRectangle(cornerRadius:22))
+            }
+            DisclosureGroup(isExpanded:$showingMore) {
+                VStack(alignment:.leading,spacing:14) {
+                    Text("Milo’s pace").font(.system(size:15,weight:.semibold))
+                    HStack(spacing:8) {
+                        ForEach(Difficulty.allCases) { difficulty in
+                            setupChoice(difficulty.rawValue,selected:game.difficulty == difficulty,identifier:"pace\(difficulty.rawValue)") { game.difficulty=difficulty }
+                        }
                     }
-                    Text(game.rallyInProgress ? "Close this panel and resume your paused rally." : "Close this panel. Milo will serve when your racket is ready.").font(.caption).foregroundStyle(.secondary)
-                    if game.input == .sense { Text("The controller menu button pauses play.").font(.caption).foregroundStyle(.secondary) }
-                } else {
-                    Text("Choose your racket hand here. Tracking starts when you enter the court; grip and connection controls are available there.").font(.caption).foregroundStyle(.secondary)
-                }
-            }.padding(18).frame(maxWidth:.infinity,alignment:.leading).background(.white,in:RoundedRectangle(cornerRadius:18))
-            if !inCourt { Button { game.showSettings=true } label:{ Label("Sound & comfort",systemImage:"speaker.wave.2") }.font(.subheadline.bold()).buttonStyle(.bordered) }
-        }.padding(30).frame(width:540).foregroundStyle(Color.clubInk).tint(.clubViolet).background(Color.clubPaper,in:RoundedRectangle(cornerRadius:26))
+                    if inCourt {
+                        HStack(spacing:12) {
+                            Button("Retry tracking") { game.reconfigureTracking() }.accessibilityIdentifier("retryTracking")
+                            Button("Recenter court") { game.recenter() }.disabled(!game.canServe)
+                        }.buttonStyle(.bordered).font(.system(size:15,weight:.semibold))
+                    }
+                }.padding(.top,12)
+            } label: {
+                Text(inCourt ? "Pace & tracking options":"Milo’s pace").font(.system(size:16,weight:.semibold,design:.rounded))
+            }.tint(.clubViolet)
+            Text(inCourt ? (game.rallyInProgress ? "Close setup, then resume your rally." : "Close setup. Milo serves after two ready seconds.") : "Tracking and grip fitting start when you enter the court.")
+                .font(.system(size:14)).foregroundStyle(Color.clubInk.opacity(0.65))
+                .fixedSize(horizontal:false,vertical:true)
+        }.padding(28).frame(width:560).foregroundStyle(Color.clubInk).tint(.clubViolet)
+            .background(Color.clubPaper,in:RoundedRectangle(cornerRadius:30))
     }
-    private var tracked:Bool { game.input == .hands ? game.handVisible:game.controllerReady }
+    private var setupGold:Color { Color(red:1,green:0.85,blue:0.40) }
+    private func setupChoice(_ title:String,selected:Bool,identifier:String,action:@escaping ()->Void)->some View {
+        Button(action:action) {
+            Text(title).font(.system(size:16,weight:.bold,design:.rounded))
+                .frame(maxWidth:.infinity).frame(height:44)
+                .foregroundStyle(selected ? Color.white:Color.clubInk)
+                .background(selected ? Color.clubViolet:Color.white,in:RoundedRectangle(cornerRadius:14))
+        }.buttonStyle(.plain).hoverEffect(.lift)
+            .accessibilityAddTraits(selected ? .isSelected:[])
+            .accessibilityIdentifier(identifier)
+    }
+    private func inputChoice(_ mode:InputMode)->some View {
+        let selected=game.input == mode
+        return Button { game.input=mode } label: {
+            HStack(spacing:12) {
+                Image(systemName:mode == .hands ? "hand.raised.fill":"gamecontroller.fill").font(.system(size:23,weight:.medium))
+                Text(mode == .hands ? "Hands":"PS VR2 Sense").font(.system(size:17,weight:.bold,design:.rounded))
+                Spacer(minLength:0)
+                if selected { Image(systemName:"checkmark.circle.fill").font(.system(size:17)) }
+            }.padding(.horizontal,16).frame(maxWidth:.infinity).frame(height:72)
+                .foregroundStyle(selected ? Color.white:Color.clubInk)
+                .background(selected ? Color.clubViolet:Color.white,in:RoundedRectangle(cornerRadius:20))
+        }.buttonStyle(.plain).hoverEffect(.lift)
+            .accessibilityLabel(mode.rawValue).accessibilityAddTraits(selected ? .isSelected:[])
+            .accessibilityIdentifier(mode == .hands ? "inputHands":"inputSense")
+    }
+    @ViewBuilder private var gripControls:some View {
+        HStack(spacing:12) {
+            Button("Align angle") { game.setGrip() }
+                .accessibilityIdentifier(game.input == .hands ? "calibrateGrip":"calibrateControllerGrip")
+                .frame(maxWidth:.infinity).frame(height:46)
+                .background(setupGold,in:RoundedRectangle(cornerRadius:16))
+                .disabled(game.input == .hands ? !game.canAdjustHandGrip:!game.canAdjustControllerGrip)
+                .opacity(canAdjustFit ? 1:0.45)
+            if game.input == .hands {
+                Button("Reset hand fit") { game.resetHandGrip() }
+                    .accessibilityIdentifier("resetHandGrip")
+                    .frame(maxWidth:.infinity).frame(height:46)
+                    .background(.white,in:RoundedRectangle(cornerRadius:16))
+                    .disabled(!game.canAdjustHandGrip)
+                    .opacity(game.canAdjustHandGrip ? 1:0.45)
+            } else {
+                Button("Fit your racket") { adjustingController=true }
+                    .accessibilityIdentifier("adjustControllerFit")
+                    .frame(maxWidth:.infinity).frame(height:46)
+                    .background(.white,in:RoundedRectangle(cornerRadius:16))
+                    .disabled(!game.canAdjustControllerGrip)
+                    .opacity(game.canAdjustControllerGrip ? 1:0.45)
+            }
+        }.font(.system(size:16,weight:.bold,design:.rounded)).buttonStyle(.plain).hoverEffect(.lift)
+    }
+    private var canAdjustFit:Bool { game.input == .hands ? game.canAdjustHandGrip:game.canAdjustControllerGrip }
+    private func close() { if let onClose { onClose() } else { dismiss() } }
 }

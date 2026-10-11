@@ -47,7 +47,7 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
 
         let blend = 1 - exp(-delta * 12)
         let speed = movement.isFinite ? max(0, movement) : 0
-        let strideTarget = active ? min(1, speed / 2.4) : 0
+        let strideTarget = min(1, speed / 2.4)
         strideAmount += (strideTarget - strideAmount) * blend
         stridePhase += delta * (8 + min(4, speed) * 2)
 

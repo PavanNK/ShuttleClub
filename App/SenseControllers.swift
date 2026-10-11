@@ -16,6 +16,43 @@ import ShuttleCore
         fit.mountedPose(fromGrip:originFromGrip)
     }
 
+    /// Invalid measured motion is tracking loss, rather than a stationary
+    /// racket. Check raw angular velocity before the fit helper's safe fallback.
+    static func validatedHeadVelocity(worldFromAnchor:simd_float4x4,mountedPose:simd_float4x4,
+                                      linear:V3,angular:V3,fullPosition:Bool,age:Double)->V3? {
+        guard linear.isFiniteVector,angular.isFiniteVector,simd_length(angular).isFinite,
+              TrackingGate.accepts(age:age,fullPosition:fullPosition,speed:simd_length(linear)) else { return nil }
+        let velocity=SenseGripFit.headVelocity(worldFromAnchor:worldFromAnchor,mountedPose:mountedPose,
+                                               linear:linear,angular:angular)
+        return velocity.isFiniteVector && TrackingGate.accepts(age:age,fullPosition:fullPosition,
+                                                               speed:simd_length(velocity)) ? velocity:nil
+    }
+
+    /// Bound automatic recovery for one connected-device snapshot. A failed
+    /// session start can stop the shared world provider, which cannot be rerun.
+    struct RefreshGate {
+        private(set) var requiresRetry = false
+        private var recoveredStop = false
+
+        mutating func shouldRefresh(connectionChanged:Bool,configured:Bool,
+                                    providerStopped:Bool,worldStopped:Bool)->Bool {
+            if worldStopped { requiresRetry=true;return false }
+            if connectionChanged {
+                requiresRetry=false;recoveredStop=false
+                return true
+            }
+            guard !requiresRetry else { return false }
+            if providerStopped {
+                guard !recoveredStop else { requiresRetry=true;return false }
+                recoveredStop=true
+                return true
+            }
+            return !configured
+        }
+
+        mutating func failed() { requiresRetry=true }
+    }
+
     struct Pose {
         let originFromGrip: simd_float4x4
         let leftHand: Bool
@@ -54,14 +91,16 @@ import ShuttleCore
             guard !Task.isCancelled, let self, generation == run else { return }
             guard permissions[.accessoryTracking] == .allowed else { status="Allow accessory tracking in Settings to use Sense controllers, then Retry tracking."; return }
             var known: Set<ObjectIdentifier> = []
+            var refreshGate=RefreshGate()
             while !Task.isCancelled, generation == run {
                 let connected=GCController.controllers().filter { $0.productCategory == GCProductCategorySpatialController }
                 let identifiers=Set(connected.map(ObjectIdentifier.init))
-                if identifiers != known || !configured {
+                if refreshGate.shouldRefresh(connectionChanged:identifiers != known,configured:configured,
+                    providerStopped:provider?.state == .stopped,worldStopped:world.state == .stopped) {
                     known=identifiers
-                    devices=connected; selected=nil
+                    configured=false;selected=nil
                     engine?.stop(completionHandler:nil); engine=nil; buttonEdges=ButtonEdges(); needsButtonBaseline=true
-                    if previouslyTracked { onLoss?() }; previouslyTracked=false
+                    lose("Updating controller tracking…")
                     do {
                         var loaded:[Accessory]=[]
                         for device in connected {
@@ -69,22 +108,43 @@ import ShuttleCore
                             guard !Task.isCancelled, generation == run else { return }
                         }
                         guard !Task.isCancelled, generation == run else { return }
-                        accessories=loaded
+                        // A connection can change while Accessory construction
+                        // suspends. Do not publish or run that outdated snapshot.
+                        let current=GCController.controllers().filter { $0.productCategory == GCProductCategorySpatialController }
+                        if Set(current.map(ObjectIdentifier.init)) != identifiers { continue }
+                        guard world.state != .stopped else {
+                            refreshGate.failed()
+                            status="Tracking stopped. Choose Retry tracking to reconnect."
+                            continue
+                        }
+                        let nextProvider:AccessoryTrackingProvider
                         if let provider, provider.state == .running || provider.state == .paused,
                            #available(visionOS 27.0, *) {
                             try await provider.updateAccessories(loaded)
+                            nextProvider=provider
                         } else {
-                            let next=AccessoryTrackingProvider(accessories:loaded); provider=next
+                            let next=AccessoryTrackingProvider(accessories:loaded)
                             try await session.run([world,next])
+                            nextProvider=next
                         }
                         guard !Task.isCancelled, generation == run else { return }
+                        provider=nextProvider
+                        let latest=GCController.controllers().filter { $0.productCategory == GCProductCategorySpatialController }
+                        if Set(latest.map(ObjectIdentifier.init)) != identifiers { continue }
+                        // Publish one matching device/accessory snapshot only
+                        // after ARKit's atomic update or session start succeeds.
+                        devices=connected;accessories=loaded
                         configured=true
                         status=connected.isEmpty ? "Pair PS VR2 Sense in Settings → Bluetooth." : "Hold your selected controller where Vision Pro can see it."
                     } catch {
                         guard !Task.isCancelled, generation == run else { return }
+                        refreshGate.failed()
                         configured=false
                         status="Controller tracking could not start. Check pairing and permission, then Retry tracking."
                     }
+                } else if refreshGate.requiresRetry {
+                    configured=false
+                    lose("Tracking stopped. Choose Retry tracking to reconnect.")
                 }
                 try? await Task.sleep(for:.milliseconds(500))
             }
@@ -97,11 +157,18 @@ import ShuttleCore
         engine?.stop(completionHandler:nil); engine=nil; configured=false; previouslyTracked=false; buttonEdges=ButtonEdges(); needsButtonBaseline=true
     }
     func pose(left: Bool,fit:SenseGripFit = SenseGripFit()) -> Pose? {
-        guard let provider else { return nil }
+        guard configured,let provider else { return nil }
+        guard provider.state == .running else {
+            lose(provider.state == .stopped ? "Tracking stopped. Choose Retry tracking to reconnect." : "Controller tracking paused. Wait for tracking, then Resume.")
+            return nil
+        }
         let chirality: Accessory.Chirality = left ? .left : .right
         let anchor=provider.latestAnchors.first { $0.accessory.inherentChirality == chirality }
         guard let anchor else { lose("Connect the \(left ? "left" : "right") Sense controller."); return nil }
-        guard TrackingGate.accepts(age:CACurrentMediaTime()-anchor.timestamp,
+        let sampleAge=CACurrentMediaTime()-anchor.timestamp
+        guard anchor.velocity.isFiniteVector,anchor.angularVelocity.isFiniteVector,
+              simd_length(anchor.angularVelocity).isFinite,
+              TrackingGate.accepts(age:sampleAge,
                                    fullPosition:anchor.trackingState == .positionOrientationTracked,
                                    speed:simd_length(anchor.velocity)) else {
             lose(anchor.trackingState == .positionOrientationTrackedLowAccuracy ? "Tracking is weak. Bring the controller into view." : "Controller tracking lost. Bring it into view, then Resume.")
@@ -118,17 +185,23 @@ import ShuttleCore
         // Anchor velocities are in its local coordinate system; include the lever
         // arm to the string-bed centre before converting into world coordinates.
         let origin=anchor.coordinateSpace(correction:.rendered).ancestorFromSpaceTransformFloat().matrix
-        let velocityWorld=SenseGripFit.headVelocity(worldFromAnchor:origin,mountedPose:measured,
-                                                   linear:anchor.velocity,angular:anchor.angularVelocity)
-        let index=accessories.firstIndex { $0.id == anchor.accessory.id }
-        if let index, devices.indices.contains(index) {
-            let controller=devices[index]
-            if selected !== controller {
-                engine?.stop(completionHandler:nil)
-                selected=controller; engine=controller.haptics?.createEngine(withLocality:.default)
-                engine?.start(completionHandler:{ _ in })
-                buttonEdges=ButtonEdges(); needsButtonBaseline=true
-            }
+        guard let velocityWorld=Self.validatedHeadVelocity(worldFromAnchor:origin,mountedPose:measured,
+            linear:anchor.velocity,angular:anchor.angularVelocity,
+            fullPosition:anchor.trackingState == .positionOrientationTracked,age:sampleAge) else {
+            lose("Controller motion is unreliable. Bring it into view, then Resume.")
+            return nil
+        }
+        guard let index=accessories.firstIndex(where:{ $0.id == anchor.accessory.id }),
+              devices.indices.contains(index) else {
+            lose("Controller connection changed. Wait for tracking to reconnect.")
+            return nil
+        }
+        let controller=devices[index]
+        if selected !== controller {
+            engine?.stop(completionHandler:nil)
+            selected=controller; engine=controller.haptics?.createEngine(withLocality:.default)
+            engine?.start(completionHandler:{ _ in })
+            buttonEdges=ButtonEdges(); needsButtonBaseline=true
         }
         previouslyTracked=true; status="Sense ready · Milo serves automatically · Trigger: start sooner · Menu: pause"
         return Pose(originFromGrip:measuredGrip,leftHand:left,measured:measured,rendered:rendered,headVelocity:velocityWorld,timestamp:anchor.timestamp)
@@ -136,7 +209,7 @@ import ShuttleCore
     /// Dispatch after the game has committed this frame's measured pose and
     /// controller readiness, so a newly tracked controller can actually serve.
     func dispatchButtonActions() {
-        guard previouslyTracked, let selected else { return }
+        guard configured,previouslyTracked, let selected else { return }
         let input=selected.input
         let trigger=input.buttons[.trigger]?.pressedInput.isPressed ?? false
         let menu=input.buttons[.menu]?.pressedInput.isPressed ?? false

@@ -199,4 +199,41 @@ struct ControllerGripCalibrationTests {
         #expect(game.controllerContactReady);#expect(game.controllerHeadVelocity == .zero)
         #expect(game.canServe);#expect(!game.rallyInProgress)
     }
+    @Test func reorderedAndDuplicatePacketsCannotMoveRacketOrRearmAfterLoss() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(defaults:saved),now=CACurrentMediaTime()
+        let current=sample(game,timestamp:now-0.01)
+        game.receiveControllerPose(sample(game,timestamp:now-0.02))
+        game.receiveControllerPose(current);#expect(game.controllerContactReady)
+        let before=game.assets.racket.transformMatrix(relativeTo:game.assets.root)
+        game.receiveControllerPose(sample(game,grip:grip(at:[-1,2,-3],angle:1.7),timestamp:now-0.015,velocity:[0,4,-6]))
+        expectPose(game.assets.racket.transformMatrix(relativeTo:game.assets.root),before)
+        #expect(game.controllerHeadVelocity == .zero)
+        game.receiveControllerPose(nil);#expect(!game.controllerContactReady && !game.racketReady)
+        game.receiveControllerPose(current)
+        #expect(!game.controllerContactReady && !game.racketReady && !game.assets.racket.isEnabled)
+        game.receiveControllerPose(sample(game,timestamp:now,velocity:[0,4,-6]))
+        #expect(game.racketReady && !game.controllerContactReady && game.controllerHeadVelocity == .zero)
+        game.receiveControllerPose(sample(game,timestamp:now+0.005))
+        #expect(game.controllerContactReady && game.lastContact == nil)
+    }
+    @Test func foregroundAndRefitCannotReviveACachedControllerPacket() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(defaults:saved),now=CACurrentMediaTime()
+        let current=sample(game,timestamp:now-0.01)
+        game.receiveControllerPose(current);game.setControllerGripFit(.init(pitchDegrees:30))
+        let before=game.assets.racket.transformMatrix(relativeTo:game.assets.root)
+        game.receiveControllerPose(current)
+        expectPose(game.assets.racket.transformMatrix(relativeTo:game.assets.root),before)
+        #expect(!game.controllerContactReady)
+        game.sceneActivityChanged(active:false)
+        game.receiveControllerPose(sample(game,timestamp:now))
+        #expect(!game.racketReady && !game.assets.racket.isEnabled)
+        game.sceneActivityChanged(active:true);game.receiveControllerPose(current)
+        #expect(!game.racketReady && !game.controllerContactReady)
+        game.receiveControllerPose(sample(game,timestamp:now))
+        #expect(game.racketReady && !game.controllerContactReady)
+        game.leftHand=true
+        #expect(!game.racketReady)
+    }
 }

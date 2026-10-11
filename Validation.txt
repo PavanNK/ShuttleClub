@@ -1,29 +1,33 @@
 Verified 11 October 2026 with Xcode 27.0 / visionOS 27 SDK.
-Deployment target: visionOS 26.0. Current build: 1.0 (7).
+Deployment target: visionOS 26.0. Current signed build: 1.0 (8).
 
-PASS: Native simulator — 105 tests in 12 suites in 12.931 seconds; TEST SUCCEEDED.
-PASS: Signed device build 7.
-PASS: Installation and independent headset app query confirm version 1.0 (7).
-PASS: Open→close acquisition, relaxed held grip, deliberate full-open release, locked wrist motion and finger occlusion.
-PASS: Wrist loss/recovery between render frames pauses and disarms contact history; recovery establishes a baseline.
-PASS: 60 Hz anchor velocity consumed at 90 Hz uses acquisition time; duplicate/reordered native hand input cannot teleport the racket or invent speed.
-PASS: Per-hand grip persistence, upright alignment without handle translation, paused fitting, stale/unheld fit rejection, remembered input and racket hand.
-PASS: Existing controller mounting/calibration, automatic feeds, panel/paused-state protection, real-string collisions and Milo difficulty/frame-rate regressions.
-PASS: Original icon-generation script syntax after removing machine-specific dependency paths.
-PRIOR PASS: Core suite 16 tests; core source unchanged in build 7.
-PRIOR PASS: Build 6 compiled three-layer AppIcon, three 1024 x 1024 vision/2x layers, SolidImageStack and AppIcon metadata. Icon source/assets unchanged.
+PASS: Native simulator — 132 tests in 14 suites in 14.216 seconds; TEST SUCCEEDED.
+PASS: Shared-physics package — 16 tests; new motion helper also covered by the native target.
+PASS: Signed device build 8.
+PASS: Background gesture suspension preserves an acquired mount; fresh foreground input is required.
+PASS: Missing initial knuckles cannot arm a grab; grip recovery and permission failures have distinct feedback.
+PASS: Separate hand-fit reset preserves palm position, other-hand preferences and motion disarming.
+PASS: Duplicate/reordered controller packets cannot move the racket or re-arm after loss/refit/background.
+PASS: Raw controller angular quality, fitted head speed, atomic connection refresh and bounded stopped-provider recovery.
+PASS: World-space rotating string contact, false local-chord rejection, contact-point angular lever and scaled cork radius.
+PASS: Actual in-game shaft-turn rebound with stationary string centre; implausible edge speed is rejected.
+PASS: Milo footwork continues during recovery between points.
+PASS: Existing automatic feeds, panel guards, measured contacts, fault chronology and all-difficulty/frame-rate regressions.
+PASS: Native home/court tracking setup visual review; hand/pace choice contrast repaired.
+PRIOR PASS: Original layered icon inspection; assets unchanged in build 8.
 
-Test log: /private/tmp/shuttle-grab-tests.log
-Result bundle: /private/tmp/shuttle-vision-build/Logs/Test/Test-ShuttleClub-2026.10.11_22-21-18-+0800.xcresult
-Signed build log: /private/tmp/shuttle-grab-device-build.log
-Install result: /private/tmp/shuttle-build7-install-result.json
-Independent version query: /private/tmp/shuttle-build7-app-query.json
+Test log: /private/tmp/shuttle-build8-tests.log
+Result bundle: /private/tmp/shuttle-vision-build/Logs/Test/Test-ShuttleClub-2026.10.11_22-43-00-+0800.xcresult
+Core log: /private/tmp/shuttle-polish-core-tests.log
+Signed build log: /private/tmp/shuttle-build8-device-build.log
+Install attempt: /private/tmp/shuttle-build8-install-result.json
 
-Approved menu screenshots under Preview/ApprovedMenus are actual build 6 native captures, not new build 7 headset captures. The menus and icon remain included. Reference PNGs are not scene backdrops.
-Open Shuttle Club manually. A running headset process is not independently confirmed after installation.
-Simulator startup emitted backlight-observer and audio-queue warnings; tests completed successfully.
+INSTALL PENDING: Device could not fulfill required usage assertions (CoreDevice error 4016). No successful build 8 installation or launch is claimed. Last independently confirmed installed version: 1.0 (7).
+Native build 8 setup captures: Preview/Build8-Home-Tracking.png and Preview/Build8-Court-Tracking.png.
+Approved A/B/C menu captures under Preview/ApprovedMenus remain build 6 captures. Reference PNGs are not scene backdrops.
+Simulator startup emitted backlight-observer/audio-queue warnings; tests completed successfully.
 
-NOT VERIFIED: Physical grip thresholds and comfort, actual hand/controller tracking and latency, pairing/mapping/haptics, fast real swings, frame rate, headset audio, launcher appearance and direct UI operation.
+NOT VERIFIED: Physical grip thresholds/comfort, actual hand/controller tracking and latency, pairing/mapping/haptics, fast real swings, frame rate, headset audio, launcher appearance and direct UI operation.
 Physics parameters remain provisional. Scene visuals are a recreation with visible differences from the reference.
 No external asset-generation service used; geometry, textures, icon, music and effects were authored locally.
 The debug rally preview uses labelled artificial hand poses and requires actual string collision.

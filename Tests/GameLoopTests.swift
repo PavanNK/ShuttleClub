@@ -103,7 +103,7 @@ struct GameLoopTests {
     @Test func permissionInterruptionDoesNotDisableAnIdleServe() {
         let g=game();g.sceneActivityChanged(active:false)
         #expect(g.canServe);#expect(!g.paused)
-        g.sceneActivityChanged(active:true);g.serve()
+        g.sceneActivityChanged(active:true);g.receiveHandPose(wrist(at:[2,1.6,-0.25]));g.serve()
         #expect(g.isPreparingServe);#expect(g.shuttleState == nil);#expect(!g.canServe)
     }
     @Test func serveWindupKeepsCorkAtVisibleStringsAndLaunchesFromReleasePose() throws {
@@ -257,13 +257,18 @@ struct GameLoopTests {
         advanceReady(g,seconds:0.15);#expect(g.isPreparingServe)
     }
     @Test func controllerTriggerCannotServeBehindPanelsOrInactiveScene() {
-        let g=game();g.input = .sense;g.controllerReady=true
+        let g=game();g.input = .sense
+        func trackedController() {
+            let grip=matrix_identity_float4x4,mounted=g.controllerGripFit.mountedPose(fromGrip:grip)
+            g.receiveControllerPose(.init(originFromGrip:grip,leftHand:false,measured:mounted,rendered:mounted,headVelocity:.zero,timestamp:CACurrentMediaTime()))
+        }
+        trackedController()
         g.showCourtMenu=true;g.serve();#expect(!g.isPreparingServe)
         g.showCourtMenu=false;g.showPlaySetup=true;g.serve();#expect(!g.isPreparingServe)
         g.showPlaySetup=false;g.showSettings=true;g.serve();#expect(!g.isPreparingServe)
         g.showSettings=false;g.showRackets=true;g.serve();#expect(!g.isPreparingServe)
         g.showRackets=false;g.sceneActivityChanged(active:false);g.serve();#expect(!g.isPreparingServe)
-        g.sceneActivityChanged(active:true);g.serve();#expect(g.isPreparingServe)
+        g.sceneActivityChanged(active:true);trackedController();g.serve();#expect(g.isPreparingServe)
     }
     @Test func slowFrameUsesItsActualTimeAndInterruptionRequiresResume() throws {
         let a=game(),b=game();beginIncoming(a);beginIncoming(b)
@@ -323,12 +328,41 @@ struct GameLoopTests {
         g.sceneActivityChanged(active:false);#expect(g.paused)
         g.sceneActivityChanged(active:true);g.update(0.03)
         #expect(g.paused);#expect(g.shuttleState!.position == before)
-        g.paused=false;g.update(0.03)
+        g.receiveHandPose(wrist(at:[2,1.6,-0.25]));g.paused=false;g.update(0.03)
         #expect(g.shuttleState!.position != before)
     }
     @Test func timedSwingMissingStringsCannotReturn() {
         let g=game(); g.serve(); swingIntoServe(g,miss:0.8); finishIncoming(g)
         #expect(g.lastContact == nil); #expect(g.rallyHits == 0); #expect(g.score.milo == 1)
+    }
+    @Test(arguments:[false,true])
+    func shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:Bool) throws {
+        let g=game();beginIncoming(g)
+        for _ in 0..<600 {
+            guard let ball=g.shuttleState,ball.position.z < -1 else { break }
+            g.receiveHandPose(wrist(at:[2,1.6,-0.25]));g.update(1/240)
+        }
+        let ball=try #require(g.shuttleState)
+        let centre=ball.position+V3(-0.1,0,implausible ? 0.039:0.08)
+        func yawPose(_ angle:Float)->simd_float4x4 {
+            let rotation=simd_quatf(angle:angle,axis:[0,1,0])
+            var pose=simd_float4x4(rotation)
+            pose.columns.3=SIMD4(centre-rotation.act(V3(0,0.37,0)),1)
+            return pose
+        }
+        // Establish the measured stationary handle before the distinct turn.
+        g.receiveHandPose(yawPose(0));g.update(0)
+        g.receiveHandPose(yawPose(0));g.update(0)
+        g.receiveHandPose(yawPose(implausible ? 1.5:0.2));g.update(implausible ? 0.001:0.02)
+        if implausible {
+            #expect(g.lastContact == nil && g.rallyHits == 0)
+        } else {
+            let hit=try #require(g.lastContact)
+            #expect(hit.side == .player && simd_length(hit.headVelocity)<0.0001)
+            #expect(simd_length(hit.contactVelocity)>0.8)
+            #expect(simd_distance(hit.cork,hit.stringPoint)<=0.040006)
+            #expect(g.rallyHits == 1)
+        }
     }
     @Test func targetHitAddsPointsAndNextMissResetsStreak() {
         let g=game(.targets); g.assets.targetLocations=[.init(position:[0,0,-8.5],radius:3.5,value:20)]

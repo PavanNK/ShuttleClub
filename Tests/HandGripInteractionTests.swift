@@ -36,7 +36,7 @@ struct HandGripInteractionTests {
     /// Finger pairs share the wrist's world frame. Scaling a local tip along
     /// its knuckle ray produces a known, hand-size-independent measured curl.
     private func sample(_ game: GameModel, wrist pose: simd_float4x4,
-                        curl: Float? = 1.1, jointsTracked: Bool = true,
+                        curl: Float? = 1.1, jointsTracked: Bool = true,littleTracked:Bool = true,
                         wristTracked: Bool = true, timestamp: Double, now: Double? = nil) {
         let local: [V3] = [[0.035, 0.08, 0], [0, 0.09, 0], [-0.035, 0.065, 0]]
         func world(_ point: V3) -> V3 { (pose * SIMD4<Float>(point, 1)).xyz }
@@ -46,8 +46,8 @@ struct HandGripInteractionTests {
         game.receiveHandInput(worldFromWrist: pose, wristTracked: wristTracked,
             indexKnuckle: .init(position: world(local[0]), isTracked: jointsTracked),
             middleKnuckle: .init(position: world(local[1]), isTracked: jointsTracked),
-            littleKnuckle: .init(position: world(local[2]), isTracked: jointsTracked),
-            trackedFingers: fingers, timestamp: timestamp, now: now ?? timestamp)
+            littleKnuckle: .init(position: world(local[2]), isTracked: jointsTracked && littleTracked),
+            trackedFingers: littleTracked ? fingers:Array(fingers.prefix(2)), timestamp: timestamp, now: now ?? timestamp)
     }
 
     /// Simulate acquisition history, then render its final, fresh measured
@@ -315,5 +315,76 @@ struct HandGripInteractionTests {
         #expect(afterHandChange.input == .hands && !afterHandChange.leftHand)
         #expect(sameFit(afterHandChange.handGripFit, right))
         #expect(afterHandChange.lastContact == nil && !afterHandChange.racketReady)
+    }
+
+    @Test func missingInitialLittleKnuckleCannotArmGrabAndExplainsPalmRecovery() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved),pose=wrist(),start=CACurrentMediaTime()-0.24
+        for i in 0...5 { sample(game,wrist:pose,curl:1.9,littleTracked:false,timestamp:start+Double(i)*0.02) }
+        for i in 0...5 { sample(game,wrist:pose,littleTracked:false,timestamp:start+0.12+Double(i)*0.02) }
+        #expect(!game.handRacketHeld && !game.handAcquisitionReady && !game.racketReady)
+        #expect(game.trackingMessage.contains("palm"))
+        game.reconfigureTracking();try grab(game,wrist:pose)
+        #expect(game.handRacketHeld && game.racketReady)
+    }
+
+    @Test func backgroundOpenCloseCannotAcquireAndForegroundRequiresNewOpen() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved),pose=wrist(),start=CACurrentMediaTime()-0.6
+        for i in 0...5 { sample(game,wrist:pose,curl:1.9,timestamp:start+Double(i)*0.02) }
+        game.sceneActivityChanged(active:false)
+        for i in 0...10 { sample(game,wrist:pose,timestamp:start+0.12+Double(i)*0.02) }
+        #expect(!game.handVisible && !game.handRacketHeld && !game.racketReady)
+        game.sceneActivityChanged(active:true)
+        for i in 0...5 { sample(game,wrist:pose,timestamp:start+0.36+Double(i)*0.02) }
+        #expect(!game.handRacketHeld && !game.racketReady)
+        game.reconfigureTracking();try grab(game,wrist:pose)
+        #expect(game.racketReady)
+    }
+
+    @Test func backgroundPreservesLockedMountButCannotReleaseOrResumeWithoutFreshHand() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved,withRobot:true),pose=wrist()
+        try grab(game,wrist:pose);try beginIncoming(game,wrist:pose)
+        let mount=displayed(game),flight=try #require(game.shuttleState)
+        let start=CACurrentMediaTime()
+        game.sceneActivityChanged(active:false)
+        for i in 0...20 { sample(game,wrist:pose,curl:1.9,timestamp:start+Double(i)*0.02) }
+        game.sceneActivityChanged(active:true);game.handleControllerMenu()
+        #expect(game.paused && !game.racketReady)
+        sample(game,wrist:pose,timestamp:CACurrentMediaTime());game.update(1/90)
+        #expect(game.handRacketHeld && game.racketReady && game.handHeadVelocity == .zero)
+        expectPose(displayed(game),mount)
+        #expect(game.shuttleState?.position == flight.position && game.lastContact == nil)
+        game.handleControllerMenu();#expect(!game.paused)
+    }
+
+    @Test func expiredHandShowsRecoveryMessageAndResetFitPreservesPalmAndOtherHand() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let other=HandGripFit(calibratedOrientation:simd_quatf(angle:0.4,axis:[0,1,0]).vector)
+        #expect(HandGripFitStore.save(other,left:true,defaults:saved))
+        let game=fixture(saved),pose=wrist(angle:0.9)
+        try grab(game,wrist:pose);game.setGrip()
+        #expect(!sameFit(game.handGripFit,HandGripFit()))
+        let handle=displayed(game).columns.3.xyz
+        game.resetHandGrip()
+        #expect(sameFit(game.handGripFit,HandGripFit()))
+        #expect(simd_distance(displayed(game).columns.3.xyz,handle)<0.0001 && game.handHeadVelocity == .zero)
+        #expect(sameFit(HandGripFitStore.load(left:true,defaults:saved),other))
+        game.reconfigureTracking()
+        let stale=CACurrentMediaTime()-1.24
+        for i in 0...5 { sample(game,wrist:pose,curl:1.9,timestamp:stale+Double(i)*0.02) }
+        for i in 0...5 { sample(game,wrist:pose,timestamp:stale+0.12+Double(i)*0.02) }
+        game.update(1/90)
+        #expect(!game.racketReady && game.trackingMessage.contains("tracking lost"))
+        #expect(!game.trackingMessage.contains("Racket held."))
+    }
+    @Test func noHandSamplesCannotOverwritePermissionOrProviderFailureFeedback() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved)
+        game.trackingMessage="Allow hand tracking in Settings, then choose Retry tracking."
+        game.update(1/90)
+        #expect(game.trackingMessage == "Allow hand tracking in Settings, then choose Retry tracking.")
+        #expect(!game.racketReady && !game.handGripLocked)
     }
 }

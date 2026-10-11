@@ -26,6 +26,10 @@ struct HandGripGesture: Sendable {
         lastTimestamp = nil
     }
 
+    /// Interrupt background/permission-sheet dwell without dropping an
+    /// already held racket. Monotonic sample ordering remains enforced.
+    mutating func suspend() { interruptDwell() }
+
     /// Times share a monotonic clock. Dwell advances only with fresh, distinct
     /// measured samples, so rendering an unchanged anchor cannot grab/release.
     mutating func update(curl: Float?, timestamp: Double, now: Double) -> Event? {

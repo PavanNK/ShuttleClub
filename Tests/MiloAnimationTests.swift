@@ -83,6 +83,22 @@ struct MiloAnimationTests {
         #expect(abs(slow.robotReaction - 0.49) < 0.00001)
     }
 
+    @Test func recoveringBetweenRalliesStillMovesTheFeet() {
+        let assets = visualRig()
+        assets.movement = 1.96
+        var lifted = false
+        for frame in 0..<60 {
+            assets.animateMilo(time: Float(frame) / 60, active: false, dt: 1 / 60, phase: .recovering)
+            for foot in assets.robotFeet {
+                let transform = foot.transformMatrix(relativeTo: assets.robotBody)
+                #expect(transform.columns.3.y >= 0.0155 - 0.00001)
+                #expect(simd_distance(transform.columns.1, SIMD4<Float>(0, 1, 0, 0)) < 0.00001)
+                if transform.columns.3.y > 0.03 { lifted = true }
+            }
+        }
+        #expect(lifted)
+    }
+
     @Test func reducedMotionResetsVisualJointsWithoutChangingPhysicalPose() {
         let assets = visualRig()
         assets.movement = 3

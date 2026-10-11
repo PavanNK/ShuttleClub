@@ -11,6 +11,9 @@ struct CourtView:View {
     var body:some View {
         RealityView { content,attachments in
             game.prepare();content.add(game.assets.root)
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("--preview-court-tracking") { game.showPlaySetup=true }
+            #endif
             if let hud=attachments.entity(for:"score") { hud.position=[0,3.40,-5.5];hud.scale=[8.5,8.5,8.5];game.assets.root.addChild(hud) }
             if let controls=attachments.entity(for:"controls") { placeControls(controls);game.assets.root.addChild(controls) }
             game.subscribe(to:content,onReady:onReady)
@@ -97,7 +100,7 @@ struct CourtControls:View {
             }.font(.system(size:13,weight:.bold,design:.rounded)).buttonStyle(.bordered).tint(.clubViolet)
             if game.collisionPreview { Text("Collision preview · simulated hands").font(.system(size:9)).foregroundStyle(.secondary) }
             else if !tracked {
-                Label(game.trackingMessage.isEmpty ? (game.input == .sense ? "Connect your Sense controller":"Show your racket hand"):game.trackingMessage,systemImage:"hand.raised").font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center).frame(maxWidth:290)
+                RacketTrackingStatus(compact:true).frame(maxWidth:290)
                 Button("Set up tracking") { if game.rallyInProgress { game.paused=true };game.showPlaySetup=true }.font(.caption.bold()).buttonStyle(.bordered).accessibilityIdentifier("setupTracking")
             }
         }.padding(14).foregroundStyle(Color.clubInk).background(Color.clubPaper.opacity(0.93),in:RoundedRectangle(cornerRadius:21))
@@ -110,20 +113,18 @@ struct CourtMenu:View {
     var body:some View {
         VStack(alignment:.leading,spacing:23) {
             HStack {
-                ClubPill(title:"TAKE A BREATHER");Spacer()
-                Button { closeMenus() } label:{ Image(systemName:"xmark").font(.headline).frame(width:32,height:32) }.buttonStyle(.bordered).accessibilityLabel("Close court menu")
+                Text("Club menu").font(.system(size:30,weight:.heavy,design:.rounded));Spacer()
+                Button { closeMenus() } label:{ Image(systemName:"xmark").font(.system(size:17,weight:.semibold)).frame(width:42,height:42).background(.white,in:Circle()) }.buttonStyle(.plain).hoverEffect(.lift).accessibilityLabel("Close court menu")
             }
-            Text("Your club. Your pace.").font(.system(size:32,weight:.bold,design:.rounded))
-            HStack { Label("Best rally",systemImage:"sparkles");Spacer();Text("\(game.bestRally) hits").bold() }.padding(18).background(.white,in:RoundedRectangle(cornerRadius:18))
             Button { game.showRackets=true } label:{ menuRow(game.racketKind.name,"Choose your racket","figure.badminton") }.disabled(!game.canServe)
             Button { game.showPlaySetup=true } label:{ menuRow("Racket & tracking","Hands, Sense controllers and grip","hand.raised.fill") }.accessibilityIdentifier("courtPlaySetup")
             Button { game.showSettings=true } label:{ menuRow("Sound & comfort","Music, effects and animation","slider.horizontal.3") }
-            HStack { Button("Align racket") { game.setGrip() }.disabled(game.input == .hands ? !game.canAdjustHandGrip:!game.canAdjustControllerGrip);Button("Recenter") { game.recenter() }.disabled(!game.canServe);Button("Restart") { game.restart();closeMenus() } }.buttonStyle(.bordered)
-            Button { game.paused=false;closeMenus() } label:{ Label("Back to the rally",systemImage:"play.fill") }.buttonStyle(ClubPrimaryButton()).disabled(!game.racketReady)
+            HStack { Button("Align angle") { game.setGrip() }.disabled(game.input == .hands ? !game.canAdjustHandGrip:!game.canAdjustControllerGrip);Button("Recenter") { game.recenter() }.disabled(!game.canServe);Button("Restart") { game.restart();closeMenus() } }.buttonStyle(.bordered).font(.system(size:15,weight:.semibold))
+            if !game.racketReady { RacketTrackingStatus(compact:true) }
+            Button { game.paused=false;closeMenus() } label:{ Label(game.rallyInProgress ? "Resume rally":"Back to court",systemImage:"play.fill") }.buttonStyle(ClubPrimaryButton(colour:.clubCoral)).disabled(!game.racketReady)
             Button("Leave the court") { closeMenus();game.stop();navigation.playing=false }.font(.subheadline).frame(maxWidth:.infinity)
-            if !game.trackingMessage.isEmpty { Text(game.trackingMessage).font(.caption).foregroundStyle(.secondary) }
         }.padding(30).frame(width:510).foregroundStyle(Color.clubInk).tint(.clubViolet).background(Color.clubPaper,in:RoundedRectangle(cornerRadius:26))
     }
     private func closeMenus() { game.showCourtMenu=false;game.showSettings=false;game.showRackets=false;game.showPlaySetup=false }
-    private func menuRow(_ title:String,_ subtitle:String,_ icon:String)->some View { HStack(spacing:15) { Image(systemName:icon).font(.title2).foregroundStyle(Color.clubViolet).frame(width:42);VStack(alignment:.leading,spacing:4) { Text(title).font(.headline);Text(subtitle).font(.caption).foregroundStyle(.secondary) };Spacer();Image(systemName:"chevron.right") }.padding(16).foregroundStyle(Color.clubInk).background(.white,in:RoundedRectangle(cornerRadius:19)) }
+    private func menuRow(_ title:String,_ subtitle:String,_ icon:String)->some View { HStack(spacing:15) { Image(systemName:icon).font(.title2).foregroundStyle(Color.clubViolet).frame(width:42);VStack(alignment:.leading,spacing:4) { Text(title).font(.system(size:18,weight:.bold,design:.rounded));Text(subtitle).font(.system(size:14)).foregroundStyle(.secondary) };Spacer();Image(systemName:"chevron.right") }.padding(16).foregroundStyle(Color.clubInk).background(.white,in:RoundedRectangle(cornerRadius:19)) }
 }
