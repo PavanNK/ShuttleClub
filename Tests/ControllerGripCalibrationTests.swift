@@ -9,6 +9,9 @@ import ShuttleCore
 @MainActor @Suite(.serialized)
 struct ControllerGripCalibrationTests {
     func fixture(defaults:UserDefaults) -> GameModel {
+        // These motion/refit cases begin after a confirmed natural hold;
+        // unconfirmed startup and Reset guards have their own regression suite.
+        defaults.set(true,forKey:"ShuttleClub.SenseNaturalHold.right.v2")
         let game=GameModel(gripDefaults:defaults)
         game.automaticServing=false;game.input = .sense;game.leftHand=false
         game.musicEnabled=false;game.soundEnabled=false

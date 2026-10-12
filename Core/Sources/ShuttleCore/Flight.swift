@@ -64,6 +64,113 @@ public struct Flight: Sendable {
         }
         return shot
     }
+
+    /// An introductory feed using the same gravity and drag as every rally.
+    /// Searches a fixed, bounded set of durations near 1.1 seconds. A valid
+    /// result reaches the supplied target on descent, clears the net and stays
+    /// inside all supplied limits. Infeasible targets return nil; this method
+    /// never substitutes a higher lob or changes the requested target.
+    /// Core numerical regression: default release [-0.1465,1.5443,-7.7458]
+    /// to [0.3471,1.6,-0.25] takes 1.1s and peaks at 3.093m. Seventy-two
+    /// sampled +/-0.75m holds, 1.15...1.85m heights and clamped navigation
+    /// extremes take 0.9...1.1s and peak at 2.337...3.191m. These are model
+    /// results with provisional drag, not measurements of headset tracking.
+    public static func comfortableFeed(from origin: V3, to target: V3,
+                                       constraints: ComfortableFeedConstraints = .init()) -> ComfortableFeed? {
+        guard origin.isFiniteVector, target.isFiniteVector, constraints.isValid,
+              origin.y >= 0.04, target.y >= 0.04,
+              max(origin.y, target.y) <= constraints.maximumApexHeight,
+              (origin.z < Court.netZ && target.z > Court.netZ) ||
+                (origin.z > Court.netZ && target.z < Court.netZ) else { return nil }
+
+        // Only 37 candidates can be solved, even for infeasible requests.
+        // Prefer the usual 1.1-second feed, then shorter equal-distance times.
+        let durations = (0...36).map { Float(20 + $0) / 40 }.sorted {
+            let left = abs($0 - 1.1), right = abs($1 - 1.1)
+            return left == right ? $0 < $1 : left < right
+        }
+        for duration in durations {
+            let shot = aimed(from: origin, to: target, duration: duration)
+            guard shot.velocity.isFiniteVector,
+                  simd_length(shot.velocity) <= constraints.maximumLaunchSpeed else { continue }
+            var probe = shot
+            var remaining = duration
+            var apex = origin.y
+            var netHeight: Float?
+            var valid = true
+            while remaining > 0 {
+                let dt = min(remaining, 1 / 240)
+                let before = probe.position
+                let velocity = probe.velocity
+                let accelerationY = -gravity - velocity.y * (drag * simd_length(velocity))
+                // Include the substep's parabolic peak, not just frame samples.
+                if velocity.y > 0, accelerationY < 0 {
+                    let peakTime = -velocity.y / accelerationY
+                    if peakTime < dt {
+                        apex = max(apex, before.y + velocity.y * peakTime + accelerationY * peakTime * peakTime * 0.5)
+                    }
+                }
+                probe.step(dt)
+                remaining -= dt
+                guard probe.position.isFiniteVector, probe.velocity.isFiniteVector,
+                      probe.position.y >= 0.04 else { valid = false; break }
+                apex = max(apex, probe.position.y)
+                if let crossing = Court.crossingHeight(from: before, to: probe.position) { netHeight = crossing }
+                if apex > constraints.maximumApexHeight { valid = false; break }
+            }
+            guard valid, let netHeight, netHeight >= Court.netHeight + constraints.minimumNetClearance,
+                  simd_distance(probe.position, target) <= 0.015,
+                  probe.velocity.y <= -0.05,
+                  -probe.velocity.y <= constraints.maximumArrivalDescentSpeed,
+                  simd_length(probe.velocity) <= constraints.maximumArrivalSpeed else { continue }
+            let horizontalSpeed = simd_length(SIMD2(probe.velocity.x, probe.velocity.z))
+            let descentAngle = atan2(-probe.velocity.y, horizontalSpeed) * 180 / .pi
+            guard descentAngle <= constraints.maximumArrivalDescentAngleDegrees else { continue }
+            return ComfortableFeed(flight: shot, duration: duration, apexHeight: apex,
+                                   netCrossingHeight: netHeight, arrivalVelocity: probe.velocity,
+                                   arrivalDescentAngleDegrees: descentAngle)
+        }
+        return nil
+    }
+}
+
+/// Game-design limits, rather than a claim about a particular person's reach.
+/// The target should be the measured, fitted racket's comfortable ready point.
+public struct ComfortableFeedConstraints: Sendable {
+    public var maximumApexHeight: Float
+    public var minimumNetClearance: Float
+    public var maximumArrivalDescentSpeed: Float
+    public var maximumArrivalDescentAngleDegrees: Float
+    public var maximumArrivalSpeed: Float
+    public var maximumLaunchSpeed: Float
+
+    public init(maximumApexHeight: Float = 3.2, minimumNetClearance: Float = 0.25,
+                maximumArrivalDescentSpeed: Float = 5, maximumArrivalDescentAngleDegrees: Float = 55,
+                maximumArrivalSpeed: Float = 9, maximumLaunchSpeed: Float = 20) {
+        self.maximumApexHeight = maximumApexHeight
+        self.minimumNetClearance = minimumNetClearance
+        self.maximumArrivalDescentSpeed = maximumArrivalDescentSpeed
+        self.maximumArrivalDescentAngleDegrees = maximumArrivalDescentAngleDegrees
+        self.maximumArrivalSpeed = maximumArrivalSpeed
+        self.maximumLaunchSpeed = maximumLaunchSpeed
+    }
+
+    fileprivate var isValid: Bool {
+        let values = [maximumApexHeight, minimumNetClearance, maximumArrivalDescentSpeed,
+                      maximumArrivalDescentAngleDegrees, maximumArrivalSpeed, maximumLaunchSpeed]
+        return values.allSatisfy { $0.isFinite && $0 > 0 } &&
+            maximumApexHeight > Court.netHeight + minimumNetClearance &&
+            maximumArrivalDescentAngleDegrees < 90
+    }
+}
+
+public struct ComfortableFeed: Sendable {
+    public let flight: Flight
+    public let duration: Float
+    public let apexHeight: Float
+    public let netCrossingHeight: Float
+    public let arrivalVelocity: V3
+    public let arrivalDescentAngleDegrees: Float
 }
 
 public enum Side: Sendable { case player, milo

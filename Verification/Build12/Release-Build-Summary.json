@@ -1,0 +1,8 @@
+{
+  "configuration": "Release",
+  "platform": "physical visionOS",
+  "result": "BUILD SUCCEEDED",
+  "version": "1.0",
+  "build": "12",
+  "strict_signature_verification": "Passed"
+}

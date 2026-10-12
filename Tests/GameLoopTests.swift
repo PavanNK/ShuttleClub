@@ -20,7 +20,10 @@ struct GameLoopTests {
         g.setCourtMovement(.stationary)
         ClubScene.robot(g.assets); g.assets.root.addChild(g.assets.milo); g.assets.milo.scale=[1.35,1.35,1.35]
         g.assets.root.addChild(g.assets.racket); g.assets.root.addChild(g.assets.shuttle)
-        g.restart(); g.receiveHandPose(wrist(at:[2,1.6,-0.25])); return g
+        // Establish the intended centred ready hold before parking the bat at
+        // the side for deliberate misses. A parked bat is not a new feed target.
+        g.restart();g.receiveHandPose(wrist(at:[0,1.6,-0.25]));g.update(1/120)
+        g.receiveHandPose(wrist(at:[2,1.6,-0.25])); return g
     }
     func finishIncoming(_ g:GameModel) {
         advanceServe(g)
@@ -266,6 +269,9 @@ struct GameLoopTests {
             g.receiveControllerPose(.init(originFromGrip:grip,leftHand:false,measured:mounted,rendered:mounted,headVelocity:.zero,timestamp:CACurrentMediaTime()))
         }
         trackedController()
+        // This case checks panel/activity guards for an already fitted
+        // controller. First-use alignment has a separate startup regression.
+        g.setGrip()
         g.showCourtMenu=true;g.serve();#expect(!g.isPreparingServe)
         g.showCourtMenu=false;g.showPlaySetup=true;g.serve();#expect(!g.isPreparingServe)
         g.showPlaySetup=false;g.showSettings=true;g.serve();#expect(!g.isPreparingServe)

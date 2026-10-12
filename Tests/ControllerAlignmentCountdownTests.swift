@@ -9,7 +9,7 @@ import ShuttleCore
 @MainActor @Suite(.serialized)
 struct ControllerAlignmentCountdownTests {
     /// Simulation dt drives the countdown. Anchor time remains a fresh,
-    /// ordered acquisition clock rather than pretending three wall seconds
+    /// ordered acquisition clock rather than pretending wall seconds
     /// passed while this synchronous regression runs.
     private struct SampleClock {
         private var previous: Double = 0
@@ -82,8 +82,8 @@ struct ControllerAlignmentCountdownTests {
                                   yawDegrees: -22, rollDegrees: 11)
         game.setControllerGripFit(chosen)
         game.showPlaySetup = true; game.beginControllerAlignment()
-        #expect(game.isControllerAlignmentPending && game.controllerAlignmentCountdown == 3)
-        tick(game, grip: natural, clock: &clock, count: 29)
+        #expect(game.isControllerAlignmentPending && abs(game.controllerAlignmentCountdown - 1.45) < 0.0001)
+        tick(game, grip: natural, clock: &clock, count: 15)
         #expect(game.isControllerAlignmentPending && game.controllerAlignmentCountdown > 0)
         #expect(matches(game.controllerGripFit.offset, chosen.offset))
         let handleBefore = displayed(game).columns.3
@@ -131,25 +131,27 @@ struct ControllerAlignmentCountdownTests {
         tick(game, grip: grip, clock: &clock, count: 40)
         #expect(matches(game.controllerGripFit.offset, chosen.offset))
         #expect(matches(SenseGripFitStore.load(left: false, defaults: saved).offset, chosen.offset))
-        #expect(!saved.bool(forKey: "ShuttleClub.SenseNaturalHold.right.v2"))
+        // The previous valid manual fit was already confirmed. Interrupting a
+        // new capture must preserve both its stored pose and confirmation.
+        #expect(saved.bool(forKey: "ShuttleClub.SenseNaturalHold.right.v2"))
         #expect(game.lastContact == nil && game.shuttleState == nil)
     }
 
     @Test(arguments: [false, true])
-    func movingTheControllerRestartsTheFullStableHold(rotation: Bool) throws {
+    func intentionalMovementCannotCaptureBeforeANewShortStableHold(rotation: Bool) throws {
         let (saved, name) = try defaults(); defer { saved.removePersistentDomain(forName: name) }
         let game = fixture(saved)
         let initial = pose(simd_quatf(angle: 0.4, axis: [1, 0, 0]), position: [0.2, 1.1, -0.4])
         var clock = SampleClock()
         commit(game, grip: initial, timestamp: clock.next()); game.beginControllerAlignment()
-        tick(game, grip: initial, clock: &clock, count: 15)
-        #expect(game.controllerAlignmentCountdown < 1.6)
+        tick(game, grip: initial, clock: &clock, count: 7)
+        #expect(game.controllerAlignmentCountdown < 1.2)
         var moved = initial
-        if rotation { moved = initial * simd_float4x4(simd_quatf(angle: 0.2, axis: [0, 1, 0])) }
-        else { moved.columns.3.x += 0.03 }
+        if rotation { moved = initial * simd_float4x4(simd_quatf(angle: 0.45, axis: [0, 1, 0])) }
+        else { moved.columns.3.x += 0.12 }
         tick(game, grip: moved, clock: &clock, count: 1)
-        #expect(game.controllerAlignmentCountdown > 2.8 && game.isControllerAlignmentPending)
-        tick(game, grip: moved, clock: &clock, count: 28)
+        #expect(game.controllerAlignmentCountdown > 1.4 && game.isControllerAlignmentPending)
+        tick(game, grip: moved, clock: &clock, count: 14)
         #expect(game.isControllerAlignmentPending)
         tick(game, grip: moved, clock: &clock, count: 1)
         #expect(!game.isControllerAlignmentPending)
@@ -164,7 +166,7 @@ struct ControllerAlignmentCountdownTests {
         commit(game, grip: grip, timestamp: clock.next()); game.beginControllerAlignment()
         game.serve()
         #expect(game.canServe && !game.isPreparingServe && game.shuttleState == nil)
-        tick(game, grip: grip, clock: &clock, count: 29)
+        tick(game, grip: grip, clock: &clock, count: 15)
         game.serve()
         #expect(game.canServe && !game.isPreparingServe && game.shuttleState == nil)
         tick(game, grip: grip, clock: &clock, count: 1)
@@ -176,7 +178,7 @@ struct ControllerAlignmentCountdownTests {
     }
 
     @Test(arguments: [false, true])
-    func tinyCumulativeDriftCannotBecomeAStableThreeSecondHold(rotation: Bool) throws {
+    func slowIntentionalMovementCannotBecomeAStableHold(rotation: Bool) throws {
         let (saved, name) = try defaults(); defer { saved.removePersistentDomain(forName: name) }
         let game = fixture(saved)
         let initial = pose(simd_quatf(angle: 0.4, axis: [1, 0, 0]), position: [0.2, 1.1, -0.4])
@@ -192,18 +194,18 @@ struct ControllerAlignmentCountdownTests {
             if rotation {
                 drifting = initial * simd_float4x4(simd_quatf(angle: Float(frame) * 0.02, axis: [0, 1, 0]))
             } else {
-                drifting.columns.3.x += Float(frame) * 0.001
+                drifting.columns.3.x += Float(frame) * 0.003
             }
             commit(game, grip: drifting, timestamp: clock.next())
             game.updateControllerAlignment(0.1)
             #expect(game.isControllerAlignmentPending)
         }
-        // Every individual step is below the reset threshold, but a stable
-        // window must reject the accumulated .03m or .6rad displacement.
+        // Small individual steps still represent .03m/s or .2rad/s deliberate
+        // motion. A capture must reject the sustained trend, not reset forever.
         #expect(game.controllerAlignmentCountdown > 0.1)
         #expect(matches(game.controllerGripFit.offset, chosen.offset))
         #expect(saved.data(forKey: "ShuttleClub.SenseGripFit.right.v1") == savedBefore)
-        #expect(!saved.bool(forKey: "ShuttleClub.SenseNaturalHold.right.v2"))
+        #expect(saved.bool(forKey: "ShuttleClub.SenseNaturalHold.right.v2"))
         #expect(game.lastContact == nil && game.shuttleState == nil)
     }
 
@@ -214,13 +216,48 @@ struct ControllerAlignmentCountdownTests {
         var clock = SampleClock()
         commit(game, grip: grip, timestamp: clock.next()); game.beginControllerAlignment()
         for _ in 0..<10 { game.updateControllerAlignment(0) }
-        #expect(game.isControllerAlignmentPending && game.controllerAlignmentCountdown == 3)
+        #expect(game.isControllerAlignmentPending && abs(game.controllerAlignmentCountdown - 1.45) < 0.0001)
         tick(game, grip: grip, clock: &clock, count: 5)
         let remaining = game.controllerAlignmentCountdown
         game.updateControllerAlignment(0)
         #expect(game.isControllerAlignmentPending && game.controllerAlignmentCountdown == remaining)
         #expect(game.controllerGripFit == SenseGripFit())
         #expect(saved.data(forKey: "ShuttleClub.SenseGripFit.right.v1") == nil)
+        #expect(game.lastContact == nil && game.shuttleState == nil)
+    }
+
+    @Test func ordinaryTremorAndSmallDriftFinishWithTheLatestHandleAndNoSwingEnergy() throws {
+        let (saved, name) = try defaults(); defer { saved.removePersistentDomain(forName: name) }
+        let game = fixture(saved)
+        let initial = pose(simd_quatf(angle: 0.6, axis: simd_normalize(V3(1, -2, 3))), position: [0.2, 1.1, -0.4])
+        var clock = SampleClock()
+        commit(game, grip: initial, timestamp: clock.next())
+        game.setControllerGripFit(SenseGripFit(translation: [0.015, -0.02, 0.01]))
+        game.beginControllerAlignment()
+        var current = initial
+        var frameCount = 0
+        for frame in 0..<120 {
+            let t = Float(frame) / 60
+            let tremor = simd_quatf(angle: 0.035 * sin(2 * .pi * 5 * t), axis: [1, 0, 0]) *
+                simd_quatf(angle: 0.015 * t, axis: [0, 1, 0])
+            current = initial * simd_float4x4(tremor)
+            current.columns.3.x += 0.005 * sin(2 * .pi * 4 * t)
+            current.columns.3.z += 0.004 * t
+            commit(game, grip: current, timestamp: clock.next())
+            let handle = displayed(game).columns.3
+            game.updateControllerAlignment(1 / 60)
+            frameCount = frame + 1
+            if !game.isControllerAlignmentPending {
+                #expect(simd_distance(displayed(game).columns.3, handle) < 0.0001)
+                break
+            }
+        }
+        #expect(frameCount >= 85 && frameCount <= 100)
+        #expect(!game.isControllerAlignmentPending && game.controllerAlignmentFailure == nil)
+        #expect(!game.controllerAlignmentRequired && !game.controllerContactReady && game.controllerHeadVelocity == .zero)
+        #expect(simd_distance(displayed(game).columns.1, SIMD4<Float>(0, 1, 0, 0)) < 0.06)
+        #expect(simd_distance(displayed(game).columns.2, SIMD4<Float>(0, 0, 1, 0)) < 0.06)
+        #expect(matches(game.controllerGripFit.mountedPose(fromGrip: current), displayed(game)))
         #expect(game.lastContact == nil && game.shuttleState == nil)
     }
 }

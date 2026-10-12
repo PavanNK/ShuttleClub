@@ -1,0 +1,917 @@
+Test Suite 'All tests' started at 2026-10-12 14:59:19.334.
+Test Suite 'All tests' passed at 2026-10-12 14:59:19.335.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+2026-10-12 14:59:19.344205+0800 ShuttleClub[55508:550718] [Entry] Immersive scene received its first update
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64-apple-xros1.0-simulator
+◇ Suite AutoGlideReceivingTests started.
+◇ Test receivingTargetIncludesTheStablePhysicalRacketOffset(side:) started.
+◇ Test case passing 1 argument side → -0.3 to receivingTargetIncludesTheStablePhysicalRacketOffset(side:) started.
+​◇ Test case passing 1 argument side → 0.3 to receivingTargetIncludesTheStablePhysicalRacketOffset(side:) started.
+​✔ Test receivingTargetIncludesTheStablePhysicalRacketOffset(side:) with 2 test cases passed after 0.499 seconds.
+◇ Test threeRealFeedsDoNotAccumulateTheSameHeldHandOffset(side:) started.
+◇ Test case passing 1 argument side → -0.3 to threeRealFeedsDoNotAccumulateTheSameHeldHandOffset(side:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.18599108, 0.04, 0.8341725), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.3573005, 0.04, 0.8340769), 
+STRING CONTACT: player, cork SIMD3<Float>(-0.40664065, 1.737413, -0.37625208), strings SIMD3<Float>(-0.3869808, 1.7184125, -0.34705287), fraction 0.34443474
+IMPACT MOTION: time 5.8444567, incoming SIMD3<Float>(-0.15405078, -4.5241585, 4.3640018), outgoing SIMD3<Float>(0.055611268, -4.252709, 4.1021614), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(0.0, 0.0, 0.0)
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.39065093, 0.04, 0.80322987), 
+​◇ Test case passing 1 argument side → 0.3 to threeRealFeedsDoNotAccumulateTheSameHeldHandOffset(side:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.40933862, 1.7393854, -0.37805793), strings SIMD3<Float>(0.39520115, 1.7188752, -0.34675926), fraction 0.3050875
+IMPACT MOTION: time 1.7555588, incoming SIMD3<Float>(0.32908162, -4.5209775, 4.3620634), outgoing SIMD3<Float>(-0.11879211, -4.2497187, 4.1003394), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(0.0, 0.0, 0.0)
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37513947, 0.04, 0.8023942), 
+STRING CONTACT: player, cork SIMD3<Float>(0.2620814, 1.7342596, -0.3668349), strings SIMD3<Float>(0.29312256, 1.7202299, -0.34586298), fraction 0.41324747
+IMPACT MOTION: time 3.8110986, incoming SIMD3<Float>(0.2570146, -4.542111, 4.139892), outgoing SIMD3<Float>(-0.09276124, -4.269584, 3.8914986), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(0.0, 0.0, 0.0)
+RALLY FINISHED: milo, landing SIMD3<Float>(0.23548783, 0.04, 0.7488134), 
+STRING CONTACT: player, cork SIMD3<Float>(0.18245415, 1.7346709, -0.36724716), strings SIMD3<Float>(0.21301927, 1.72031, -0.34580648), fraction 0.4050991
+IMPACT MOTION: time 5.866668, incoming SIMD3<Float>(0.227756, -4.5415554, 4.1414094), outgoing SIMD3<Float>(-0.08220058, -4.269062, 3.8929248), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(0.0, 0.0, 0.0)
+RALLY FINISHED: milo, landing SIMD3<Float>(0.15888235, 0.04, 0.7490863), 
+​✔ Test threeRealFeedsDoNotAccumulateTheSameHeldHandOffset(side:) with 2 test cases passed after 0.474 seconds.
+✔ Suite AutoGlideReceivingTests passed after 0.978 seconds.
+◇ Suite ComfortableServeTests started.
+◇ Test actualNativeReleaseFeedsTheSelectedHeldSideAtReceivingHeights(mode:left:) started.
+◇ Test case passing 2 arguments mode → .senseStationary, left → false to actualNativeReleaseFeedsTheSelectedHeldSideAtReceivingHeights(mode:left:) started.
+NATIVE COMFORTABLE SERVE senseStationary right height=1.15m: arrival=1.0999998s apex=2.8346303m net=2.6813855m point=SIMD3<Float>(0.76899946, 1.15, -0.3999969)
+NATIVE COMFORTABLE SERVE senseStationary right height=1.6m: arrival=1.1s apex=3.0918665m net=2.853321m point=SIMD3<Float>(0.7690001, 1.6, -0.40000048)
+NATIVE COMFORTABLE SERVE senseStationary right height=1.85m: arrival=1.0749995s apex=3.1738975m net=2.8913121m point=SIMD3<Float>(0.7689996, 1.85, -0.40000162)
+​◇ Test case passing 2 arguments mode → .senseStationary, left → true to actualNativeReleaseFeedsTheSelectedHeldSideAtReceivingHeights(mode:left:) started.
+NATIVE COMFORTABLE SERVE senseStationary left height=1.15m: arrival=1.0999998s apex=2.8343883m net=2.6818836m point=SIMD3<Float>(-0.53100014, 1.15, -0.4000014)
+NATIVE COMFORTABLE SERVE senseStationary left height=1.6m: arrival=1.1000003s apex=3.0914452m net=2.8538349m point=SIMD3<Float>(-0.5310003, 1.6, -0.40000135)
+NATIVE COMFORTABLE SERVE senseStationary left height=1.85m: arrival=1.0749999s apex=3.1734056m net=2.8918247m point=SIMD3<Float>(-0.53099996, 1.85, -0.39999747)
+​◇ Test case passing 2 arguments mode → .senseThumbstick, left → false to actualNativeReleaseFeedsTheSelectedHeldSideAtReceivingHeights(mode:left:) started.
+NATIVE COMFORTABLE SERVE senseThumbstick right height=1.15m: arrival=1.0999998s apex=2.8346303m net=2.6813855m point=SIMD3<Float>(0.76899946, 1.15, -0.3999969)
+NATIVE COMFORTABLE SERVE senseThumbstick right height=1.6m: arrival=1.1s apex=3.0918665m net=2.853321m point=SIMD3<Float>(0.7690001, 1.6, -0.40000048)
+NATIVE COMFORTABLE SERVE senseThumbstick right height=1.85m: arrival=1.0749995s apex=3.1738975m net=2.8913121m point=SIMD3<Float>(0.7689996, 1.85, -0.40000162)
+​◇ Test case passing 2 arguments mode → .senseThumbstick, left → true to actualNativeReleaseFeedsTheSelectedHeldSideAtReceivingHeights(mode:left:) started.
+NATIVE COMFORTABLE SERVE senseThumbstick left height=1.15m: arrival=1.0999998s apex=2.8343883m net=2.6818836m point=SIMD3<Float>(-0.53100014, 1.15, -0.4000014)
+NATIVE COMFORTABLE SERVE senseThumbstick left height=1.6m: arrival=1.1000003s apex=3.0914452m net=2.8538349m point=SIMD3<Float>(-0.5310003, 1.6, -0.40000135)
+NATIVE COMFORTABLE SERVE senseThumbstick left height=1.85m: arrival=1.0749999s apex=3.1734056m net=2.8918247m point=SIMD3<Float>(-0.53099996, 1.85, -0.39999747)
+​◇ Test case passing 2 arguments mode → .handsThumbstick, left → false to actualNativeReleaseFeedsTheSelectedHeldSideAtReceivingHeights(mode:left:) started.
+NATIVE COMFORTABLE SERVE handsThumbstick right height=1.15m: arrival=1.0999998s apex=2.8346303m net=2.6813855m point=SIMD3<Float>(0.76899946, 1.15, -0.3999969)
+NATIVE COMFORTABLE SERVE handsThumbstick right height=1.6m: arrival=1.1s apex=3.0918665m net=2.853321m point=SIMD3<Float>(0.7690001, 1.6, -0.40000048)
+NATIVE COMFORTABLE SERVE handsThumbstick right height=1.85m: arrival=1.0749995s apex=3.1738975m net=2.8913121m point=SIMD3<Float>(0.7689996, 1.85, -0.40000162)
+​◇ Test case passing 2 arguments mode → .handsThumbstick, left → true to actualNativeReleaseFeedsTheSelectedHeldSideAtReceivingHeights(mode:left:) started.
+NATIVE COMFORTABLE SERVE handsThumbstick left height=1.15m: arrival=1.0999998s apex=2.8343883m net=2.6818836m point=SIMD3<Float>(-0.53100014, 1.15, -0.4000014)
+NATIVE COMFORTABLE SERVE handsThumbstick left height=1.6m: arrival=1.1000003s apex=3.0914452m net=2.8538349m point=SIMD3<Float>(-0.5310003, 1.6, -0.40000135)
+NATIVE COMFORTABLE SERVE handsThumbstick left height=1.85m: arrival=1.0749999s apex=3.1734056m net=2.8918247m point=SIMD3<Float>(-0.53099996, 1.85, -0.39999747)
+​✔ Test actualNativeReleaseFeedsTheSelectedHeldSideAtReceivingHeights(mode:left:) with 6 test cases passed after 7.208 seconds.
+◇ Test unconfirmedDefaultSenseFitCannotLaunchUntilExplicitlyAligned(left:) started.
+◇ Test case passing 1 argument left → false to unconfirmedDefaultSenseFitCannotLaunchUntilExplicitlyAligned(left:) started.
+​◇ Test case passing 1 argument left → true to unconfirmedDefaultSenseFitCannotLaunchUntilExplicitlyAligned(left:) started.
+​✔ Test unconfirmedDefaultSenseFitCannotLaunchUntilExplicitlyAligned(left:) with 2 test cases passed after 0.655 seconds.
+◇ Test menuPointingAndPausedPosesCannotBecomeTheReadyFeedTarget(gate:) started.
+◇ Test case passing 1 argument gate → .setup to menuPointingAndPausedPosesCannotBecomeTheReadyFeedTarget(gate:) started.
+​◇ Test case passing 1 argument gate → .courtMenu to menuPointingAndPausedPosesCannotBecomeTheReadyFeedTarget(gate:) started.
+​◇ Test case passing 1 argument gate → .settings to menuPointingAndPausedPosesCannotBecomeTheReadyFeedTarget(gate:) started.
+​◇ Test case passing 1 argument gate → .rackets to menuPointingAndPausedPosesCannotBecomeTheReadyFeedTarget(gate:) started.
+​◇ Test case passing 1 argument gate → .paused to menuPointingAndPausedPosesCannotBecomeTheReadyFeedTarget(gate:) started.
+​✔ Test menuPointingAndPausedPosesCannotBecomeTheReadyFeedTarget(gate:) with 5 test cases passed after 1.742 seconds.
+◇ Test openingFeedsKeepTheirHeightBoundWhilePreservingDifficultyVariation(difficulty:) started.
+◇ Test case passing 1 argument difficulty → .friendly to openingFeedsKeepTheirHeightBoundWhilePreservingDifficultyVariation(difficulty:) started.
+​◇ Test case passing 1 argument difficulty → .club to openingFeedsKeepTheirHeightBoundWhilePreservingDifficultyVariation(difficulty:) started.
+​◇ Test case passing 1 argument difficulty → .challenge to openingFeedsKeepTheirHeightBoundWhilePreservingDifficultyVariation(difficulty:) started.
+​✔ Test openingFeedsKeepTheirHeightBoundWhilePreservingDifficultyVariation(difficulty:) with 3 test cases passed after 0.883 seconds.
+◇ Test comfortableFeedOnlyReturnsAfterARealSweptStringContact(miss:) started.
+◇ Test case passing 1 argument miss → false to comfortableFeedOnlyReturnsAfterARealSweptStringContact(miss:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.76712483, 1.4171586, -0.4150452), strings SIMD3<Float>(0.76712483, 1.3945729, -0.38203168), fraction 0.5703535
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.52364534, -4.7961206, 4.201638), outgoing SIMD3<Float>(0.49222663, 5.271216, -10.322112), centre SIMD3<Float>(0.0, 3.0000112, -3.999996), strings SIMD3<Float>(0.0, 3.0000112, -3.999996)
+​◇ Test case passing 1 argument miss → true to comfortableFeedOnlyReturnsAfterARealSweptStringContact(miss:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.88601965, 0.04, 0.5389476), 
+​✔ Test comfortableFeedOnlyReturnsAfterARealSweptStringContact(miss:) with 2 test cases passed after 0.593 seconds.
+◇ Test infeasibleActualReleasePausesAtTheNavigationBoundaryWithoutAwardingAPoint() started.
+✔ Test infeasibleActualReleasePausesAtTheNavigationBoundaryWithoutAwardingAPoint() passed after 0.317 seconds.
+✔ Suite ComfortableServeTests passed after 11.402 seconds.
+◇ Suite ControllerAlignmentCountdownTests started.
+◇ Test capturesTheNaturalHoldAfterMenuPointingAndPreservesBothHands(left:) started.
+◇ Test case passing 1 argument left → false to capturesTheNaturalHoldAfterMenuPointingAndPreservesBothHands(left:) started.
+​◇ Test case passing 1 argument left → true to capturesTheNaturalHoldAfterMenuPointingAndPreservesBothHands(left:) started.
+​✔ Test capturesTheNaturalHoldAfterMenuPointingAndPreservesBothHands(left:) with 2 test cases passed after 0.356 seconds.
+◇ Test interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+◇ Test case passing 1 argument reason → .background to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​◇ Test case passing 1 argument reason → .input to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​◇ Test case passing 1 argument reason → .hand to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​◇ Test case passing 1 argument reason → .stale to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​◇ Test case passing 1 argument reason → .trackingLoss to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​◇ Test case passing 1 argument reason → .cancel to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​✔ Test interruptedCaptureCannotOverwriteThePreviousFit(reason:) with 6 test cases passed after 1.147 seconds.
+◇ Test intentionalMovementCannotCaptureBeforeANewShortStableHold(rotation:) started.
+◇ Test case passing 1 argument rotation → false to intentionalMovementCannotCaptureBeforeANewShortStableHold(rotation:) started.
+​◇ Test case passing 1 argument rotation → true to intentionalMovementCannotCaptureBeforeANewShortStableHold(rotation:) started.
+​✔ Test intentionalMovementCannotCaptureBeforeANewShortStableHold(rotation:) with 2 test cases passed after 0.372 seconds.
+◇ Test triggerCannotStartARealServeUntilNaturalHoldCaptureCompletes() started.
+✔ Test triggerCannotStartARealServeUntilNaturalHoldCaptureCompletes() passed after 0.160 seconds.
+◇ Test slowIntentionalMovementCannotBecomeAStableHold(rotation:) started.
+◇ Test case passing 1 argument rotation → false to slowIntentionalMovementCannotBecomeAStableHold(rotation:) started.
+​◇ Test case passing 1 argument rotation → true to slowIntentionalMovementCannotBecomeAStableHold(rotation:) started.
+​✔ Test slowIntentionalMovementCannotBecomeAStableHold(rotation:) with 2 test cases passed after 0.338 seconds.
+◇ Test zeroElapsedTimeNeitherCancelsNorAdvancesPendingAlignment() started.
+✔ Test zeroElapsedTimeNeitherCancelsNorAdvancesPendingAlignment() passed after 0.166 seconds.
+◇ Test ordinaryTremorAndSmallDriftFinishWithTheLatestHandleAndNoSwingEnergy() started.
+✔ Test ordinaryTremorAndSmallDriftFinishWithTheLatestHandleAndNoSwingEnergy() passed after 0.182 seconds.
+✔ Suite ControllerAlignmentCountdownTests passed after 2.726 seconds.
+◇ Suite ControllerAlignmentStartupTests started.
+◇ Test oldNondefaultSavedFitRequiresAutomaticCaptureWithoutLosingItsBytes(left:) started.
+◇ Test case passing 1 argument left → false to oldNondefaultSavedFitRequiresAutomaticCaptureWithoutLosingItsBytes(left:) started.
+​◇ Test case passing 1 argument left → true to oldNondefaultSavedFitRequiresAutomaticCaptureWithoutLosingItsBytes(left:) started.
+​✔ Test oldNondefaultSavedFitRequiresAutomaticCaptureWithoutLosingItsBytes(left:) with 2 test cases passed after 1.474 seconds.
+◇ Test resetRequiresAFreshCaptureAndBlocksServeEvenBeforeTheCaptureBegins() started.
+✔ Test resetRequiresAFreshCaptureAndBlocksServeEvenBeforeTheCaptureBegins() passed after 0.747 seconds.
+◇ Test firstFrameTriggerIsBlockedBeforeAutomaticAlignmentDispatch() started.
+✔ Test firstFrameTriggerIsBlockedBeforeAutomaticAlignmentDispatch() passed after 0.858 seconds.
+◇ Test movingHoldTimeoutRetainsTheOldFitAndRequiresExplicitRetry() started.
+✔ Test movingHoldTimeoutRetainsTheOldFitAndRequiresExplicitRetry() passed after 1.028 seconds.
+◇ Test onlyAValidManualFitEditConfirmsTheSelectedSide() started.
+✔ Test onlyAValidManualFitEditConfirmsTheSelectedSide() passed after 1.004 seconds.
+◇ Test pausedRealFlightCannotResumeAfterResetUntilTheNewHoldIsCaptured() started.
+✔ Test pausedRealFlightCannotResumeAfterResetUntilTheNewHoldIsCaptured() passed after 0.998 seconds.
+✔ Suite ControllerAlignmentStartupTests passed after 6.115 seconds.
+◇ Suite ControllerGripCalibrationTests started.
+◇ Test liveFitMovesMeasuredDisplayHandleAndHeadAndReloads() started.
+✔ Test liveFitMovesMeasuredDisplayHandleAndHeadAndReloads() passed after 0.010 seconds.
+◇ Test fitsAreSavedAndResetSeparatelyForEachControllerHand() started.
+✔ Test fitsAreSavedAndResetSeparatelyForEachControllerHand() passed after 0.015 seconds.
+◇ Test invalidLiveEditsCannotReplaceTheChosenSavedControllerFit() started.
+✔ Test invalidLiveEditsCannotReplaceTheChosenSavedControllerFit() passed after 0.009 seconds.
+◇ Test rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+◇ Test case passing 1 argument reason → .untracked to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .stale to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .wrongHand to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .invalidVelocity to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .invalidMatrix to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .singularMatrix to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​✔ Test rejectedSamplesCannotAdjustOrResetFit(reason:) with 6 test cases passed after 0.064 seconds.
+◇ Test inputHandAndBackgroundChangesRequireASelectedFreshGrip() started.
+✔ Test inputHandAndBackgroundChangesRequireASelectedFreshGrip() passed after 0.008 seconds.
+◇ Test alignAngleUsesCourtOrientationAndPreservesTheFittedHandlePosition() started.
+✔ Test alignAngleUsesCourtOrientationAndPreservesTheFittedHandlePosition() passed after 0.008 seconds.
+◇ Test activeRallyRejectsFitAndPausedFitKeepsFlightFrozenAndDisarmsContact() started.
+✔ Test activeRallyRejectsFitAndPausedFitKeepsFlightFrozenAndDisarmsContact() passed after 0.170 seconds.
+◇ Test idleRefitClearsSwingHistoryAndNextControllerSampleIsOnlyABaseline() started.
+✔ Test idleRefitClearsSwingHistoryAndNextControllerSampleIsOnlyABaseline() passed after 0.007 seconds.
+◇ Test reorderedAndDuplicatePacketsCannotMoveRacketOrRearmAfterLoss() started.
+✔ Test reorderedAndDuplicatePacketsCannotMoveRacketOrRearmAfterLoss() passed after 0.008 seconds.
+◇ Test foregroundAndRefitCannotReviveACachedControllerPacket() started.
+✔ Test foregroundAndRefitCannotReviveACachedControllerPacket() passed after 0.008 seconds.
+✔ Suite ControllerGripCalibrationTests passed after 0.313 seconds.
+◇ Suite CourtNavigationTests started.
+◇ Test stickDeadzoneRejectsJitterAndInvalidAxes() started.
+✔ Test stickDeadzoneRejectsJitterAndInvalidAxes() passed after 0.001 seconds.
+◇ Test forwardStickMapsTowardTheNetAndDiagonalMagnitudeIsBounded() started.
+✔ Test forwardStickMapsTowardTheNetAndDiagonalMagnitudeIsBounded() passed after 0.001 seconds.
+◇ Test accelerationAndDiagonalTravelStayWithinComfortSpeed(dt:) started.
+◇ Test case passing 1 argument dt → 0.033333335 to accelerationAndDiagonalTravelStayWithinComfortSpeed(dt:) started.
+​◇ Test case passing 1 argument dt → 0.016666668 to accelerationAndDiagonalTravelStayWithinComfortSpeed(dt:) started.
+​◇ Test case passing 1 argument dt → 0.011111111 to accelerationAndDiagonalTravelStayWithinComfortSpeed(dt:) started.
+​✔ Test accelerationAndDiagonalTravelStayWithinComfortSpeed(dt:) with 3 test cases passed after 0.001 seconds.
+◇ Test courtBoundsPreventNetAndWallOvershoot(direction:) started.
+◇ Test case passing 1 argument direction → SIMD2<Float>(1.0, 0.0) to courtBoundsPreventNetAndWallOvershoot(direction:) started.
+​◇ Test case passing 1 argument direction → SIMD2<Float>(-1.0, 0.0) to courtBoundsPreventNetAndWallOvershoot(direction:) started.
+​◇ Test case passing 1 argument direction → SIMD2<Float>(0.0, 1.0) to courtBoundsPreventNetAndWallOvershoot(direction:) started.
+​◇ Test case passing 1 argument direction → SIMD2<Float>(0.0, -1.0) to courtBoundsPreventNetAndWallOvershoot(direction:) started.
+​✔ Test courtBoundsPreventNetAndWallOvershoot(direction:) with 4 test cases passed after 0.018 seconds.
+◇ Test approachingAReceivingSpotSettlesWithoutOngoingDrift() started.
+✔ Test approachingAReceivingSpotSettlesWithoutOngoingDrift() passed after 0.001 seconds.
+◇ Test blockedOrInvalidElapsedFramesStopWithoutChangingPosition() started.
+✔ Test blockedOrInvalidElapsedFramesStopWithoutChangingPosition() passed after 0.001 seconds.
+◇ Test receivingPredictionUsesTheDescendingPlayerHalfReach() started.
+✔ Test receivingPredictionUsesTheDescendingPlayerHalfReach() passed after 0.001 seconds.
+◇ Test freshThumbstickMovesTheCourtWhileTheInterfaceStaysInPlace() started.
+✔ Test freshThumbstickMovesTheCourtWhileTheInterfaceStaysInPlace() passed after 0.156 seconds.
+◇ Test disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+◇ Test case passing 1 argument reason → .pause to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .courtMenu to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .settings to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .rackets to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .setup to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .background to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .alignment to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .stale to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .wrongHand to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​✔ Test disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) with 9 test cases passed after 1.218 seconds.
+◇ Test controllerSDKVelocityOnlyRotatesWithYawDuringVirtualSliding(yaw:) started.
+◇ Test case passing 1 argument yaw → 0.0 to controllerSDKVelocityOnlyRotatesWithYawDuringVirtualSliding(yaw:) started.
+​◇ Test case passing 1 argument yaw → 0.71 to controllerSDKVelocityOnlyRotatesWithYawDuringVirtualSliding(yaw:) started.
+​✔ Test controllerSDKVelocityOnlyRotatesWithYawDuringVirtualSliding(yaw:) with 2 test cases passed after 0.288 seconds.
+◇ Test repeatedFreshControllerPacketRemapsTheDisplayWithoutAddingMotionOrRevivingLoss() started.
+✔ Test repeatedFreshControllerPacketRemapsTheDisplayWithoutAddingMotionOrRevivingLoss() passed after 0.154 seconds.
+◇ Test autoGlideMovesAroundAFixedPhysicalHandWithoutInventingASwing() started.
+✔ Test autoGlideMovesAroundAFixedPhysicalHandWithoutInventingASwing() passed after 0.160 seconds.
+◇ Test realWorldHandMotionIsConvertedOnlyByYawWhileTheRootAlsoSlides() started.
+✔ Test realWorldHandMotionIsConvertedOnlyByYawWhileTheRootAlsoSlides() passed after 0.157 seconds.
+◇ Test recenterClearsTheVirtualOffsetAndStartsANewPhysicalMotionBaseline() started.
+✔ Test recenterClearsTheVirtualOffsetAndStartsANewPhysicalMotionBaseline() passed after 0.155 seconds.
+◇ Test handsFallbackAndChosenMovementPreferenceReloadWithoutOldTracking() started.
+✔ Test handsFallbackAndChosenMovementPreferenceReloadWithoutOldTracking() passed after 0.176 seconds.
+✔ Suite CourtNavigationTests passed after 2.492 seconds.
+◇ Suite FloatingMiloTests started.
+◇ Test floatingCharacterHasNoGroundContactRigAndHasAnElevatedEngine() started.
+✔ Test floatingCharacterHasNoGroundContactRigAndHasAnElevatedEngine() passed after 0.155 seconds.
+◇ Test restHeightsAndTheActualShoulderRacketChainStayUnchanged() started.
+✔ Test restHeightsAndTheActualShoulderRacketChainStayUnchanged() passed after 0.146 seconds.
+◇ Test bobBankAndThrustNeverMoveThePhysicalShoulderOrMeasuredStrings() started.
+✔ Test bobBankAndThrustNeverMoveThePhysicalShoulderOrMeasuredStrings() passed after 0.147 seconds.
+◇ Test movingBetweenRalliesStillBanksTheFloatingBody() started.
+✔ Test movingBetweenRalliesStillBanksTheFloatingBody() passed after 0.134 seconds.
+◇ Test reducedMotionRestoresHoverVisualsWithoutChangingTheRacketPose() started.
+✔ Test reducedMotionRestoresHoverVisualsWithoutChangingTheRacketPose() passed after 0.131 seconds.
+✔ Suite FloatingMiloTests passed after 0.715 seconds.
+◇ Suite FrameUpdateGateTests started.
+◇ Test queuedBurstPreservesElapsedTimeWithOneTaskAndReportsReadyOnce() started.
+✔ Test queuedBurstPreservesElapsedTimeWithOneTaskAndReportsReadyOnce() passed after 0.001 seconds.
+◇ Test backgroundProducerAccumulatesAnInterruptionWithoutClamping() started.
+✔ Test backgroundProducerAccumulatesAnInterruptionWithoutClamping() passed after 0.001 seconds.
+◇ Test cancellingQueuedSceneCannotRunItsUpdateOrReadyOnTheReplacement() started.
+✔ Test cancellingQueuedSceneCannotRunItsUpdateOrReadyOnTheReplacement() passed after 0.001 seconds.
+◇ Test teardownInsideFirstFrameSuppressesItsReadyCallback() started.
+✔ Test teardownInsideFirstFrameSuppressesItsReadyCallback() passed after 0.001 seconds.
+✔ Suite FrameUpdateGateTests passed after 0.001 seconds.
+◇ Suite GameLoopTests started.
+◇ Test missedServeAwardsOnePointAndCanRestart() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.15731525, 0.04, 0.83177674), 
+✔ Test missedServeAwardsOnePointAndCanRestart() passed after 0.155 seconds.
+◇ Test pauseFreezesShuttleAndResumeContinues() started.
+✔ Test pauseFreezesShuttleAndResumeContinues() passed after 0.141 seconds.
+◇ Test controllerMenuCannotResumeShuttleBehindAnyCourtPanel() started.
+✔ Test controllerMenuCannotResumeShuttleBehindAnyCourtPanel() passed after 0.586 seconds.
+◇ Test controllerMenuNormallyPausesAndResumesTrackedFlight() started.
+✔ Test controllerMenuNormallyPausesAndResumesTrackedFlight() passed after 0.158 seconds.
+◇ Test stoppingPausedFlightClearsRallyAndAllowsAFreshServe() started.
+✔ Test stoppingPausedFlightClearsRallyAndAllowsAFreshServe() passed after 0.142 seconds.
+◇ Test permissionInterruptionDoesNotDisableAnIdleServe() started.
+✔ Test permissionInterruptionDoesNotDisableAnIdleServe() passed after 0.135 seconds.
+◇ Test serveWindupKeepsCorkAtVisibleStringsAndLaunchesFromReleasePose() started.
+✔ Test serveWindupKeepsCorkAtVisibleStringsAndLaunchesFromReleasePose() passed after 0.143 seconds.
+◇ Test pauseAndTrackingLossFreezeServePreparationUntilExplicitResume() started.
+✔ Test pauseAndTrackingLossFreezeServePreparationUntilExplicitResume() passed after 0.137 seconds.
+◇ Test preparationCannotResumeWithSamplesFromPreviousRacketHand() started.
+✔ Test preparationCannotResumeWithSamplesFromPreviousRacketHand() passed after 0.136 seconds.
+◇ Test inactivityAndRestartCannotLeakAPendingServe() started.
+✔ Test inactivityAndRestartCannotLeakAPendingServe() passed after 0.139 seconds.
+◇ Test deliberateFreeHandPinchStartsOneServeAndHeldPinchCannotReplayPoint() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.15731525, 0.04, 0.83177674), 
+✔ Test deliberateFreeHandPinchStartsOneServeAndHeldPinchCannotReplayPoint() passed after 0.160 seconds.
+◇ Test freeHandPinchNeedsRacketTrackingAndMustRearmAfterSetup() started.
+✔ Test freeHandPinchNeedsRacketTrackingAndMustRearmAfterSetup() passed after 0.153 seconds.
+◇ Test pinchCannotCarryAnInactiveOpenHandIntoForegroundServe() started.
+✔ Test pinchCannotCarryAnInactiveOpenHandIntoForegroundServe() passed after 0.137 seconds.
+◇ Test automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) started.
+◇ Test case passing 1 argument mode → .practice to automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.15731525, 0.04, 0.83177674), 
+​◇ Test case passing 1 argument mode → .targets to automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.15731525, 0.04, 0.83177674), 
+​✔ Test automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) with 2 test cases passed after 0.377 seconds.
+◇ Test automaticServeReadinessResetsForLossPausePanelAndBackground() started.
+✔ Test automaticServeReadinessResetsForLossPausePanelAndBackground() passed after 0.149 seconds.
+◇ Test automaticServeStopsAtMatchWinnerAndRestartRestoresReadiness() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.15731525, 0.04, 0.83177674), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.013945833, 0.04, 0.8319627), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.1059883, 0.04, 0.83200365), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.088995025, 0.04, 0.83186805), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.13078983, 0.04, 0.83181393), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.074962154, 0.04, 0.8319931), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.06373781, 0.04, 0.83198816), 
+✔ Test automaticServeStopsAtMatchWinnerAndRestartRestoresReadiness() passed after 0.275 seconds.
+◇ Test controllerTriggerCannotServeBehindPanelsOrInactiveScene() started.
+✔ Test controllerTriggerCannotServeBehindPanelsOrInactiveScene() passed after 0.132 seconds.
+◇ Test slowFrameUsesItsActualTimeAndInterruptionRequiresResume() started.
+✔ Test slowFrameUsesItsActualTimeAndInterruptionRequiresResume() passed after 0.297 seconds.
+◇ Test heldRacketHasZeroSwingSpeedAndContactBeforeFloorWinsFrame() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.1553327, 0.1414178, 0.77580285), strings SIMD3<Float>(0.19106129, 0.15861928, 0.77052784), fraction 0.91128933
+IMPACT MOTION: time 2.0333455, incoming SIMD3<Float>(0.121919036, -6.155451, 3.4421742), outgoing SIMD3<Float>(0.11460389, 2.7008476, 2.0452986), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(0.0, 0.0, 0.0)
+✔ Test heldRacketHasZeroSwingSpeedAndContactBeforeFloorWinsFrame() passed after 0.224 seconds.
+◇ Test timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) started.
+◇ Test case passing 1 argument speed → 5.5 to timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) started.
+​◇ Test case passing 1 argument speed → 36.0 to timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) started.
+​✔ Test timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) with 2 test cases passed after 0.429 seconds.
+◇ Test previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) started.
+◇ Test case passing 1 argument miss → false to previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11848572, 1.6162449, -0.2645079), strings SIMD3<Float>(0.11848572, 1.5936592, -0.23149437), fraction 0.69127727
+IMPACT MOTION: time 1.7666664, incoming SIMD3<Float>(0.15151387, -4.6902847, 4.2777333), outgoing SIMD3<Float>(0.14242305, 5.821098, -10.906615), centre SIMD3<Float>(0.0, 3.3000183, -4.400011), strings SIMD3<Float>(0.0, 3.3000183, -4.400011)
+​◇ Test case passing 1 argument miss → true to previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.15732303, 0.04, 0.8319963), 
+​✔ Test previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) with 2 test cases passed after 0.455 seconds.
+◇ Test miloMovementAndStrokeFreezeDuringPauseAndThenRecover() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11845705, 1.6167723, -0.26531672), strings SIMD3<Float>(0.11845705, 1.5941865, -0.23230328), fraction 0.57043856
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.15152553, -4.689576, 4.2780633), outgoing SIMD3<Float>(0.142434, 5.3743806, -10.254681), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.1984423, 1.9312651, -6.0239363), strings SIMD3<Float>(0.19903094, 1.8988578, -6.0473766), fraction 0.010167622
+IMPACT MOTION: time 2.5958261, incoming SIMD3<Float>(0.06833936, -3.4326346, -4.9201617), outgoing SIMD3<Float>(-0.2034238, 11.551713, 5.893182), centre SIMD3<Float>(-0.10125875, 6.2763114, 1.686859), strings SIMD3<Float>(-0.10125875, 6.2763114, 1.686859)
+✔ Test miloMovementAndStrokeFreezeDuringPauseAndThenRecover() passed after 0.299 seconds.
+◇ Test inactiveRallyStaysPausedUntilExplicitResume() started.
+✔ Test inactiveRallyStaysPausedUntilExplicitResume() passed after 0.224 seconds.
+◇ Test timedSwingMissingStringsCannotReturn() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.15731525, 0.04, 0.83177674), 
+✔ Test timedSwingMissingStringsCannotReturn() passed after 0.241 seconds.
+◇ Test shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) started.
+◇ Test case passing 1 argument implausible → false to shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.09405371, 2.2536793, -0.95430326), strings SIMD3<Float>(0.09680748, 2.2536793, -0.9143967), fraction 0.34448147
+IMPACT MOTION: time 1.6241741, incoming SIMD3<Float>(0.16963345, -3.6694453, 4.7893105), outgoing SIMD3<Float>(-0.39776433, -3.4492786, -3.5730515), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(-0.07171043, 0.0, -1.0391985)
+​◇ Test case passing 1 argument implausible → true to shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) started.
+​✔ Test shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) with 2 test cases passed after 0.496 seconds.
+◇ Test targetHitAddsPointsAndNextMissResetsStreak() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11845705, 1.6167723, -0.26531672), strings SIMD3<Float>(0.11845705, 1.5941865, -0.23230328), fraction 0.57043856
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.15152553, -4.689576, 4.2780633), outgoing SIMD3<Float>(0.142434, 5.3743806, -10.254681), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+RALLY FINISHED: player, landing SIMD3<Float>(0.22200383, 0.04, -7.720271), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.013945833, 0.04, 0.8319627), 
+✔ Test targetHitAddsPointsAndNextMissResetsStreak() passed after 0.290 seconds.
+◇ Test quickMatchStopsAtWinner() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.15731525, 0.04, 0.83177674), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.013945833, 0.04, 0.8319627), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.1059883, 0.04, 0.83200365), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.088995025, 0.04, 0.83186805), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.13078983, 0.04, 0.83181393), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.074962154, 0.04, 0.8319931), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.06373781, 0.04, 0.83198816), 
+✔ Test quickMatchStopsAtWinner() passed after 0.437 seconds.
+◇ Test onlyTrackedInputsAreOfferedAndServeRequiresTracking() started.
+✔ Test onlyTrackedInputsAreOfferedAndServeRequiresTracking() passed after 0.213 seconds.
+◇ Test racketCannotChangeDuringRally() started.
+✔ Test racketCannotChangeDuringRally() passed after 0.208 seconds.
+◇ Test measuredIntersectionPlacesCorkAtVisibleStrings() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11845705, 1.6167723, -0.26531672), strings SIMD3<Float>(0.11845705, 1.5941865, -0.23230328), fraction 0.57043856
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.15152553, -4.689576, 4.2780633), outgoing SIMD3<Float>(0.142434, 5.3743806, -10.254681), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+✔ Test measuredIntersectionPlacesCorkAtVisibleStrings() passed after 0.235 seconds.
+◇ Test lostHandPausesAndRecoveryNeedsExplicitResume() started.
+✔ Test lostHandPausesAndRecoveryNeedsExplicitResume() passed after 0.188 seconds.
+◇ Test staleHandDataCannotStartARally() started.
+✔ Test staleHandDataCannotStartARally() passed after 0.175 seconds.
+◇ Test lobbyInputChangesDiscardOldTrackingWithoutStartingProviders() started.
+✔ Test lobbyInputChangesDiscardOldTrackingWithoutStartingProviders() passed after 0.194 seconds.
+◇ Test racketHandChangeFreezesRallyAndRequiresNewPoseAndExplicitResume() started.
+✔ Test racketHandChangeFreezesRallyAndRequiresNewPoseAndExplicitResume() passed after 0.203 seconds.
+◇ Test setGripCorrectsOrientationAfterPalmFrameWithoutMovingPalm() started.
+✔ Test setGripCorrectsOrientationAfterPalmFrameWithoutMovingPalm() passed after 0.203 seconds.
+◇ Test miloCannotReturnByBodyProximityWithoutRacketContact() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11845705, 1.6167723, -0.26531672), strings SIMD3<Float>(0.11845705, 1.5941865, -0.23230328), fraction 0.57043856
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.15152553, -4.689576, 4.2780633), outgoing SIMD3<Float>(0.142434, 5.3743806, -10.254681), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+RALLY FINISHED: player, landing SIMD3<Float>(0.22200401, 0.04, -7.7202835), 
+✔ Test miloCannotReturnByBodyProximityWithoutRacketContact() passed after 0.263 seconds.
+◇ Test miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.033333335 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11845132, 1.6165055, -0.2654784), strings SIMD3<Float>(0.11845132, 1.5939196, -0.23246466), fraction 0.89250463
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.15152593, -4.689554, 4.2780747), outgoing SIMD3<Float>(0.14243437, 5.374568, -10.254911), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.19843653, 1.9310709, -6.02421), strings SIMD3<Float>(0.19902512, 1.8986638, -6.0476503), fraction 0.010523103
+IMPACT MOTION: time 2.5958266, incoming SIMD3<Float>(0.068338566, -3.4325962, -4.9202027), outgoing SIMD3<Float>(-0.20339793, 11.551123, 5.892856), centre SIMD3<Float>(-0.101212256, 6.2739654, 1.6893767), strings SIMD3<Float>(-0.101212256, 6.2739654, 1.6893767)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.016666668 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11845515, 1.616684, -0.2653704), strings SIMD3<Float>(0.11845515, 1.5940982, -0.23235683), fraction 0.78515077
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.15152566, -4.689569, 4.278067), outgoing SIMD3<Float>(0.14243412, 5.3744497, -10.254766), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.1984403, 1.9312061, -6.024031), strings SIMD3<Float>(0.19902891, 1.898799, -6.0474715), fraction 0.010212278
+IMPACT MOTION: time 2.5958261, incoming SIMD3<Float>(0.068339095, -3.4326172, -4.9201784), outgoing SIMD3<Float>(-0.20341831, 11.551955, 5.8933024), centre SIMD3<Float>(-0.10125517, 6.2759395, 1.6876601), strings SIMD3<Float>(-0.10125517, 6.2759395, 1.6876601)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.011111111 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.118493035, 1.6180784, -0.26430154), strings SIMD3<Float>(0.118493035, 1.5954926, -0.23128799), fraction 0.6760192
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.15156025, -4.688119, 4.27905), outgoing SIMD3<Float>(0.14246663, 5.3747573, -10.252299), centre SIMD3<Float>(0.0, 2.9999971, -4.0000105), strings SIMD3<Float>(0.0, 2.9999971, -4.0000105)
+STRING CONTACT: milo, cork SIMD3<Float>(0.19851647, 1.9336207, -6.023017), strings SIMD3<Float>(0.19910532, 1.9012129, -6.0464582), fraction 0.76842433
+IMPACT MOTION: time 2.5925782, incoming SIMD3<Float>(0.06837564, -3.4312732, -4.9205008), outgoing SIMD3<Float>(-0.20536618, 11.651996, 5.9814253), centre SIMD3<Float>(-0.10148003, 6.211738, 1.9208907), strings SIMD3<Float>(-0.10148003, 6.211738, 1.9208907)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.033333335 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34606355, 1.6165066, -0.2654703), strings SIMD3<Float>(0.34606355, 1.5939207, -0.23245656), fraction 0.8924852
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.28154662, -4.689255, 4.275745), outgoing SIMD3<Float>(0.26465383, 5.3729877, -10.254381), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48821485, 2.0924478, -5.7733183), strings SIMD3<Float>(0.48971984, 2.061979, -5.7991915), fraction 0.0144150285
+IMPACT MOTION: time 2.5458274, incoming SIMD3<Float>(0.13160248, -3.058736, -5.099124), outgoing SIMD3<Float>(-0.5024005, 9.804547, 5.6311836), centre SIMD3<Float>(-0.3228378, 6.6061015, -0.10711669), strings SIMD3<Float>(-0.3228378, 6.6061015, -0.10711669)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.016666668 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34607065, 1.6166847, -0.26536238), strings SIMD3<Float>(0.34607065, 1.5940989, -0.2323488), fraction 0.78511053
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.28154612, -4.68927, 4.2757373), outgoing SIMD3<Float>(0.26465335, 5.3728714, -10.254238), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48822224, 2.092574, -5.7731485), strings SIMD3<Float>(0.48972726, 2.0621057, -5.7990217), fraction 0.014689733
+IMPACT MOTION: time 2.545827, incoming SIMD3<Float>(0.13160326, -3.0587766, -5.099089), outgoing SIMD3<Float>(-0.5024275, 9.804771, 5.6313124), centre SIMD3<Float>(-0.32302377, 6.607761, -0.108833306), strings SIMD3<Float>(-0.32302377, 6.607761, -0.108833306)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.011111111 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.346141, 1.6180826, -0.26429173), strings SIMD3<Float>(0.346141, 1.5954969, -0.23127821), fraction 0.6759699
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.28161046, -4.6878223, 4.2767158), outgoing SIMD3<Float>(0.26471382, 5.3731794, -10.25178), centre SIMD3<Float>(0.0, 2.9999971, -4.0000105), strings SIMD3<Float>(0.0, 2.9999971, -4.0000105)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48835865, 2.094955, -5.772069), strings SIMD3<Float>(0.489864, 2.0644875, -5.797943), fraction 0.27067813
+IMPACT MOTION: time 2.5444314, incoming SIMD3<Float>(0.13167372, -3.0573661, -5.0994296), outgoing SIMD3<Float>(-0.5062886, 9.881128, 5.6996927), centre SIMD3<Float>(-0.32477796, 6.622953, -0.02587795), strings SIMD3<Float>(-0.32477796, 6.622953, -0.02587795)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.033333335 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34606355, 1.6165066, -0.2654703), strings SIMD3<Float>(0.34606355, 1.5939207, -0.23245656), fraction 0.8924852
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.28154662, -4.689255, 4.275745), outgoing SIMD3<Float>(0.26465383, 5.3729877, -10.254381), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48821002, 2.0925603, -5.773132), strings SIMD3<Float>(0.48984575, 2.0637784, -5.8008623), fraction 0.0056270934
+IMPACT MOTION: time 2.5458274, incoming SIMD3<Float>(0.13160592, -3.058457, -5.099257), outgoing SIMD3<Float>(-0.5257095, 8.570005, 5.9036994), centre SIMD3<Float>(-0.31831738, 5.8985705, 0.18619536), strings SIMD3<Float>(-0.31831738, 5.8985705, 0.18619536)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.016666668 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34607065, 1.6166847, -0.26536238), strings SIMD3<Float>(0.34607065, 1.5940989, -0.2323488), fraction 0.78511053
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.28154612, -4.68927, 4.2757373), outgoing SIMD3<Float>(0.26465335, 5.3728714, -10.254238), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48821712, 2.0926938, -5.7729497), strings SIMD3<Float>(0.48985288, 2.0639122, -5.800679), fraction 0.005328275
+IMPACT MOTION: time 2.545827, incoming SIMD3<Float>(0.13160692, -3.058479, -5.0992312), outgoing SIMD3<Float>(-0.5257199, 8.569602, 5.9030476), centre SIMD3<Float>(-0.31846043, 5.8996577, 0.1843643), strings SIMD3<Float>(-0.31846043, 5.8996577, 0.1843643)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.011111111 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.346141, 1.6180826, -0.26429173), strings SIMD3<Float>(0.346141, 1.5954969, -0.23127821), fraction 0.6759699
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.28161046, -4.6878223, 4.2767158), outgoing SIMD3<Float>(0.26471382, 5.3731794, -10.25178), centre SIMD3<Float>(0.0, 2.9999971, -4.0000105), strings SIMD3<Float>(0.0, 2.9999971, -4.0000105)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48835266, 2.0950944, -5.7718368), strings SIMD3<Float>(0.4899888, 2.0663135, -5.799568), fraction 0.2583978
+IMPACT MOTION: time 2.5444314, incoming SIMD3<Float>(0.131678, -3.057019, -5.0995955), outgoing SIMD3<Float>(-0.5291726, 8.628752, 5.9624763), centre SIMD3<Float>(-0.32028794, 5.9113092, 0.2492523), strings SIMD3<Float>(-0.32028794, 5.9113092, 0.2492523)
+​✔ Test miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) with 9 test cases passed after 1.580 seconds.
+◇ Test approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.033333335 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11847481, 1.6157984, -0.26481515), strings SIMD3<Float>(0.11847481, 1.5932125, -0.23180145), fraction 0.89710957
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.15150821, -4.690512, 4.2775745), outgoing SIMD3<Float>(0.14241771, 5.8211517, -10.907157), centre SIMD3<Float>(0.0, 3.2999966, -4.399996), strings SIMD3<Float>(0.0, 3.2999966, -4.399996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.19801192, 2.086376, -6.3562183), strings SIMD3<Float>(0.19858798, 2.0548537, -6.3808365), fraction 0.0100227855
+IMPACT MOTION: time 2.612493, incoming SIMD3<Float>(0.06548082, -3.3786309, -5.0148935), outgoing SIMD3<Float>(-0.20270127, 11.281686, 6.1916866), centre SIMD3<Float>(-0.1436591, 7.8218646, -0.31311032), strings SIMD3<Float>(-0.1436591, 7.8218646, -0.31311032)
+STRING CONTACT: player, cork SIMD3<Float>(-0.0018093771, 1.0246043, -0.25249746), strings SIMD3<Float>(-0.0018093771, 1.0020182, -0.21948344), fraction 0.13598354
+IMPACT MOTION: time 4.499991, incoming SIMD3<Float>(-0.054924943, -7.3314066, 1.677734), outgoing SIMD3<Float>(-0.051629446, 2.3133028, -11.854482), centre SIMD3<Float>(0.0, 3.0000095, -4.00001), strings SIMD3<Float>(0.0, 3.0000095, -4.00001)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.016666668 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11847846, 1.6159697, -0.26471218), strings SIMD3<Float>(0.11847846, 1.5933839, -0.23169857), fraction 0.7943489
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.15150796, -4.6905255, 4.2775674), outgoing SIMD3<Float>(0.14241748, 5.82104, -10.907018), centre SIMD3<Float>(0.0, 3.3000038, -4.399996), strings SIMD3<Float>(0.0, 3.3000038, -4.399996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.19801565, 2.0864995, -6.3560543), strings SIMD3<Float>(0.19859174, 2.054977, -6.380673), fraction 0.009996622
+IMPACT MOTION: time 2.6124926, incoming SIMD3<Float>(0.06548126, -3.378658, -5.014871), outgoing SIMD3<Float>(-0.20269842, 11.280878, 6.190979), centre SIMD3<Float>(-0.14372347, 7.8226085, -0.31517026), strings SIMD3<Float>(-0.14372347, 7.8226085, -0.31517026)
+STRING CONTACT: player, cork SIMD3<Float>(-0.0018123536, 1.0243338, -0.252742), strings SIMD3<Float>(-0.0018123536, 1.0017477, -0.21972796), fraction 0.27208424
+IMPACT MOTION: time 4.4833307, incoming SIMD3<Float>(-0.054926634, -7.331505, 1.6776146), outgoing SIMD3<Float>(-0.051631037, 2.3129523, -11.854218), centre SIMD3<Float>(0.0, 2.9999933, -3.999995), strings SIMD3<Float>(0.0, 2.9999933, -3.999995)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.011111111 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11851642, 1.6173579, -0.2636412), strings SIMD3<Float>(0.11851642, 1.5947721, -0.23062767), fraction 0.6898865
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.15154244, -4.6890836, 4.278547), outgoing SIMD3<Float>(0.1424499, 5.821335, -10.904548), centre SIMD3<Float>(0.0, 3.3000183, -4.400011), strings SIMD3<Float>(0.0, 3.3000183, -4.400011)
+STRING CONTACT: milo, cork SIMD3<Float>(0.1980923, 2.0890357, -6.355187), strings SIMD3<Float>(0.19866854, 2.0575144, -6.3798065), fraction 0.2676365
+IMPACT MOTION: time 2.6110961, incoming SIMD3<Float>(0.06551738, -3.3771873, -5.0153623), outgoing SIMD3<Float>(-0.20475489, 11.39086, 6.2825356), centre SIMD3<Float>(-0.14454961, 7.8443666, -0.19466399), strings SIMD3<Float>(-0.14454961, 7.8443666, -0.19466399)
+STRING CONTACT: player, cork SIMD3<Float>(-0.0008551032, 1.3490772, -0.25084162), strings SIMD3<Float>(-0.00085510314, 1.3264894, -0.21782506), fraction 0.28892606
+IMPACT MOTION: time 4.444424, incoming SIMD3<Float>(-0.056916352, -7.202634, 1.7463762), outgoing SIMD3<Float>(-0.05350137, 2.4168005, -11.764309), centre SIMD3<Float>(0.0, 2.9999971, -4.000009), strings SIMD3<Float>(0.0, 2.9999971, -4.000009)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.033333335 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.3461072, 1.6157992, -0.26480716), strings SIMD3<Float>(0.3461072, 1.5932133, -0.23179346), fraction 0.89709187
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.28151366, -4.690213, 4.275244), outgoing SIMD3<Float>(0.26462284, 5.8195734, -10.90663), centre SIMD3<Float>(0.0, 3.2999966, -4.399996), strings SIMD3<Float>(0.0, 3.2999966, -4.399996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4933821, 2.0994153, -6.3348556), strings SIMD3<Float>(0.4948449, 2.0694003, -6.3612576), fraction 0.013428182
+IMPACT MOTION: time 2.6083264, incoming SIMD3<Float>(0.122026026, -3.3487096, -5.0293956), outgoing SIMD3<Float>(-0.5208377, 9.896533, 6.3645754), centre SIMD3<Float>(-0.34153458, 7.0738215, -0.14190674), strings SIMD3<Float>(-0.34153458, 7.0738215, -0.14190674)
+STRING CONTACT: player, cork SIMD3<Float>(-0.004007569, 1.1807004, -0.25681564), strings SIMD3<Float>(-0.004007569, 1.1581129, -0.22379953), fraction 0.011320956
+IMPACT MOTION: time 4.3333244, incoming SIMD3<Float>(-0.16175403, -6.9413867, 1.9766135), outgoing SIMD3<Float>(-0.15204878, 2.7053494, -11.6107025), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.016666668 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34611398, 1.6159701, -0.2647043), strings SIMD3<Float>(0.34611398, 1.5933844, -0.23169069), fraction 0.7943121
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.28151318, -4.6902266, 4.2752376), outgoing SIMD3<Float>(0.2646224, 5.8194637, -10.906493), centre SIMD3<Float>(0.0, 3.3000038, -4.399996), strings SIMD3<Float>(0.0, 3.3000038, -4.399996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4933893, 2.0995333, -6.3347054), strings SIMD3<Float>(0.49485213, 2.0695186, -6.3611073), fraction 0.013981518
+IMPACT MOTION: time 2.608326, incoming SIMD3<Float>(0.12202664, -3.3487535, -5.0293646), outgoing SIMD3<Float>(-0.520851, 9.896637, 6.364647), centre SIMD3<Float>(-0.34164903, 7.0751376, -0.14328001), strings SIMD3<Float>(-0.34164903, 7.0751376, -0.14328001)
+STRING CONTACT: player, cork SIMD3<Float>(-0.0040109977, 1.1809127, -0.25662285), strings SIMD3<Float>(-0.0040109977, 1.1583253, -0.22360688), fraction 0.022661526
+IMPACT MOTION: time 4.316662, incoming SIMD3<Float>(-0.16175771, -6.94136, 1.9766307), outgoing SIMD3<Float>(-0.15205224, 2.7053545, -11.610658), centre SIMD3<Float>(0.0, 2.999997, -3.999995), strings SIMD3<Float>(0.0, 2.999997, -3.999995)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.011111111 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34618446, 1.617362, -0.26363155), strings SIMD3<Float>(0.34618446, 1.5947763, -0.23061806), fraction 0.6898419
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.28157735, -4.688787, 4.2762127), outgoing SIMD3<Float>(0.2646827, 5.819759, -10.904031), centre SIMD3<Float>(0.0, 3.3000183, -4.400011), strings SIMD3<Float>(0.0, 3.3000183, -4.400011)
+STRING CONTACT: milo, cork SIMD3<Float>(0.49403858, 2.0880864, -6.3547244), strings SIMD3<Float>(0.49550176, 2.058017, -6.3810635), fraction 0.2699336
+IMPACT MOTION: time 2.6110961, incoming SIMD3<Float>(0.1217258, -3.3779771, -5.014691), outgoing SIMD3<Float>(-0.5268882, 10.016221, 6.484764), centre SIMD3<Float>(-0.32843113, 6.948938, 0.14754295), strings SIMD3<Float>(-0.32843113, 6.948938, 0.14754295)
+STRING CONTACT: player, cork SIMD3<Float>(-0.001861484, 1.4275645, -0.25134644), strings SIMD3<Float>(-0.001861484, 1.4049771, -0.21833053), fraction 0.03809854
+IMPACT MOTION: time 4.2888665, incoming SIMD3<Float>(-0.16617048, -6.818513, 2.0451715), outgoing SIMD3<Float>(-0.15620025, 2.807253, -11.526383), centre SIMD3<Float>(0.0, 2.9999757, -3.9999661), strings SIMD3<Float>(0.0, 2.9999757, -3.9999661)
+​✔ Test approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) with 6 test cases passed after 1.273 seconds.
+◇ Test miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.033333335 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11845132, 1.6165055, -0.2654784), strings SIMD3<Float>(0.11845132, 1.5939196, -0.23246466), fraction 0.89250463
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.15152593, -4.689554, 4.2780747), outgoing SIMD3<Float>(0.14243437, 5.374568, -10.254911), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.19843653, 1.9310709, -6.02421), strings SIMD3<Float>(0.19902512, 1.8986638, -6.0476503), fraction 0.010523103
+IMPACT MOTION: time 2.5958266, incoming SIMD3<Float>(0.068338566, -3.4325962, -4.9202027), outgoing SIMD3<Float>(-0.20339793, 11.551123, 5.892856), centre SIMD3<Float>(-0.101212256, 6.2739654, 1.6893767), strings SIMD3<Float>(-0.101212256, 6.2739654, 1.6893767)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.016666668 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11845515, 1.616684, -0.2653704), strings SIMD3<Float>(0.11845515, 1.5940982, -0.23235683), fraction 0.78515077
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.15152566, -4.689569, 4.278067), outgoing SIMD3<Float>(0.14243412, 5.3744497, -10.254766), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.1984403, 1.9312061, -6.024031), strings SIMD3<Float>(0.19902891, 1.898799, -6.0474715), fraction 0.010212278
+IMPACT MOTION: time 2.5958261, incoming SIMD3<Float>(0.068339095, -3.4326172, -4.9201784), outgoing SIMD3<Float>(-0.20341831, 11.551955, 5.8933024), centre SIMD3<Float>(-0.10125517, 6.2759395, 1.6876601), strings SIMD3<Float>(-0.10125517, 6.2759395, 1.6876601)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.011111111 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.118493035, 1.6180784, -0.26430154), strings SIMD3<Float>(0.118493035, 1.5954926, -0.23128799), fraction 0.6760192
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.15156025, -4.688119, 4.27905), outgoing SIMD3<Float>(0.14246663, 5.3747573, -10.252299), centre SIMD3<Float>(0.0, 2.9999971, -4.0000105), strings SIMD3<Float>(0.0, 2.9999971, -4.0000105)
+STRING CONTACT: milo, cork SIMD3<Float>(0.19851647, 1.9336207, -6.023017), strings SIMD3<Float>(0.19910532, 1.9012129, -6.0464582), fraction 0.76842433
+IMPACT MOTION: time 2.5925782, incoming SIMD3<Float>(0.06837564, -3.4312732, -4.9205008), outgoing SIMD3<Float>(-0.20536618, 11.651996, 5.9814253), centre SIMD3<Float>(-0.10148003, 6.211738, 1.9208907), strings SIMD3<Float>(-0.10148003, 6.211738, 1.9208907)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.033333335 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34606355, 1.6165066, -0.2654703), strings SIMD3<Float>(0.34606355, 1.5939207, -0.23245656), fraction 0.8924852
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.28154662, -4.689255, 4.275745), outgoing SIMD3<Float>(0.26465383, 5.3729877, -10.254381), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48821485, 2.0924478, -5.7733183), strings SIMD3<Float>(0.48971984, 2.061979, -5.7991915), fraction 0.0144150285
+IMPACT MOTION: time 2.5458274, incoming SIMD3<Float>(0.13160248, -3.058736, -5.099124), outgoing SIMD3<Float>(-0.5024005, 9.804547, 5.6311836), centre SIMD3<Float>(-0.3228378, 6.6061015, -0.10711669), strings SIMD3<Float>(-0.3228378, 6.6061015, -0.10711669)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.016666668 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34607065, 1.6166847, -0.26536238), strings SIMD3<Float>(0.34607065, 1.5940989, -0.2323488), fraction 0.78511053
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.28154612, -4.68927, 4.2757373), outgoing SIMD3<Float>(0.26465335, 5.3728714, -10.254238), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48822224, 2.092574, -5.7731485), strings SIMD3<Float>(0.48972726, 2.0621057, -5.7990217), fraction 0.014689733
+IMPACT MOTION: time 2.545827, incoming SIMD3<Float>(0.13160326, -3.0587766, -5.099089), outgoing SIMD3<Float>(-0.5024275, 9.804771, 5.6313124), centre SIMD3<Float>(-0.32302377, 6.607761, -0.108833306), strings SIMD3<Float>(-0.32302377, 6.607761, -0.108833306)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.011111111 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.346141, 1.6180826, -0.26429173), strings SIMD3<Float>(0.346141, 1.5954969, -0.23127821), fraction 0.6759699
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.28161046, -4.6878223, 4.2767158), outgoing SIMD3<Float>(0.26471382, 5.3731794, -10.25178), centre SIMD3<Float>(0.0, 2.9999971, -4.0000105), strings SIMD3<Float>(0.0, 2.9999971, -4.0000105)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48835865, 2.094955, -5.772069), strings SIMD3<Float>(0.489864, 2.0644875, -5.797943), fraction 0.27067813
+IMPACT MOTION: time 2.5444314, incoming SIMD3<Float>(0.13167372, -3.0573661, -5.0994296), outgoing SIMD3<Float>(-0.5062886, 9.881128, 5.6996927), centre SIMD3<Float>(-0.32477796, 6.622953, -0.02587795), strings SIMD3<Float>(-0.32477796, 6.622953, -0.02587795)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.033333335 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34606355, 1.6165066, -0.2654703), strings SIMD3<Float>(0.34606355, 1.5939207, -0.23245656), fraction 0.8924852
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.28154662, -4.689255, 4.275745), outgoing SIMD3<Float>(0.26465383, 5.3729877, -10.254381), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48821002, 2.0925603, -5.773132), strings SIMD3<Float>(0.48984575, 2.0637784, -5.8008623), fraction 0.0056270934
+IMPACT MOTION: time 2.5458274, incoming SIMD3<Float>(0.13160592, -3.058457, -5.099257), outgoing SIMD3<Float>(-0.5257095, 8.570005, 5.9036994), centre SIMD3<Float>(-0.31831738, 5.8985705, 0.18619536), strings SIMD3<Float>(-0.31831738, 5.8985705, 0.18619536)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.016666668 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34607065, 1.6166847, -0.26536238), strings SIMD3<Float>(0.34607065, 1.5940989, -0.2323488), fraction 0.78511053
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.28154612, -4.68927, 4.2757373), outgoing SIMD3<Float>(0.26465335, 5.3728714, -10.254238), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48821712, 2.0926938, -5.7729497), strings SIMD3<Float>(0.48985288, 2.0639122, -5.800679), fraction 0.005328275
+IMPACT MOTION: time 2.545827, incoming SIMD3<Float>(0.13160692, -3.058479, -5.0992312), outgoing SIMD3<Float>(-0.5257199, 8.569602, 5.9030476), centre SIMD3<Float>(-0.31846043, 5.8996577, 0.1843643), strings SIMD3<Float>(-0.31846043, 5.8996577, 0.1843643)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.011111111 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.346141, 1.6180826, -0.26429173), strings SIMD3<Float>(0.346141, 1.5954969, -0.23127821), fraction 0.6759699
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.28161046, -4.6878223, 4.2767158), outgoing SIMD3<Float>(0.26471382, 5.3731794, -10.25178), centre SIMD3<Float>(0.0, 2.9999971, -4.0000105), strings SIMD3<Float>(0.0, 2.9999971, -4.0000105)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48835266, 2.0950944, -5.7718368), strings SIMD3<Float>(0.4899888, 2.0663135, -5.799568), fraction 0.2583978
+IMPACT MOTION: time 2.5444314, incoming SIMD3<Float>(0.131678, -3.057019, -5.0995955), outgoing SIMD3<Float>(-0.5291726, 8.628752, 5.9624763), centre SIMD3<Float>(-0.32028794, 5.9113092, 0.2492523), strings SIMD3<Float>(-0.32028794, 5.9113092, 0.2492523)
+​✔ Test miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) with 9 test cases passed after 1.380 seconds.
+◇ Test miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.033333335, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.118380286, 1.6186438, -0.26748395), strings SIMD3<Float>(0.118380286, 1.5873104, -0.24261928), fraction 0.87858015
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.15157953, -4.686658, 4.279588), outgoing SIMD3<Float>(0.14248475, 7.5525284, -5.5417137), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.24152353, 1.5446669, -5.0569444), strings SIMD3<Float>(0.24207878, 1.5069543, -5.070272), fraction 0.007563302
+IMPACT MOTION: time 3.0624862, incoming SIMD3<Float>(0.06430753, -5.573884, -2.501135), outgoing SIMD3<Float>(-0.24123594, 15.267324, 4.7789974), centre SIMD3<Float>(-0.11514186, 8.094807, 0.9106063), strings SIMD3<Float>(-0.11514186, 8.094807, 0.9106063)
+​◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.033333335, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11860167, 1.6119796, -0.2612335), strings SIMD3<Float>(0.11860167, 1.5759726, -0.24380475), fraction 0.9219768
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.15141249, -4.695685, 4.274872), outgoing SIMD3<Float>(0.14232774, 17.142998, -6.6326947), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.25055665, 2.0685456, -6.410544), strings SIMD3<Float>(0.25112095, 2.031679, -6.4260616), fraction 0.008149615
+IMPACT MOTION: time 3.9208064, incoming SIMD3<Float>(0.027570542, -7.6929274, -1.2848297), outgoing SIMD3<Float>(-0.25955695, 11.363838, 6.3642883), centre SIMD3<Float>(-0.11423349, 6.5466495, -1.4926528), strings SIMD3<Float>(-0.11423349, 6.5466495, -1.4926528)
+​◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.016666668, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.118385725, 1.6188111, -0.2673304), strings SIMD3<Float>(0.118385725, 1.5874779, -0.24246591), fraction 0.75776094
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.15157838, -4.6867204, 4.279556), outgoing SIMD3<Float>(0.14248368, 7.55266, -5.5418944), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.24152645, 1.5449682, -5.056884), strings SIMD3<Float>(0.24208167, 1.5072559, -5.0702124), fraction 0.0076440778
+IMPACT MOTION: time 3.0624857, incoming SIMD3<Float>(0.064306684, -5.5737886, -2.5012047), outgoing SIMD3<Float>(-0.24119873, 15.265911, 4.7785425), centre SIMD3<Float>(-0.11516332, 8.095722, 0.90534204), strings SIMD3<Float>(-0.11516332, 8.095722, 0.90534204)
+​◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.016666668, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11860512, 1.6120886, -0.26113603), strings SIMD3<Float>(0.11860512, 1.5760832, -0.24370813), fraction 0.84432286
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.15141177, -4.695723, 4.274852), outgoing SIMD3<Float>(0.14232707, 17.143406, -6.6329293), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.25055766, 2.068898, -6.4105706), strings SIMD3<Float>(0.25112203, 2.032032, -6.4260893), fraction 0.008049149
+IMPACT MOTION: time 3.920806, incoming SIMD3<Float>(0.027570143, -7.692887, -1.2848636), outgoing SIMD3<Float>(-0.25956815, 11.361873, 6.363651), centre SIMD3<Float>(-0.11433362, 6.547622, -1.497917), strings SIMD3<Float>(-0.11433362, 6.547622, -1.497917)
+​◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.011111111, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.1184314, 1.6199774, -0.26604196), strings SIMD3<Float>(0.1184314, 1.5886441, -0.24117744), fraction 0.63946766
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.1516072, -4.6855774, 4.2803755), outgoing SIMD3<Float>(0.14251077, 7.554259, -5.541541), centre SIMD3<Float>(0.0, 2.2000015, -3.0000079), strings SIMD3<Float>(0.0, 2.2000015, -3.0000079)
+STRING CONTACT: milo, cork SIMD3<Float>(0.24161513, 1.5486308, -5.0560474), strings SIMD3<Float>(0.24217057, 1.5109217, -5.069379), fraction 0.78471935
+IMPACT MOTION: time 3.059231, incoming SIMD3<Float>(0.06432981, -5.5721045, -2.5014694), outgoing SIMD3<Float>(-0.24300799, 15.378725, 4.842702), centre SIMD3<Float>(-0.11546909, 8.052613, 1.2726545), strings SIMD3<Float>(-0.11546909, 8.052613, 1.2726545)
+​◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.011111111, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.11865214, 1.6131771, -0.2598095), strings SIMD3<Float>(0.11865214, 1.5771723, -0.24238184), fraction 0.7703577
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.1514391, -4.6946735, 4.275629), outgoing SIMD3<Float>(0.14235276, 17.147984, -6.633938), centre SIMD3<Float>(0.0, 7.0000076, -7.000018), strings SIMD3<Float>(0.0, 7.0000076, -7.000018)
+STRING CONTACT: milo, cork SIMD3<Float>(0.25066522, 2.0762305, -6.4118905), strings SIMD3<Float>(0.2512296, 2.039369, -6.427416), fraction 0.6242
+IMPACT MOTION: time 3.918465, incoming SIMD3<Float>(0.027577823, -7.69188, -1.2851847), outgoing SIMD3<Float>(-0.2619542, 11.514521, 6.437964), centre SIMD3<Float>(-0.11559784, 6.6100783, -1.365609), strings SIMD3<Float>(-0.11559784, 6.610078, -1.365609)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.033333335, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34593156, 1.6186447, -0.26747477), strings SIMD3<Float>(0.34593156, 1.5873113, -0.2426101), fraction 0.87856066
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.28164625, -4.6863594, 4.2772584), outgoing SIMD3<Float>(0.26474747, 7.550713, -5.54224), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.5747094, 1.5428458, -5.0567217), strings SIMD3<Float>(0.575943, 1.5050305, -5.0697074), fraction 0.0087280795
+IMPACT MOTION: time 3.0624862, incoming SIMD3<Float>(0.119448684, -5.5745645, -2.500548), outgoing SIMD3<Float>(-0.57760596, 15.925515, 4.806467), centre SIMD3<Float>(-0.26505947, 8.407402, 1.0336304), strings SIMD3<Float>(-0.26505947, 8.407402, 1.0336304)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.033333335, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34634304, 1.6119788, -0.2612257), strings SIMD3<Float>(0.34634304, 1.5759717, -0.243797), fraction 0.92197114
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.28133562, -4.6953874, 4.272541), outgoing SIMD3<Float>(0.2644555, 17.141464, -6.6340084), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.59129053, 2.0989144, -6.4058785), strings SIMD3<Float>(0.5927186, 2.0626976, -6.4228), fraction 0.010863634
+IMPACT MOTION: time 3.9166398, incoming SIMD3<Float>(0.051415894, -7.6821165, -1.2897962), outgoing SIMD3<Float>(-0.6309113, 9.94031, 6.5510454), centre SIMD3<Float>(-0.27457237, 5.889129, -1.4968871), strings SIMD3<Float>(-0.27457237, 5.889129, -1.4968873)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.016666668, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34594166, 1.6188117, -0.26732138), strings SIMD3<Float>(0.34594166, 1.5874786, -0.24245685), fraction 0.75772005
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.2816441, -4.686422, 4.2772255), outgoing SIMD3<Float>(0.26474547, 7.5508456, -5.542423), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.5747143, 1.5431602, -5.0566583), strings SIMD3<Float>(0.5759479, 1.5053453, -5.0696445), fraction 0.008306004
+IMPACT MOTION: time 3.0624857, incoming SIMD3<Float>(0.119447544, -5.574458, -2.5006206), outgoing SIMD3<Float>(-0.57763845, 15.926048, 4.80664), centre SIMD3<Float>(-0.26518822, 8.409834, 1.0277939), strings SIMD3<Float>(-0.26518822, 8.409834, 1.0277939)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.016666668, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34634945, 1.6120874, -0.26112837), strings SIMD3<Float>(0.34634945, 1.5760821, -0.2437005), fraction 0.8443099
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.2813343, -4.6954255, 4.272521), outgoing SIMD3<Float>(0.26445425, 17.141869, -6.634241), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.59129214, 2.0992596, -6.405907), strings SIMD3<Float>(0.5927202, 2.0630429, -6.42283), fraction 0.010951275
+IMPACT MOTION: time 3.9166393, incoming SIMD3<Float>(0.051415157, -7.682077, -1.2898275), outgoing SIMD3<Float>(-0.6308382, 9.938447, 6.550445), centre SIMD3<Float>(-0.27484417, 5.890159, -1.5015792), strings SIMD3<Float>(-0.2748442, 5.8901596, -1.5015788)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.011111111, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34602648, 1.6199809, -0.26603067), strings SIMD3<Float>(0.34602648, 1.5886478, -0.24116614), fraction 0.63943034
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.28169772, -4.685282, 4.278041), outgoing SIMD3<Float>(0.26479587, 7.5524535, -5.542083), centre SIMD3<Float>(0.0, 2.2000015, -3.0000079), strings SIMD3<Float>(0.0, 2.2000015, -3.0000079)
+STRING CONTACT: milo, cork SIMD3<Float>(0.57487875, 1.5468435, -5.0558243), strings SIMD3<Float>(0.5761126, 1.5090313, -5.068814), fraction 0.7848501
+IMPACT MOTION: time 3.059231, incoming SIMD3<Float>(0.119490534, -5.5727577, -2.5008934), outgoing SIMD3<Float>(-0.5814472, 16.034605, 4.8704), centre SIMD3<Float>(-0.26579618, 8.356325, 1.4259909), strings SIMD3<Float>(-0.26579618, 8.356325, 1.4259909)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.011111111, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34643677, 1.6131792, -0.2597998), strings SIMD3<Float>(0.34643677, 1.5771744, -0.24237218), fraction 0.77035815
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.28138512, -4.694379, 4.273294), outgoing SIMD3<Float>(0.26450202, 17.146467, -6.635265), centre SIMD3<Float>(0.0, 7.0000076, -7.000018), strings SIMD3<Float>(0.0, 7.0000076, -7.000018)
+STRING CONTACT: milo, cork SIMD3<Float>(0.5917064, 2.0744777, -6.412609), strings SIMD3<Float>(0.59313536, 2.0382245, -6.429455), fraction 0.63063294
+IMPACT MOTION: time 3.918465, incoming SIMD3<Float>(0.051228557, -7.6920547, -1.2851135), outgoing SIMD3<Float>(-0.63730776, 10.120359, 6.6358347), centre SIMD3<Float>(-0.25324345, 5.7650537, -0.96379274), strings SIMD3<Float>(-0.25324342, 5.7650537, -0.9637929)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.033333335, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34593156, 1.6186447, -0.26747477), strings SIMD3<Float>(0.34593156, 1.5873113, -0.2426101), fraction 0.87856066
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.28164625, -4.6863594, 4.2772584), outgoing SIMD3<Float>(0.26474747, 7.550713, -5.54224), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.57470644, 1.5429856, -5.056659), strings SIMD3<Float>(0.57596976, 1.5052884, -5.069978), fraction 0.0027253355
+IMPACT MOTION: time 3.0624862, incoming SIMD3<Float>(0.119450875, -5.5744214, -2.500594), outgoing SIMD3<Float>(-0.5748011, 15.278478, 4.7845), centre SIMD3<Float>(-0.2597952, 8.024826, 0.92685694), strings SIMD3<Float>(-0.2597952, 8.024826, 0.92685676)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.033333335, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34634304, 1.6119788, -0.2612257), strings SIMD3<Float>(0.34634304, 1.5759717, -0.243797), fraction 0.92197114
+IMPACT MOTION: time 1.7666659, incoming SIMD3<Float>(0.28133562, -4.6953874, 4.272541), outgoing SIMD3<Float>(0.2644555, 17.141464, -6.6340084), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.591289, 2.0991507, -6.405839), strings SIMD3<Float>(0.59286416, 2.063724, -6.42435), fraction 0.0034911074
+IMPACT MOTION: time 3.9166398, incoming SIMD3<Float>(0.05141737, -7.6820354, -1.2898333), outgoing SIMD3<Float>(-0.66153324, 8.696871, 6.8736115), centre SIMD3<Float>(-0.2693653, 5.273437, -1.0989761), strings SIMD3<Float>(-0.2693653, 5.273437, -1.0989761)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.016666668, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34594166, 1.6188117, -0.26732138), strings SIMD3<Float>(0.34594166, 1.5874786, -0.24245685), fraction 0.75772005
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.2816441, -4.686422, 4.2772255), outgoing SIMD3<Float>(0.26474547, 7.5508456, -5.542423), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.57471144, 1.5432957, -5.0565977), strings SIMD3<Float>(0.57597476, 1.505599, -5.0699177), fraction 0.0024843419
+IMPACT MOTION: time 3.0624857, incoming SIMD3<Float>(0.11944967, -5.5743194, -2.500665), outgoing SIMD3<Float>(-0.5747782, 15.277517, 4.7841797), centre SIMD3<Float>(-0.2598095, 8.026142, 0.9213638), strings SIMD3<Float>(-0.2598095, 8.026142, 0.9213638)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.016666668, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34634945, 1.6120874, -0.26112837), strings SIMD3<Float>(0.34634945, 1.5760821, -0.2437005), fraction 0.8443099
+IMPACT MOTION: time 1.7666653, incoming SIMD3<Float>(0.2813343, -4.6954255, 4.272521), outgoing SIMD3<Float>(0.26445425, 17.141869, -6.634241), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.59129053, 2.0994992, -6.405867), strings SIMD3<Float>(0.59286577, 2.0640733, -6.424379), fraction 0.003468286
+IMPACT MOTION: time 3.9166393, incoming SIMD3<Float>(0.051416658, -7.681995, -1.2898651), outgoing SIMD3<Float>(-0.66152304, 8.695522, 6.8731213), centre SIMD3<Float>(-0.26966572, 5.2748103, -1.1032104), strings SIMD3<Float>(-0.26966572, 5.2748103, -1.1032104)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.011111111, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34602648, 1.6199809, -0.26603067), strings SIMD3<Float>(0.34602648, 1.5886478, -0.24116614), fraction 0.63943034
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.28169772, -4.685282, 4.278041), outgoing SIMD3<Float>(0.26479587, 7.5524535, -5.542083), centre SIMD3<Float>(0.0, 2.2000015, -3.0000079), strings SIMD3<Float>(0.0, 2.2000015, -3.0000079)
+STRING CONTACT: milo, cork SIMD3<Float>(0.5778399, 1.4056827, -5.1178007), strings SIMD3<Float>(0.5791522, 1.3682482, -5.1318355), fraction 0.5379075
+IMPACT MOTION: time 3.0851562, incoming SIMD3<Float>(0.11729981, -5.714015, -2.4550424), outgoing SIMD3<Float>(-0.5822674, 14.379098, 4.904211), centre SIMD3<Float>(-0.28068244, 7.9047484, -0.24860857), strings SIMD3<Float>(-0.28068244, 7.9047484, -0.24860857)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.011111111, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34643677, 1.6131792, -0.2597998), strings SIMD3<Float>(0.34643677, 1.5771744, -0.24237218), fraction 0.77035815
+IMPACT MOTION: time 1.7666693, incoming SIMD3<Float>(0.28138512, -4.694379, 4.273294), outgoing SIMD3<Float>(0.26450202, 17.146467, -6.635265), centre SIMD3<Float>(0.0, 7.0000076, -7.000018), strings SIMD3<Float>(0.0, 7.0000076, -7.000018)
+STRING CONTACT: milo, cork SIMD3<Float>(0.5917051, 2.0746734, -6.412576), strings SIMD3<Float>(0.59328085, 2.039207, -6.4310102), fraction 0.6237628
+IMPACT MOTION: time 3.918465, incoming SIMD3<Float>(0.05122978, -7.691988, -1.2851441), outgoing SIMD3<Float>(-0.66719747, 8.843081, 6.9470115), centre SIMD3<Float>(-0.24833499, 5.140829, -0.64900875), strings SIMD3<Float>(-0.24833499, 5.140829, -0.64900875)
+​✔ Test miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) with 18 test cases passed after 3.907 seconds.
+✔ Suite GameLoopTests passed after 16.696 seconds.
+◇ Suite HandRacketPoseTests started.
+◇ Test handleOriginIsInsidePalmAndAxesFollowKnuckles() started.
+✔ Test handleOriginIsInsidePalmAndAxesFollowKnuckles() passed after 0.001 seconds.
+◇ Test mirroredHandsProduceProperFramesWithIndexSideExit() started.
+✔ Test mirroredHandsProduceProperFramesWithIndexSideExit() passed after 0.001 seconds.
+◇ Test measuredFrameFollowsWorldRotationAndTranslation() started.
+✔ Test measuredFrameFollowsWorldRotationAndTranslation() passed after 0.001 seconds.
+◇ Test missingWristOrMiddleAndDegenerateGeometryCannotCreateARacket() started.
+✔ Test missingWristOrMiddleAndDegenerateGeometryCannotCreateARacket() passed after 0.001 seconds.
+✔ Suite HandRacketPoseTests passed after 0.001 seconds.
+◇ Suite HandGripFitTests started.
+◇ Test defaultAndRotatedOffsetsAreRigidAndKeepTheHandleOrigin() started.
+✔ Test defaultAndRotatedOffsetsAreRigidAndKeepTheHandleOrigin() passed after 0.017 seconds.
+◇ Test fineAnglesFollowRacketAxesAndFaceTurnKeepsTheShaftDirection() started.
+✔ Test fineAnglesFollowRacketAxesAndFaceTurnKeepsTheShaftDirection() passed after 0.001 seconds.
+◇ Test fineAngleRangesClampAndLegacyQuaternionDataMigratesInPlace() started.
+✔ Test fineAngleRangesClampAndLegacyQuaternionDataMigratesInPlace() passed after 0.006 seconds.
+◇ Test normalizationHandlesExtremeFiniteValuesAndEquivalentSigns() started.
+✔ Test normalizationHandlesExtremeFiniteValuesAndEquivalentSigns() passed after 0.001 seconds.
+◇ Test leftAndRightFitsPersistSeparatelyAndResetIndependently() started.
+✔ Test leftAndRightFitsPersistSeparatelyAndResetIndependently() passed after 0.007 seconds.
+◇ Test nonfiniteAngleEditsCannotReplaceSavedFitsOrDecodeFromJSON() started.
+✔ Test nonfiniteAngleEditsCannotReplaceSavedFitsOrDecodeFromJSON() passed after 0.005 seconds.
+◇ Test invalidQuaternionsCannotReplacePreviousSavedData() started.
+✔ Test invalidQuaternionsCannotReplacePreviousSavedData() passed after 0.005 seconds.
+◇ Test corruptedPersistedDataFallsBackWithoutChangingTheOtherHand() started.
+✔ Test corruptedPersistedDataFallsBackWithoutChangingTheOtherHand() passed after 0.011 seconds.
+✔ Suite HandGripFitTests passed after 0.055 seconds.
+◇ Suite HandGripGestureTests started.
+◇ Test openThenCloseAcquiresExactlyOnceAndHeldClosedAtStartCannotAcquire() started.
+✔ Test openThenCloseAcquiresExactlyOnceAndHeldClosedAtStartCannotAcquire() passed after 0.001 seconds.
+◇ Test bothOpenAndCloseRequireContinuousDwellAtThresholds() started.
+✔ Test bothOpenAndCloseRequireContinuousDwellAtThresholds() passed after 0.001 seconds.
+◇ Test relaxedGripBriefOpenJitterAndMissingFingersDoNotDropRacket() started.
+✔ Test relaxedGripBriefOpenJitterAndMissingFingersDoNotDropRacket() passed after 0.001 seconds.
+◇ Test sustainedOpenReleasesOnceAndCanDeliberatelyGrabAgain() started.
+✔ Test sustainedOpenReleasesOnceAndCanDeliberatelyGrabAgain() passed after 0.001 seconds.
+◇ Test interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+◇ Test case passing 1 argument interruption → .missing to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .stale to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .reordered to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .gap to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .nonfiniteCurl to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .future to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .invalidTime to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​✔ Test interruptedSamplesCannotCompleteAnArmedGrab(_:) with 7 test cases passed after 0.009 seconds.
+◇ Test duplicateSamplesCannotArmGrabOrRelease() started.
+✔ Test duplicateSamplesCannotArmGrabOrRelease() passed after 0.001 seconds.
+◇ Test staleOrReorderedSamplesBreakReleaseDwellWithoutDropping() started.
+✔ Test staleOrReorderedSamplesBreakReleaseDwellWithoutDropping() passed after 0.001 seconds.
+◇ Test suspensionDisarmsAnOpenSequenceAndPartiallyCompletedGrab() started.
+✔ Test suspensionDisarmsAnOpenSequenceAndPartiallyCompletedGrab() passed after 0.001 seconds.
+◇ Test suspensionRequiresANewFullOpenDwellBeforeArming() started.
+✔ Test suspensionRequiresANewFullOpenDwellBeforeArming() passed after 0.001 seconds.
+◇ Test suspensionKeepsHoldingAndRestartsTheFullReleaseDwell() started.
+✔ Test suspensionKeepsHoldingAndRestartsTheFullReleaseDwell() passed after 0.001 seconds.
+◇ Test twoExtendedFingersWithOtherFingersMissingCannotReleaseTheHeldRacket() started.
+✔ Test twoExtendedFingersWithOtherFingersMissingCannotReleaseTheHeldRacket() passed after 0.001 seconds.
+◇ Test aMixedTrackedHandCannotReleaseEvenWhenItsMedianLooksOpen() started.
+✔ Test aMixedTrackedHandCannotReleaseEvenWhenItsMedianLooksOpen() passed after 0.001 seconds.
+◇ Test aFreshConfidentOpeningReleasesOnlyAfterItsOwnFullDwell() started.
+✔ Test aFreshConfidentOpeningReleasesOnlyAfterItsOwnFullDwell() passed after 0.001 seconds.
+◇ Test menuInteractionBreaksReleaseDwellEvenOnTheSameAnchorSample() started.
+✔ Test menuInteractionBreaksReleaseDwellEvenOnTheSameAnchorSample() passed after 0.001 seconds.
+◇ Test releaseConfidenceRejectsInvalidOrDegenerateMeasuredPairs() started.
+✔ Test releaseConfidenceRejectsInvalidOrDegenerateMeasuredPairs() passed after 0.001 seconds.
+◇ Test proximalCurlRecognizesStraightBentAndIntermediateFirstPhalanges() started.
+✔ Test proximalCurlRecognizesStraightBentAndIntermediateFirstPhalanges() passed after 0.001 seconds.
+◇ Test proximalMedianToleratesOneDifferentFingerAndPreservesMixedBends() started.
+✔ Test proximalMedianToleratesOneDifferentFingerAndPreservesMixedBends() passed after 0.001 seconds.
+◇ Test proximalCurlIsInvariantUnderMeasuredRotationTranslationAndHandSize() started.
+✔ Test proximalCurlIsInvariantUnderMeasuredRotationTranslationAndHandSize() passed after 0.001 seconds.
+◇ Test proximalCurlRejectsInsufficientInvalidAndTooShortMeasuredBones() started.
+✔ Test proximalCurlRejectsInsufficientInvalidAndTooShortMeasuredBones() passed after 0.001 seconds.
+◇ Test proximalAcquisitionCannotSubstituteForObservedFingertipReleaseConfidence() started.
+✔ Test proximalAcquisitionCannotSubstituteForObservedFingertipReleaseConfidence() passed after 0.001 seconds.
+◇ Test medianCurlIsInvariantUnderHandSizeRigidMovementAndOneNoisyFinger() started.
+✔ Test medianCurlIsInvariantUnderHandSizeRigidMovementAndOneNoisyFinger() passed after 0.001 seconds.
+◇ Test curlRejectsInsufficientInvalidAndDegenerateFingerData() started.
+✔ Test curlRejectsInsufficientInvalidAndDegenerateFingerData() passed after 0.001 seconds.
+✔ Suite HandGripGestureTests passed after 0.016 seconds.
+◇ Suite HandGripInteractionTests started.
+◇ Test anInitiallyClosedHandCannotAcquireServeOrCalibrate() started.
+✔ Test anInitiallyClosedHandCannotAcquireServeOrCalibrate() passed after 0.007 seconds.
+◇ Test anOpenThenClosedDwellAcquiresTheMeasuredRacketAndAllowsServe() started.
+✔ Test anOpenThenClosedDwellAcquiresTheMeasuredRacketAndAllowsServe() passed after 0.172 seconds.
+◇ Test gradualClosureSurvivesMoreThanTheOldPalmCacheLifetime() started.
+✔ Test gradualClosureSurvivesMoreThanTheOldPalmCacheLifetime() passed after 0.008 seconds.
+◇ Test nestedTrackingSetupClosesAllPanelsAndAutomaticallyLaunchesAfterARealGrab() started.
+✔ Test nestedTrackingSetupClosesAllPanelsAndAutomaticallyLaunchesAfterARealGrab() passed after 0.146 seconds.
+◇ Test closingSetupCannotStartWithNoGripOrResumeAnInterruptedRally() started.
+✔ Test closingSetupCannotStartWithNoGripOrResumeAnInterruptedRally() passed after 0.448 seconds.
+◇ Test unheldWristLossDiscardsTheOldPalmBeforeReacquisition() started.
+✔ Test unheldWristLossDiscardsTheOldPalmBeforeReacquisition() passed after 0.309 seconds.
+◇ Test trackedFingerBasesCanFinishAcquisitionWhileTipsAreOccluded() started.
+✔ Test trackedFingerBasesCanFinishAcquisitionWhileTipsAreOccluded() passed after 0.006 seconds.
+◇ Test fingerDataLossRequestsANewOpenInsteadOfPromisingAClosedGrab() started.
+✔ Test fingerDataLossRequestsANewOpenInsteadOfPromisingAClosedGrab() passed after 0.005 seconds.
+◇ Test partialOpenFingersAndMenuPinchingCannotReleaseTheHeldRacket() started.
+✔ Test partialOpenFingersAndMenuPinchingCannotReleaseTheHeldRacket() passed after 0.008 seconds.
+◇ Test fineAngleFitIsAppliedToTheHeldRacketAndCannotInventSwingMotion() started.
+✔ Test fineAngleFitIsAppliedToTheHeldRacketAndCannotInventSwingMotion() passed after 0.008 seconds.
+◇ Test relaxedAndMissingFingersRetainTheLockedMountWhileTheWristMoves() started.
+✔ Test relaxedAndMissingFingersRetainTheLockedMountWhileTheWristMoves() passed after 0.006 seconds.
+◇ Test wristLossBetweenRenderFramesPausesAndRecoveryIsOnlyABaseline() started.
+✔ Test wristLossBetweenRenderFramesPausesAndRecoveryIsOnlyABaseline() passed after 0.116 seconds.
+◇ Test sustainedOpenReleasePausesAFlightAndCannotCreateAContact() started.
+✔ Test sustainedOpenReleasePausesAFlightAndCannotCreateAContact() passed after 0.116 seconds.
+◇ Test anchorVelocityUsesSixtyHertzSampleTimeAndRepeatedRenderFramesAreStill() started.
+✔ Test anchorVelocityUsesSixtyHertzSampleTimeAndRepeatedRenderFramesAreStill() passed after 0.005 seconds.
+◇ Test staleOrUnheldSamplesCannotReplaceASavedHandFit() started.
+✔ Test staleOrUnheldSamplesCannotReplaceASavedHandFit() passed after 0.006 seconds.
+◇ Test duplicatedOrReorderedInputCannotTeleportTheHeldRacketOrInventSpeed() started.
+✔ Test duplicatedOrReorderedInputCannotTeleportTheHeldRacketOrInventSpeed() passed after 0.005 seconds.
+◇ Test pausedAlignmentPreservesTheHandleFreezesFlightAndClearsSwingHistory() started.
+✔ Test pausedAlignmentPreservesTheHandleFreezesFlightAndClearsSwingHistory() passed after 0.114 seconds.
+◇ Test inputAndHandPreferencesReloadSeparateFitsWithoutRevivingOldSamples() started.
+✔ Test inputAndHandPreferencesReloadSeparateFitsWithoutRevivingOldSamples() passed after 0.009 seconds.
+◇ Test twoMeasuredKnucklesCanAcquireWhenTheLittleKnuckleIsOccluded() started.
+✔ Test twoMeasuredKnucklesCanAcquireWhenTheLittleKnuckleIsOccluded() passed after 0.005 seconds.
+◇ Test backgroundOpenCloseCannotAcquireAndForegroundRequiresNewOpen() started.
+✔ Test backgroundOpenCloseCannotAcquireAndForegroundRequiresNewOpen() passed after 0.005 seconds.
+◇ Test backgroundPreservesLockedMountButCannotReleaseOrResumeWithoutFreshHand() started.
+✔ Test backgroundPreservesLockedMountButCannotReleaseOrResumeWithoutFreshHand() passed after 0.118 seconds.
+◇ Test expiredHandShowsRecoveryMessageAndResetFitPreservesPalmAndOtherHand() started.
+✔ Test expiredHandShowsRecoveryMessageAndResetFitPreservesPalmAndOtherHand() passed after 0.008 seconds.
+◇ Test noHandSamplesCannotOverwritePermissionOrProviderFailureFeedback() started.
+✔ Test noHandSamplesCannotOverwritePermissionOrProviderFailureFeedback() passed after 0.004 seconds.
+✔ Suite HandGripInteractionTests passed after 1.649 seconds.
+◇ Suite HandGripTrackerTests started.
+◇ Test translatedAndRotatedWristFollowsTheAcquiredMountExactly() started.
+✔ Test translatedAndRotatedWristFollowsTheAcquiredMountExactly() passed after 0.001 seconds.
+◇ Test movedAndLostKnucklesDoNotRefitAnAcquiredGrip() started.
+✔ Test movedAndLostKnucklesDoNotRefitAnAcquiredGrip() passed after 0.001 seconds.
+◇ Test missingWristHidesTheRacketAndFreshWristUsesCachedLocalMount() started.
+✔ Test missingWristHidesTheRacketAndFreshWristUsesCachedLocalMount() passed after 0.001 seconds.
+◇ Test missingMiddleDegenerateAndDistantInitialKnucklesCannotEstablishAMount() started.
+✔ Test missingMiddleDegenerateAndDistantInitialKnucklesCannotEstablishAMount() passed after 0.001 seconds.
+◇ Test resetRequiresFreshKnuckleAcquisition() started.
+✔ Test resetRequiresFreshKnuckleAcquisition() passed after 0.001 seconds.
+◇ Test mirroredHandsKeepProperRotationsWhenFollowingTheWrist() started.
+✔ Test mirroredHandsKeepProperRotationsWhenFollowingTheWrist() passed after 0.001 seconds.
+◇ Test invalidWristMatricesCannotCreateOrReviveAWorldPose() started.
+✔ Test invalidWristMatricesCannotCreateOrReviveAWorldPose() passed after 0.001 seconds.
+◇ Test captureLocksAnOpenHandPreviewThroughGrabClosure() started.
+✔ Test captureLocksAnOpenHandPreviewThroughGrabClosure() passed after 0.001 seconds.
+◇ Test invalidCaptureDoesNotAttachOrOverwriteAGoodMount() started.
+✔ Test invalidCaptureDoesNotAttachOrOverwriteAGoodMount() passed after 0.001 seconds.
+✔ Suite HandGripTrackerTests passed after 0.001 seconds.
+◇ Suite HandPalmFallbackTests started.
+◇ Test completeKnucklesKeepTheOriginalAuthoredBasis() started.
+✔ Test completeKnucklesKeepTheOriginalAuthoredBasis() passed after 0.001 seconds.
+◇ Test oneMissingSideProducesProperMirroredPalmFrames(missing:) started.
+◇ Test case passing 1 argument missing → .index to oneMissingSideProducesProperMirroredPalmFrames(missing:) started.
+​◇ Test case passing 1 argument missing → .little to oneMissingSideProducesProperMirroredPalmFrames(missing:) started.
+​✔ Test oneMissingSideProducesProperMirroredPalmFrames(missing:) with 2 test cases passed after 0.007 seconds.
+◇ Test partialPalmFrameFollowsMeasuredRigidWorldMotion(missing:) started.
+◇ Test case passing 1 argument missing → .index to partialPalmFrameFollowsMeasuredRigidWorldMotion(missing:) started.
+​◇ Test case passing 1 argument missing → .little to partialPalmFrameFollowsMeasuredRigidWorldMotion(missing:) started.
+​✔ Test partialPalmFrameFollowsMeasuredRigidWorldMotion(missing:) with 2 test cases passed after 0.001 seconds.
+◇ Test partialBasisRejectsLongitudinalFingerLengthSkew(missing:) started.
+◇ Test case passing 1 argument missing → .index to partialBasisRejectsLongitudinalFingerLengthSkew(missing:) started.
+​◇ Test case passing 1 argument missing → .little to partialBasisRejectsLongitudinalFingerLengthSkew(missing:) started.
+​✔ Test partialBasisRejectsLongitudinalFingerLengthSkew(missing:) with 2 test cases passed after 0.001 seconds.
+◇ Test partialAcquisitionKeepsItsMountWhenMoreKnucklesAppearOrDisappear(missing:) started.
+◇ Test case passing 1 argument missing → .index to partialAcquisitionKeepsItsMountWhenMoreKnucklesAppearOrDisappear(missing:) started.
+​◇ Test case passing 1 argument missing → .little to partialAcquisitionKeepsItsMountWhenMoreKnucklesAppearOrDisappear(missing:) started.
+​✔ Test partialAcquisitionKeepsItsMountWhenMoreKnucklesAppearOrDisappear(missing:) with 2 test cases passed after 0.001 seconds.
+◇ Test partialPalmCaptureKeepsTheHandleOffsetBounded() started.
+✔ Test partialPalmCaptureKeepsTheHandleOffsetBounded() passed after 0.001 seconds.
+◇ Test missingMiddleSingleKnuckleInvalidAndDegenerateDataCannotAcquire() started.
+✔ Test missingMiddleSingleKnuckleInvalidAndDegenerateDataCannotAcquire() passed after 0.001 seconds.
+✔ Suite HandPalmFallbackTests passed after 0.009 seconds.
+◇ Suite MiloAnimationTests started.
+◇ Test visualAnimationCannotMoveThePhysicalRacketRig() started.
+✔ Test visualAnimationCannotMoveThePhysicalRacketRig() passed after 0.106 seconds.
+◇ Test movingHoverBaseBobsWithinItsVisualEnvelope() started.
+✔ Test movingHoverBaseBobsWithinItsVisualEnvelope() passed after 0.001 seconds.
+◇ Test reactionsDecayInElapsedTimeAcrossDifferentFrameRates() started.
+✔ Test reactionsDecayInElapsedTimeAcrossDifferentFrameRates() passed after 0.001 seconds.
+◇ Test recoveringBetweenRalliesStillBanksAndPowersTheHoverEngine() started.
+✔ Test recoveringBetweenRalliesStillBanksAndPowersTheHoverEngine() passed after 0.001 seconds.
+◇ Test reducedMotionResetsVisualJointsWithoutChangingPhysicalPose() started.
+✔ Test reducedMotionResetsVisualJointsWithoutChangingPhysicalPose() passed after 0.001 seconds.
+✔ Suite MiloAnimationTests passed after 0.112 seconds.
+◇ Suite RacketMotionContactTests started.
+◇ Test fixedFaceAndTranslatedFaceKeepTheirMeasuredContactFractions() started.
+✔ Test fixedFaceAndTranslatedFaceKeepTheirMeasuredContactFractions() passed after 0.001 seconds.
+◇ Test aRotatingLocalChordCannotInventAContactOutsideTheWorldStrings() started.
+✔ Test aRotatingLocalChordCannotInventAContactOutsideTheWorldStrings() passed after 0.001 seconds.
+◇ Test aMovingEdgeCanStrikeWhileItsStringCentreHasNoVelocity() started.
+✔ Test aMovingEdgeCanStrikeWhileItsStringCentreHasNoVelocity() passed after 0.001 seconds.
+◇ Test measuredSampleDurationControlsAngularVelocityAndOppositeSignsAreEquivalent() started.
+✔ Test measuredSampleDurationControlsAngularVelocityAndOppositeSignsAreEquivalent() passed after 0.001 seconds.
+◇ Test rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+◇ Test case passing 1 argument dt → 0.033333335 to rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+​◇ Test case passing 1 argument dt → 0.016666668 to rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+​◇ Test case passing 1 argument dt → 0.011111111 to rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+​✔ Test rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) with 3 test cases passed after 0.001 seconds.
+◇ Test contactVelocityRotatesAndScalesTheActualOffCentreLever() started.
+✔ Test contactVelocityRotatesAndScalesTheActualOffCentreLever() passed after 0.001 seconds.
+◇ Test scaledStringsKeepTheCorkRadiusInWorldMetres() started.
+✔ Test scaledStringsKeepTheCorkRadiusInWorldMetres() passed after 0.001 seconds.
+◇ Test departingTangentialAndStationaryCorksCannotCreateReturns() started.
+✔ Test departingTangentialAndStationaryCorksCannotCreateReturns() passed after 0.001 seconds.
+◇ Test invalidPosesAndNonfiniteMotionCannotCreateContacts() started.
+✔ Test invalidPosesAndNonfiniteMotionCannotCreateContacts() passed after 0.001 seconds.
+✔ Suite RacketMotionContactTests passed after 0.004 seconds.
+◇ Suite RallyEventsTests started.
+◇ Test earliestFloorContactWinsOverLaterNetCrossing() started.
+✔ Test earliestFloorContactWinsOverLaterNetCrossing() passed after 0.001 seconds.
+◇ Test earliestNetContactWinsOverLaterFloorContact() started.
+✔ Test earliestNetContactWinsOverLaterFloorContact() passed after 0.001 seconds.
+◇ Test landingUsesFirstFloorPositionInsteadOfOvershootingEndpoint() started.
+✔ Test landingUsesFirstFloorPositionInsteadOfOvershootingEndpoint() passed after 0.002 seconds.
+◇ Test airborneShuttleMayCrossSidelineAndClearNet() started.
+✔ Test airborneShuttleMayCrossSidelineAndClearNet() passed after 0.001 seconds.
+◇ Test runawayDistanceHasSweptExitFraction() started.
+✔ Test runawayDistanceHasSweptExitFraction() passed after 0.001 seconds.
+◇ Test alreadyGroundedShuttleFaultsAtFrameStart() started.
+✔ Test alreadyGroundedShuttleFaultsAtFrameStart() passed after 0.001 seconds.
+◇ Test nonfiniteEndpointsAreRejected() started.
+✔ Test nonfiniteEndpointsAreRejected() passed after 0.001 seconds.
+✔ Suite RallyEventsTests passed after 0.003 seconds.
+◇ Suite SceneResourceReuseTests started.
+◇ Test repeatedPrimitivesShareResourcesAndKeepIndependentTransformsMaterialsAndParents() started.
+✔ Test repeatedPrimitivesShareResourcesAndKeepIndependentTransformsMaterialsAndParents() passed after 0.019 seconds.
+◇ Test primitiveKeysPreserveExactDimensionsRoundingAndNativeTopology() started.
+✔ Test primitiveKeysPreserveExactDimensionsRoundingAndNativeTopology() passed after 0.062 seconds.
+◇ Test authoredRingsLeavesAndFloorKeepTessellationAndUVKeys() started.
+✔ Test authoredRingsLeavesAndFloorKeepTessellationAndUVKeys() passed after 0.005 seconds.
+◇ Test twentyAuthoredRacketsReuseEveryMeshOnTheSecondBatchAndReportConstructionTime() started.
+SceneResourceReuse rackets=20 cold_ms=1400.866985321045 warm_ms=1385.653018951416 cold_generated=12 warm_generated=0 warm_hits=1420 cache_entries=12
+✔ Test twentyAuthoredRacketsReuseEveryMeshOnTheSecondBatchAndReportConstructionTime() passed after 3.268 seconds.
+◇ Test cacheStaysBoundedEvictsLeastUsedAndNeverInvalidatesLiveEntities() started.
+✔ Test cacheStaysBoundedEvictsLeastUsedAndNeverInvalidatesLiveEntities() passed after 0.505 seconds.
+◇ Test repeatedCourtBuildReusesCachedGeometryAndReportsMeshColdWarmTimes() started.
+SceneResourceReuse court_mesh_cold_ms=635.6519460678101 court_mesh_warm_ms=500.72693824768066 cached_cold_generated=159 cached_warm_generated=0 warm_hits=588 cache_entries=159 textures_not_reset=true
+✔ Test repeatedCourtBuildReusesCachedGeometryAndReportsMeshColdWarmTimes() passed after 1.244 seconds.
+✔ Suite SceneResourceReuseTests passed after 5.106 seconds.
+◇ Suite SenseGripFitTests started.
+◇ Test leftAndRightFitsPersistIndependentlyThroughCodable() started.
+✔ Test leftAndRightFitsPersistIndependentlyThroughCodable() passed after 0.008 seconds.
+◇ Test defaultMountKeepsHandleAtGripAndHeadAlongGripMinusZ() started.
+✔ Test defaultMountKeepsHandleAtGripAndHeadAlongGripMinusZ() passed after 0.001 seconds.
+◇ Test fineAdjustmentIsLocalToCalibratedBaseAndDoesNotRotateTranslation() started.
+✔ Test fineAdjustmentIsLocalToCalibratedBaseAndDoesNotRotateTranslation() passed after 0.001 seconds.
+◇ Test quarterTurnPresetsKeepTiltedShaftHandleAndHeadVelocityFixed() started.
+✔ Test quarterTurnPresetsKeepTiltedShaftHandleAndHeadVelocityFixed() passed after 0.001 seconds.
+◇ Test legacyRotationOrderMigrationPreservesSavedMountedPoseAndDoesNotRepeat() started.
+✔ Test legacyRotationOrderMigrationPreservesSavedMountedPoseAndDoesNotRepeat() passed after 0.005 seconds.
+◇ Test calibrationPreservesTrimAndTranslationAndFollowsMovedCourt() started.
+✔ Test calibrationPreservesTrimAndTranslationAndFollowsMovedCourt() passed after 0.001 seconds.
+◇ Test velocityUsesFittedHeadLeverArmAndAnchorLocalAngularVelocity() started.
+✔ Test velocityUsesFittedHeadLeverArmAndAnchorLocalAngularVelocity() passed after 0.001 seconds.
+◇ Test finiteBoundsClampButNonfiniteAndZeroQuaternionCannotPersist() started.
+✔ Test finiteBoundsClampButNonfiniteAndZeroQuaternionCannotPersist() passed after 0.004 seconds.
+◇ Test decoderRejectsNonfiniteAndMalformedPersistedData() started.
+✔ Test decoderRejectsNonfiniteAndMalformedPersistedData() passed after 0.001 seconds.
+✔ Suite SenseGripFitTests passed after 0.021 seconds.
+◇ Suite SenseHoldAlignmentTests started.
+◇ Test naturalTremorAndSmallDriftCompleteQuicklyAcrossRenderRates(rate:) started.
+◇ Test case passing 1 argument rate → 30 to naturalTremorAndSmallDriftCompleteQuicklyAcrossRenderRates(rate:) started.
+​◇ Test case passing 1 argument rate → 60 to naturalTremorAndSmallDriftCompleteQuicklyAcrossRenderRates(rate:) started.
+​◇ Test case passing 1 argument rate → 90 to naturalTremorAndSmallDriftCompleteQuicklyAcrossRenderRates(rate:) started.
+​✔ Test naturalTremorAndSmallDriftCompleteQuicklyAcrossRenderRates(rate:) with 3 test cases passed after 0.028 seconds.
+◇ Test aSlowIntentionalTurnNeverCalibratesAndOffersABoundedRetry() started.
+✔ Test aSlowIntentionalTurnNeverCalibratesAndOffersABoundedRetry() passed after 0.019 seconds.
+◇ Test fastMenuPointingMovementIsDiscardedBeforeTheNewNaturalHold() started.
+✔ Test fastMenuPointingMovementIsDiscardedBeforeTheNewNaturalHold() passed after 0.007 seconds.
+◇ Test aTrackingGapDropsOldEvidenceAndNeedsANewFullHold() started.
+✔ Test aTrackingGapDropsOldEvidenceAndNeedsANewFullHold() passed after 0.009 seconds.
+◇ Test repeatedOrReorderedObservationsCannotFinishAnUnmeasuredHold() started.
+✔ Test repeatedOrReorderedObservationsCannotFinishAnUnmeasuredHold() passed after 0.008 seconds.
+◇ Test missingOrFrozenTrackingTimesOutWithoutProducingAPose() started.
+✔ Test missingOrFrozenTrackingTimesOutWithoutProducingAPose() passed after 0.001 seconds.
+◇ Test recentQuaternionMeanHandlesBothGripExamplesAndThePiSignBoundary(left:) started.
+◇ Test case passing 1 argument left → false to recentQuaternionMeanHandlesBothGripExamplesAndThePiSignBoundary(left:) started.
+​◇ Test case passing 1 argument left → true to recentQuaternionMeanHandlesBothGripExamplesAndThePiSignBoundary(left:) started.
+​✔ Test recentQuaternionMeanHandlesBothGripExamplesAndThePiSignBoundary(left:) with 2 test cases passed after 0.013 seconds.
+◇ Test malformedPosesAndStaleSamplesCannotContributeAndZeroTimeDoesNothing() started.
+✔ Test malformedPosesAndStaleSamplesCannotContributeAndZeroTimeDoesNothing() passed after 0.001 seconds.
+✔ Suite SenseHoldAlignmentTests passed after 0.089 seconds.
+◇ Suite SenseMovementInputTests started.
+◇ Test missingOrNonfiniteMovementAxesStayNeutral() started.
+✔ Test missingOrNonfiniteMovementAxesStayNeutral() passed after 0.001 seconds.
+◇ Test finiteMovementAxesKeepDirectionWithinTheirBounds() started.
+✔ Test finiteMovementAxesKeepDirectionWithinTheirBounds() passed after 0.001 seconds.
+◇ Test stoppedControllerInputCannotMoveEitherRacketHand() started.
+✔ Test stoppedControllerInputCannotMoveEitherRacketHand() passed after 0.001 seconds.
+✔ Suite SenseMovementInputTests passed after 0.001 seconds.
+◇ Suite SenseRacketMountTests started.
+◇ Test racketExtendsFromGripTowardThumbAfterWorldMovement() started.
+✔ Test racketExtendsFromGripTowardThumbAfterWorldMovement() passed after 0.001 seconds.
+◇ Test mountIsAProperRigidRotation() started.
+✔ Test mountIsAProperRigidRotation() passed after 0.001 seconds.
+✔ Suite SenseRacketMountTests passed after 0.001 seconds.
+◇ Suite SenseTrackingQualityTests started.
+◇ Test angularMotionUsesTheVisibleHeadLeverArmAndWorldRotation() started.
+✔ Test angularMotionUsesTheVisibleHeadLeverArmAndWorldRotation() passed after 0.001 seconds.
+◇ Test invalidAngularVelocityCannotBecomeAValidStationaryRacket() started.
+✔ Test invalidAngularVelocityCannotBecomeAValidStationaryRacket() passed after 0.001 seconds.
+◇ Test stationaryAnchorCannotHideAnImplausiblyFastRotatingRacketHead() started.
+✔ Test stationaryAnchorCannotHideAnImplausiblyFastRotatingRacketHead() passed after 0.001 seconds.
+◇ Test weakOrStaleTrackingCannotArmContactEvenWithPlausibleMotion() started.
+✔ Test weakOrStaleTrackingCannotArmContactEvenWithPlausibleMotion() passed after 0.001 seconds.
+◇ Test stoppedAccessoryGetsOneAutomaticRecoveryWithoutRepeatedSessionStarts() started.
+✔ Test stoppedAccessoryGetsOneAutomaticRecoveryWithoutRepeatedSessionStarts() passed after 0.001 seconds.
+◇ Test failedConfigurationWaitsForRetryOrChangedConnectionsAndNeverRerunsStoppedWorld() started.
+✔ Test failedConfigurationWaitsForRetryOrChangedConnectionsAndNeverRerunsStoppedWorld() passed after 0.001 seconds.
+✔ Suite SenseTrackingQualityTests passed after 0.002 seconds.
+◇ Suite ServePinchGestureTests started.
+◇ Test heldPinchOnFirstAcquisitionCannotServe() started.
+✔ Test heldPinchOnFirstAcquisitionCannotServe() passed after 0.001 seconds.
+◇ Test deliberatePinchFiresOnceUntilTheFingersReopen() started.
+✔ Test deliberatePinchFiresOnceUntilTheFingersReopen() passed after 0.001 seconds.
+◇ Test partialReleaseAndThresholdJitterRequireANewSustainedHold() started.
+✔ Test partialReleaseAndThresholdJitterRequireANewSustainedHold() passed after 0.001 seconds.
+◇ Test untrackedOrStaleSampleDisarmsAndHeldReacquisitionDoesNotServe() started.
+✔ Test untrackedOrStaleSampleDisarmsAndHeldReacquisitionDoesNotServe() passed after 0.001 seconds.
+◇ Test sampleGapInterruptsHoldAndRequiresOpenHandAgain() started.
+✔ Test sampleGapInterruptsHoldAndRequiresOpenHandAgain() passed after 0.001 seconds.
+◇ Test duplicateAndBackwardSamplesCannotCompleteAFalseHold() started.
+✔ Test duplicateAndBackwardSamplesCannotCompleteAFalseHold() passed after 0.001 seconds.
+◇ Test invalidValuesAndExplicitResetRequireOpenHandAgain() started.
+✔ Test invalidValuesAndExplicitResetRequireOpenHandAgain() passed after 0.001 seconds.
+✔ Suite ServePinchGestureTests passed after 0.004 seconds.
+✔ Test run with 230 tests in 25 suites passed after 48.525 seconds.
+2026-10-12 15:00:08.244 xcodebuild[55496:550445] [MT] IDETestOperationsObserverDebug: 58.633 elapsed -- Testing started completed.
+2026-10-12 15:00:08.244 xcodebuild[55496:550445] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-12 15:00:08.244 xcodebuild[55496:550445] [MT] IDETestOperationsObserverDebug: 58.633 sec, +58.633 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/shuttle-build12-native-final.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started

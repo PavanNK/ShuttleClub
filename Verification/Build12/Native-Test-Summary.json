@@ -1,0 +1,48 @@
+{
+  "devicesAndConfigurations": [
+    {
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "EB6EBD31-2711-44B4-A19B-A668479B0BE0",
+        "deviceName": "Apple Vision Pro",
+        "modelName": "Apple Vision Pro",
+        "osBuildNumber": "24M362",
+        "osVersion": "27.0",
+        "platform": "visionOS Simulator"
+      },
+      "expectedFailures": 0,
+      "failedTests": 0,
+      "passedTests": 330,
+      "skippedTests": 0,
+      "testPlanConfiguration": {
+        "configurationId": "1",
+        "configurationName": "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription": "ShuttleClub \u00b7 Built with macOS 27.0.1",
+  "expectedFailures": 0,
+  "failedTests": 0,
+  "finishTime": 1791788408.246,
+  "passedTests": 230,
+  "result": "Passed",
+  "runtimeWarnings": [],
+  "skippedTests": 0,
+  "startTime": 1791788349.109,
+  "statistics": [
+    {
+      "subtitle": "133 test runs",
+      "title": "33 tests ran with dynamic parameters"
+    }
+  ],
+  "testFailures": [],
+  "title": "Test - ShuttleClub",
+  "topInsights": [
+    {
+      "category": "Longest Test Runs",
+      "impact": "22% of duration",
+      "text": "7 longest test runs with outlier durations exceeding 1.01s (three standard deviations)"
+    }
+  ],
+  "totalTestCount": 230
+}

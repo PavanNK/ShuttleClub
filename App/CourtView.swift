@@ -80,33 +80,47 @@ struct ScoreView:View {
 struct CourtControls:View {
     @Environment(GameModel.self) private var game
     var body:some View {
-        VStack(spacing:10) {
-            if game.canServe || game.paused || game.isPreparingServe || game.score.winner != nil {
-                Text(game.message).font(.system(size:13,weight:.bold,design:.rounded)).multilineTextAlignment(.center).frame(maxWidth:290)
-            } else {
-                Text(game.message).font(.system(size:11,weight:.bold,design:.rounded)).multilineTextAlignment(.center).frame(maxWidth:200)
+        VStack(spacing:expanded ? 12:8) {
+            if !game.isControllerAlignmentPending && alignmentFailure == nil {
+                Text(game.message).font(.system(size:expanded ? 15:12,weight:.bold,design:.rounded))
+                    .multilineTextAlignment(.center).fixedSize(horizontal:false,vertical:true)
             }
             if game.input == .sense,game.isControllerAlignmentPending { ControllerAlignmentCue(compact:true) }
+            if let alignmentFailure {
+                Label(alignmentFailure,systemImage:"exclamationmark.triangle.fill")
+                    .font(.system(size:14,weight:.semibold)).multilineTextAlignment(.center)
+                    .fixedSize(horizontal:false,vertical:true)
+                    .accessibilityIdentifier("controllerAlignmentFailure")
+                Button { game.beginControllerAlignment() } label:{ Text("Retry alignment").frame(minHeight:44) }
+                    .font(.system(size:14,weight:.bold)).buttonStyle(.borderedProminent)
+                    .disabled(!game.canAdjustControllerGrip)
+                    .accessibilityIdentifier("retryControllerAlignment")
+            }
             if game.isPreparingServe {
                 if game.paused { Text("Serve paused").font(.caption.bold()) }
                 ProgressView(value:Double(0.65-game.serveCountdown),total:0.65).tint(.clubViolet).frame(width:180).accessibilityLabel("Serve windup")
-            } else if game.canServe && tracked && !game.paused && game.automaticServing && !game.isControllerAlignmentPending {
+            } else if game.canServe && tracked && !game.paused && game.automaticServing && !game.isControllerAlignmentPending && !game.controllerAlignmentRequired {
                 Label("Milo serves in \(max(1,Int(ceil(game.nextServeCountdown))))…",systemImage:"figure.badminton").font(.caption.bold()).monospacedDigit()
             }
             HStack(spacing:12) {
-                if game.mode == .match && game.score.winner != nil { Button { game.restart() } label:{ Label("Play again",systemImage:"arrow.clockwise") }.buttonStyle(.borderedProminent).accessibilityIdentifier("playAgain") }
-                else if game.paused { Button { game.paused=false;if game.soundEnabled { SoundBank.play(.pause) } } label:{ Label("Resume",systemImage:"play.fill") }.buttonStyle(.borderedProminent).disabled(!tracked).accessibilityIdentifier("resumeRally") }
-                else { Button { game.paused=true; if game.soundEnabled { SoundBank.play(.pause) } } label:{ Label("Pause",systemImage:"pause.fill") } }
-                Button { Logger(subsystem:"com.shuttleclub.vision",category:"Court").info("Court menu selected");if game.rallyInProgress { game.paused=true };game.showCourtMenu=true;if game.soundEnabled { SoundBank.play(.menu) } } label:{ Image(systemName:"ellipsis") }.accessibilityLabel("Open club menu")
-            }.font(.system(size:13,weight:.bold,design:.rounded)).buttonStyle(.bordered).tint(.clubViolet)
+                if game.mode == .match && game.score.winner != nil { Button { game.restart() } label:{ Label("Play again",systemImage:"arrow.clockwise").frame(minHeight:44) }.buttonStyle(.borderedProminent).accessibilityIdentifier("playAgain") }
+                else if game.paused { Button { game.paused=false;if game.soundEnabled { SoundBank.play(.pause) } } label:{ Label("Resume",systemImage:"play.fill").frame(minHeight:44) }.buttonStyle(.borderedProminent).disabled(!game.canResumeRally).accessibilityIdentifier("resumeRally") }
+                else { Button { game.paused=true; if game.soundEnabled { SoundBank.play(.pause) } } label:{ Label("Pause",systemImage:"pause.fill").frame(minHeight:44) } }
+                Button { Logger(subsystem:"com.shuttleclub.vision",category:"Court").info("Court menu selected");if game.rallyInProgress { game.paused=true };game.showCourtMenu=true;if game.soundEnabled { SoundBank.play(.menu) } } label:{ Image(systemName:"ellipsis").frame(width:44,height:44) }.accessibilityLabel("Open club menu")
+            }.font(.system(size:14,weight:.bold,design:.rounded)).buttonStyle(.bordered).tint(.clubViolet)
             if game.collisionPreview { Text("Collision preview · simulated hands").font(.system(size:9)).foregroundStyle(.secondary) }
             else if !tracked {
-                RacketTrackingStatus(compact:true).frame(maxWidth:290)
-                Button("Set up tracking") { if game.rallyInProgress { game.paused=true };game.showPlaySetup=true }.font(.caption.bold()).buttonStyle(.bordered).accessibilityIdentifier("setupTracking")
+                RacketTrackingStatus(compact:true)
+                Button { if game.rallyInProgress { game.paused=true };game.showPlaySetup=true } label:{ Text("Set up tracking").frame(minHeight:44) }.font(.system(size:14,weight:.bold)).buttonStyle(.bordered).accessibilityIdentifier("setupTracking")
             }
-        }.padding(14).foregroundStyle(Color.clubInk).background(Color.clubPaper.opacity(0.93),in:RoundedRectangle(cornerRadius:21))
+        }.frame(width:expanded ? 300:220).padding(14).foregroundStyle(Color.clubInk)
+            .background(Color.clubPaper.opacity(0.93),in:RoundedRectangle(cornerRadius:21))
     }
     private var tracked:Bool { game.racketReady }
+    private var alignmentFailure:String? {
+        game.input == .sense && (game.canServe || game.paused) && !game.isControllerAlignmentPending ? game.controllerAlignmentFailure:nil
+    }
+    private var expanded:Bool { game.canServe || game.paused || game.isPreparingServe || game.score.winner != nil || !tracked || game.isControllerAlignmentPending }
 }
 struct CourtMenu:View {
     @Environment(GameModel.self) private var game
@@ -131,7 +145,7 @@ struct CourtMenu:View {
             }.buttonStyle(.bordered).font(.system(size:15,weight:.semibold))
             if game.input == .sense,game.isControllerAlignmentPending { ControllerAlignmentCue() }
             if !game.racketReady { RacketTrackingStatus(compact:true) }
-            Button { if game.racketReady { game.paused=false };closeMenus() } label:{ Label(game.rallyInProgress ? "Resume rally":"Back to court",systemImage:"play.fill") }.buttonStyle(ClubPrimaryButton(colour:.clubCoral)).disabled(game.rallyInProgress && !game.racketReady)
+            Button { if game.canResumeRally { game.paused=false };closeMenus() } label:{ Label(game.rallyInProgress ? "Resume rally":"Back to court",systemImage:"play.fill") }.buttonStyle(ClubPrimaryButton(colour:.clubCoral)).disabled(game.rallyInProgress && !game.canResumeRally)
             Button("Leave the court") { closeMenus();game.stop();navigation.playing=false }.font(.subheadline).frame(maxWidth:.infinity)
         }.padding(30).frame(width:510).foregroundStyle(Color.clubInk).tint(.clubViolet).background(Color.clubPaper,in:RoundedRectangle(cornerRadius:26))
     }
@@ -144,13 +158,16 @@ struct ControllerAlignmentCue:View {
     var compact=false
     var body:some View {
         VStack(spacing:7) {
-            Label("Hold naturally · \(max(1,Int(ceil(Double(game.controllerAlignmentCountdown)))))…",systemImage:"hand.raised.fill")
-                .font(.system(size:compact ? 12:14,weight:.semibold,design:.rounded))
+            Label("Hold comfortably · \(max(1,Int(ceil(Double(game.controllerAlignmentCountdown)))))…",systemImage:"hand.raised.fill")
+                .font(.system(size:compact ? 16:17,weight:.bold,design:.rounded))
                 .monospacedDigit().foregroundStyle(Color.clubViolet)
                 .accessibilityIdentifier("controllerAlignmentCountdown")
-            Button("Cancel alignment") { game.cancelControllerAlignment() }
-                .font(.system(size:compact ? 12:14,weight:.semibold)).buttonStyle(.bordered)
+            Text("Keep your racket hand still until aligned.")
+                .font(.system(size:compact ? 13:14)).foregroundStyle(Color.clubInk.opacity(0.70))
+                .multilineTextAlignment(.center).fixedSize(horizontal:false,vertical:true)
+            Button { game.cancelControllerAlignment() } label:{ Text("Cancel alignment").frame(minHeight:44) }
+                .font(.system(size:14,weight:.semibold)).buttonStyle(.bordered)
                 .accessibilityIdentifier("cancelControllerAlignment")
-        }.frame(maxWidth:.infinity)
+        }.frame(maxWidth:compact ? 300:420)
     }
 }

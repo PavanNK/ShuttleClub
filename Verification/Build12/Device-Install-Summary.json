@@ -1,0 +1,19 @@
+{
+  "recorded_utc": "2026-10-12T07:06:36.682814+00:00",
+  "device_kind": "physical Apple Vision Pro",
+  "previous_independently_read_build": "11",
+  "signed_app": {
+    "bundle_identifier": "com.shuttleclub.vision",
+    "version": "1.0",
+    "build": "12",
+    "executable_sha256": "eb7873d2ca1694833ae41214c8dd69f523c5d15471e62d932cce033ddf6ed933",
+    "strict_signature_verification": "Passed"
+  },
+  "installation_result": "success",
+  "independent_version_query": {
+    "result": "success",
+    "installed_build": "12"
+  },
+  "remote_launch_attempted": false,
+  "scope": "Installer success is confirmed. Tests use synthetic measured poses. Physical grip comfort, tracking latency and headset performance remain unverified. Hardware identifiers, signing-account details and private video pixels are omitted."
+}

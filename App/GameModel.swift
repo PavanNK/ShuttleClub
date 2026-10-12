@@ -39,11 +39,24 @@ final class GameModel {
     private(set) var courtMovement: CourtMovement = .thumbstick
     var effectiveCourtMovement: CourtMovement { input == .hands && courtMovement == .thumbstick ? .autoGlide : courtMovement }
     private(set) var controllerAlignmentCountdown: Float = 0
-    var isControllerAlignmentPending: Bool { controllerAlignmentCountdown > 0 }
+    private(set) var controllerAlignmentFailure: String?
+    var isControllerAlignmentPending: Bool { alignmentHand != nil }
+    var controllerAlignmentRequired: Bool {
+        input == .sense && !collisionPreview && !controllerGripDefaults.bool(forKey: controllerAlignmentKey)
+    }
+    private var controllerAlignmentKey: String { "ShuttleClub.SenseNaturalHold.\(leftHand ? "left":"right").v2" }
     private var rightControllerGripFit = SenseGripFit()
     private var leftControllerGripFit = SenseGripFit()
     var difficulty: Difficulty = .friendly
-    var paused = false { didSet { syncAudio();if paused { nextServeCountdown=2;servePinch.reset();navigation.stop();contactFeedback?.reset() } else if oldValue,lastHitter == .milo { planPlayerGlide() } } }
+    var paused = false { didSet {
+        if oldValue,!paused,rallyInProgress,isControllerAlignmentPending || controllerAlignmentRequired {
+            paused=true;message="Finish aligning your controller before resuming."
+            return
+        }
+        syncAudio()
+        if paused { nextServeCountdown=2;servePinch.reset();navigation.stop();contactFeedback?.reset() }
+        else if oldValue,lastHitter == .milo { planPlayerGlide() }
+    } }
     var message = "Welcome to Shuttle Club."
     var trackingMessage = ""
     var handVisible = false
@@ -91,8 +104,7 @@ final class GameModel {
     @ObservationIgnored private var autoGlideTarget: SIMD2<Float>?
     @ObservationIgnored private var playerReadyOffset: V3?
     @ObservationIgnored private var alignmentHand: Bool?
-    @ObservationIgnored private var alignmentTimestamp: Double = 0
-    @ObservationIgnored private var alignmentPose: simd_float4x4?
+    @ObservationIgnored private var alignmentSampler = SenseHoldAlignment()
     @ObservationIgnored private var initialAlignmentAttempted = Set<Bool>()
     @ObservationIgnored private var contactFeedback: ShuttleContactFeedback?
     @ObservationIgnored private var lastPoseTimestamp: Double = 0
@@ -163,12 +175,13 @@ final class GameModel {
         TrackingGate.accepts(age:CACurrentMediaTime()-wristTimestamp,fullPosition:true,speed:0)
     }
     var racketReady:Bool { trackedRacketReady }
+    var canResumeRally:Bool { racketReady && !isControllerAlignmentPending && !controllerAlignmentRequired }
     var handHeadVelocity:V3 { input == .hands ? racketSpeed:.zero }
     var virtualCourtPosition: SIMD2<Float> { navigation.position }
     var virtualCourtSpeed: Float { simd_length(navigation.velocity) }
     var playerReturnTarget: V3 {
         let p=navigation.position
-        if effectiveCourtMovement == .autoGlide,let ready=playerReadyOffset {
+        if let ready=playerReadyOffset {
             return [min(2.4,max(-2.4,p.x+ready.x)),ready.y,min(1.2,max(Court.netZ+0.8,p.y+ready.z))]
         }
         return [p.x,1.6,p.y-0.25]
@@ -478,7 +491,7 @@ final class GameModel {
     /// The callback checks its current tracking generation and input first.
     func handleControllerMenu() {
         guard !showCourtMenu,!showSettings,!showRackets,!showPlaySetup else { return }
-        guard sceneActive,!paused || trackedRacketReady else { return }
+        guard sceneActive,!paused || canResumeRally else { return }
         paused.toggle()
     }
     /// Return from tracking setup to the actual court, including when setup
@@ -525,45 +538,53 @@ final class GameModel {
     /// Tracking loss, input/hand changes and leaving setup cancel the capture.
     func beginControllerAlignment() {
         guard canAdjustControllerGrip else { return }
-        controllerAlignmentCountdown=3;alignmentHand=leftHand
+        alignmentSampler.reset();controllerAlignmentFailure=nil
+        controllerAlignmentCountdown=alignmentSampler.secondsRemaining;alignmentHand=leftHand
         initialAlignmentAttempted.insert(leftHand)
-        alignmentTimestamp=controllerGripTimestamp;alignmentPose=lastControllerGrip
         navigation.stop();nextServeCountdown=2
-        message="Hold the controller comfortably for play. Keep it still for 3 seconds."
+        message="Relax your wrist and hold the controller comfortably for a moment."
     }
     func cancelControllerAlignment(retryOnNextReady:Bool = false) {
+        let wasPending=isControllerAlignmentPending
         if retryOnNextReady,let hand=alignmentHand { initialAlignmentAttempted.remove(hand) }
-        controllerAlignmentCountdown=0;alignmentHand=nil;alignmentTimestamp=0;alignmentPose=nil
+        controllerAlignmentCountdown=0;alignmentHand=nil;alignmentSampler.reset()
+        if wasPending,!retryOnNextReady,controllerAlignmentRequired {
+            controllerAlignmentFailure="Alignment cancelled. Retry when your wrist is comfortable."
+        }
     }
     func updateControllerAlignment(_ dt:Float) {
         guard isControllerAlignmentPending else { return }
         if dt == 0 { return }
         guard dt.isFinite,dt > 0,dt <= 0.1,alignmentHand == leftHand,canAdjustControllerGrip,
               let grip=lastControllerGrip else { cancelControllerAlignment(retryOnNextReady:true);return }
-        if controllerGripTimestamp > alignmentTimestamp,let previous=alignmentPose {
-            let rotation=RacketMotion.angularVelocity(from:previous,to:grip,duration:1)
-            if simd_distance(previous.columns.3.xyz,grip.columns.3.xyz)>0.012 || simd_length(rotation)>0.05 {
-                controllerAlignmentCountdown=3
-                alignmentPose=grip
-                message="Keep your comfortable playing hold still for 3 seconds."
-            }
-            alignmentTimestamp=controllerGripTimestamp
-        }
-        controllerAlignmentCountdown=max(0,controllerAlignmentCountdown-dt)
-        if controllerAlignmentCountdown < 0.0001 {
-            cancelControllerAlignment();setGrip()
-            controllerGripDefaults.set(true,forKey:"ShuttleClub.SenseNaturalHold.\(leftHand ? "left":"right").v2")
+        let outcome=alignmentSampler.update(pose:grip,timestamp:controllerGripTimestamp,now:CACurrentMediaTime(),dt:dt)
+        controllerAlignmentCountdown=alignmentSampler.secondsRemaining
+        switch outcome {
+        case .waitingForTracking:message="Keep the controller in view."
+        case .settling:message="Relax your wrist into your playing hold."
+        case .holding:message="Comfortable hold found."
+        case .completed(let averagedGrip):
+            controllerAlignmentCountdown=0;alignmentHand=nil;alignmentSampler.reset()
+            var fit=controllerGripFit
+            fit.pitchDegrees=0;fit.yawDegrees=0;fit.rollDegrees=0
+            let orientation=simd_quatf(assets.root.transformMatrix(relativeTo:nil))
+            setControllerGripFit(fit.aligned(fromGrip:averagedGrip,desiredOrientation:orientation))
+            controllerAlignmentFailure=nil
+            message="Racket aligned. Milo will serve when you're ready."
+        case .failed(let failure):
+            controllerAlignmentCountdown=0;alignmentHand=nil;alignmentSampler.reset()
+            controllerAlignmentFailure=failure.message
+            message=failure.message
         }
     }
-    private func beginInitialControllerAlignmentIfNeeded() {
-        guard trackingActive,!collisionPreview,input == .sense,canServe,!paused,
+    func beginInitialControllerAlignmentIfNeeded() {
+        guard trackingActive,!collisionPreview,input == .sense,canServe || paused,
               !showCourtMenu,!showSettings,!showRackets,!showPlaySetup,
               !isControllerAlignmentPending,!initialAlignmentAttempted.contains(leftHand),canAdjustControllerGrip else { return }
         initialAlignmentAttempted.insert(leftHand)
-        // Preserve an existing chosen fit. A new/default attachment is fitted
-        // once before its first serve; the setup button can refit either hand.
-        let key="ShuttleClub.SenseNaturalHold.\(leftHand ? "left":"right").v2"
-        if !controllerGripDefaults.bool(forKey:key),controllerGripFit == SenseGripFit() { beginControllerAlignment() }
+        // Old fitted angles remain saved until capture succeeds, but cannot
+        // skip first-use confirmation simply because an old trim is nonzero.
+        if controllerAlignmentRequired { beginControllerAlignment() }
     }
     func setCourtMovement(_ movement:CourtMovement) {
         courtMovement=movement;controllerGripDefaults.set(movement.rawValue,forKey:"ShuttleClub.courtMovement.v1")
@@ -602,7 +623,9 @@ final class GameModel {
         autoGlideTarget=SIMD2(point.x,point.z)-physical
     }
     private func capturePlayerReadyOffset() {
-        guard playerReadyOffset == nil,canServe,lastPoseTimestamp > 0,trackedRacketReady,!isControllerAlignmentPending else { return }
+        guard playerReadyOffset == nil,canServe,!paused,lastPoseTimestamp > 0,trackedRacketReady,
+              !isControllerAlignmentPending,!controllerAlignmentRequired,
+              !showCourtMenu,!showSettings,!showRackets,!showPlaySetup else { return }
         let head=(measuredRacket*SIMD4<Float>(0,0.37,0,1)).xyz
         let physical=head-V3(navigation.position.x,0,navigation.position.y)
         guard physical.isFiniteVector else { return }
@@ -648,6 +671,10 @@ final class GameModel {
     func setControllerGripFit(_ requested:SenseGripFit) {
         guard canAdjustControllerGrip,let grip=lastControllerGrip else { return }
         guard SenseGripFitStore.save(requested,left:leftHand,defaults:controllerGripDefaults) else { return }
+        if !isControllerAlignmentPending {
+            controllerGripDefaults.set(true,forKey:controllerAlignmentKey)
+            controllerAlignmentFailure=nil
+        }
         let fit=requested.normalized()
         if leftHand { leftControllerGripFit=fit } else { rightControllerGripFit=fit }
         // An adjustment is a new attachment, not a swing. Commit its current
@@ -664,7 +691,10 @@ final class GameModel {
     func resetControllerGrip() {
         guard canAdjustControllerGrip else { return }
         setControllerGripFit(SenseGripFit())
-        message="Controller racket fit reset for this hand."
+        controllerGripDefaults.removeObject(forKey:controllerAlignmentKey)
+        initialAlignmentAttempted.remove(leftHand)
+        controllerAlignmentFailure="Fit reset. Choose Retry alignment from your comfortable hold."
+        message="Fit reset. Return to court for a fresh comfortable-hold alignment."
     }
     private func calibrate() {
         guard !calibrated else { return }
@@ -694,7 +724,7 @@ final class GameModel {
     }
     func serve() {
         guard canServe,!paused,sceneActive,mode != .match || score.winner == nil,trackedRacketReady,
-              !isControllerAlignmentPending,
+              !isControllerAlignmentPending,!controllerAlignmentRequired,
               !showCourtMenu,!showSettings,!showRackets,!showPlaySetup else { return }
         capturePlayerReadyOffset()
         rallyCount += 1
@@ -712,7 +742,7 @@ final class GameModel {
         let normal=assets.robotRacket.transformMatrix(relativeTo:assets.root).columns.2.xyz
         if simd_length(normal)>0.001 { assets.shuttle.orientation=simd_quatf(from:[0,1,0],to:-simd_normalize(normal)) }
     }
-    private func updateServePreparation(_ dt:Float) {
+    func updateServePreparation(_ dt:Float) {
         serveCountdown=max(0,serveCountdown-dt)
         let progress=1-serveCountdown/Self.servePreparationDuration
         if !reducedMotion {
@@ -731,11 +761,19 @@ final class GameModel {
         placeShuttleAtServeStrings()
         if serveCountdown > 0 { message=progress < 0.55 ? "Milo is winding up…":"Here it comes!";return }
         let base=playerReturnTarget
+        let variation:Float = difficulty == .friendly ? 0.12:0.35
         let serveX=effectiveCourtMovement == .autoGlide ? (playerReadyOffset?.x ?? base.x):base.x
-        let target = V3(min(2.4,max(-2.4,serveX+sin(Float(rallyCount)*1.7)*0.35)),base.y,base.z)
+        let target = V3(min(2.4,max(-2.4,serveX+sin(Float(rallyCount)*1.7)*variation)),base.y,base.z)
         let origin=assets.robotRacket.convert(position:[0,0.37,0],to:assets.root)
-        // Launch from the actual release pose, after preparation has completed.
-        flight = Flight.clearanceShot(from:origin,to:target,duration:1.65)
+        // A receiving feed must remain below the room's upper space. Failure
+        // to solve a reachable feed leaves the score and shuttle unchanged.
+        guard let feed=Flight.comfortableFeed(from:origin,to:target) else {
+            flight=nil;canServe=true;paused=true;navigation.stop();autoGlideTarget=nil
+            beginMiloRecovery(followThrough:false)
+            message="Milo couldn't find a comfortable serve. Recenter the court, then Resume."
+            return
+        }
+        flight=feed.flight
         planPlayerGlide()
         configurePreviewSwing()
         sinceContact=0
@@ -796,7 +834,7 @@ final class GameModel {
 
     private func updateAutomaticServe(_ dt:Float) {
         guard automaticServing,canServe,!paused,sceneActive,trackedRacketReady,
-              !isControllerAlignmentPending,
+              !isControllerAlignmentPending,!controllerAlignmentRequired,
               !showCourtMenu,!showSettings,!showRackets,!showPlaySetup,
               mode != .match || score.winner == nil else { nextServeCountdown=2;return }
         nextServeCountdown=max(0,nextServeCountdown-dt)
@@ -831,6 +869,7 @@ final class GameModel {
         updateRacket(dt)
         beginInitialControllerAlignmentIfNeeded()
         updateControllerAlignment(dt)
+        if input == .sense { sense.dispatchButtonActions() }
         capturePlayerReadyOffset()
         if !canServe || paused || !trackedRacketReady { servePinch.reset() }
         if rallyInProgress && !trackedRacketReady { pauseForTrackingLoss() }
@@ -885,8 +924,8 @@ final class GameModel {
         guard sceneActive else { assets.racket.isEnabled=false;poseValid=false;racketSpeed = .zero;racketAngularVelocity = .zero;return }
         if input == .sense {
             receiveControllerPose(sense.pose(left:leftHand,fit:controllerGripFit));trackingMessage=sense.status
-            // Read the button edge only after this sample makes Serve ready.
-            sense.dispatchButtonActions()
+            // Button actions are dispatched after initial fit confirmation in
+            // update(), so a first-frame Trigger cannot bypass calibration.
         } else if input == .hands, pendingHandLeft == leftHand,let wrist=pendingWrist,
                   TrackingGate.accepts(age:CACurrentMediaTime()-wristTimestamp,fullPosition:true,speed:0) {
             let inverse=simd_inverse(assets.root.transformMatrix(relativeTo:nil))
@@ -1034,18 +1073,18 @@ final class GameModel {
         case .out:point(hitter.other,landing:event.position,reason:"Out.")
         }
     }
-    private func miloStance(for target:V3,face:simd_quatf) -> V3 {
+    private func miloStance(for target:V3,face:simd_quatf,hover:Float = 0,forwardLimit:Float = -5.65) -> V3 {
         let scale=assets.milo.scale.x
         let wrist=target-face.act(V3(0,0.37,0))*scale
         let shoulder=assets.robotArm.position*scale
         let reach=simd_length(assets.robotRacket.position)*scale
-        let height=shoulder.y+assets.robotBody.position.y*scale
+        let height=shoulder.y+assets.robotBody.position.y*scale+hover
         let vertical=wrist.y-height
         let horizontal=sqrt(max(0,reach*reach-vertical*vertical))
         // Place the shoulder behind the desired wrist, within the actual arm's
         // reach. Court movement stays speed-limited; an unreachable shot misses.
-        return V3(min(2.4,max(-2.4,wrist.x-shoulder.x)),0,
-                  min(-5.65,max(-11.1,wrist.z-horizontal-shoulder.z)))
+        return V3(min(2.4,max(-2.4,wrist.x-shoulder.x)),hover,
+                  min(forwardLimit,max(-11.1,wrist.z-horizontal-shoulder.z)))
     }
     private func makeMiloStroke(_ incoming:Flight)->MiloStroke? {
         var probe=incoming
@@ -1054,9 +1093,9 @@ final class GameModel {
         let reaction=miloReactionDelay(),travelSpeed=miloTravelSpeed()
         for index in 1...768 {
             probe.step(1/240)
-            if probe.position.y < 0.65,probe.velocity.y < 0 { break }
+            if probe.position.y < 0.25,probe.velocity.y < 0 { break }
             let time=Float(index)/240
-            guard probe.position.z < Court.netZ-0.45,probe.position.z > -11.7,
+            guard probe.position.z < Court.netZ-0.05,probe.position.z > -11.7,
                   (probe.velocity.y < 0 || probe.position.y < 1.65),probe.position.y <= 2.1,time > reaction+0.14,
                   time >= nextAttempt else { continue }
             // A bounded 40 Hz planning search runs once per incoming shot.
@@ -1083,29 +1122,49 @@ final class GameModel {
         let error=V3(sin(Float(rallyHits+rallyCount)*2.39996)*difficulty.error,0,0)
         var normal=simd_normalize(change)
         var result:MiloStroke?
-        for _ in 0..<3 {
+        for _ in 0..<6 {
             // At the intended impact the cork is one radius in front of the
             // strings. A centre-crossing plan would collide before its aim time.
             let target=sample.position-normal*0.04+error
-            let face=miloFace(normal:normal,height:target.y)
-            let stance=miloStance(for:target,face:face)
-            let shoulder=stance+(assets.robotArm.position+assets.robotBody.position)*scale
-            let wrist=target-face.act(V3(0,0.37,0))*scale
-            let radial=wrist-shoulder
-            guard abs(simd_length(radial)-reach)<0.015 else { return nil }
-            let tangent=simd_cross(radial,normal),gain=simd_length(tangent)
-            guard gain>0.02 else { return nil }
-            let axis=simd_normalize(tangent),velocityPerRadian=simd_cross(axis,radial)
-            let localError=face.inverse.act(-error)/scale
-            let eccentricity=min(1,pow(localError.x/RacketKind.coral.radiusX,2)+pow(localError.y/RacketKind.coral.radiusY,2))
-            let bounce=RacketKind.coral.restitution*(1-0.35*eccentricity)
-            let transfer=(1+bounce)/(1+RacketImpact.shuttleMass/RacketKind.coral.effectiveMass)
-            let speed=(simd_dot(change,normal)/transfer+simd_dot(sample.velocity,normal))/gain
-            guard speed.isFinite,speed>0.1 else { return nil }
-            result=MiloStroke(point:target,time:time,stance:stance,face:face,axis:axis,angularSpeed:speed)
+            let ordinary=miloFace(normal:normal,height:target.y)
+            let backhand=ordinary*simd_quatf(angle:.pi,axis:[0,0,1])
+            let shoulderHeight=(assets.robotArm.position.y+assets.robotBody.position.y)*scale
+            let idealVertical = -reach*normal.z/max(0.001,sqrt(normal.y*normal.y+normal.z*normal.z))
+            func hover(for face:simd_quatf)->Float {
+                let wrist=target-face.act(V3(0,0.37,0))*scale
+                return min(0.30,max(-0.30,wrist.y-idealVertical-shoulderHeight))
+            }
+            // Keep the usual hold whenever it is feasible. A genuine short
+            // drop can require a backhand or a small whole-chassis height
+            // change; the connected shoulder/racket rig stays unchanged.
+            let configurations:[(simd_quatf,Float,Float)]=[(ordinary,0,-5.65),(backhand,0,-5.65),
+                (ordinary,0,-5.35),(backhand,0,-5.35),
+                (ordinary,hover(for:ordinary),-5.35),(backhand,hover(for:backhand),-5.35)]
+            var stroke:MiloStroke?,plannedVelocity=V3.zero
+            for (face,height,forwardLimit) in configurations {
+                let stance=miloStance(for:target,face:face,hover:height,forwardLimit:forwardLimit)
+                let shoulder=stance+(assets.robotArm.position+assets.robotBody.position)*scale
+                let wrist=target-face.act(V3(0,0.37,0))*scale
+                let radial=wrist-shoulder
+                guard abs(simd_length(radial)-reach)<0.015 else { continue }
+                let tangent=simd_cross(radial,normal),gain=simd_length(tangent)
+                guard gain>0.02 else { continue }
+                let axis=simd_normalize(tangent),velocityPerRadian=simd_cross(axis,radial)
+                let localError=face.inverse.act(-error)/scale
+                let eccentricity=min(1,pow(localError.x/RacketKind.coral.radiusX,2)+pow(localError.y/RacketKind.coral.radiusY,2))
+                let bounce=RacketKind.coral.restitution*(1-0.35*eccentricity)
+                let transfer=(1+bounce)/(1+RacketImpact.shuttleMass/RacketKind.coral.effectiveMass)
+                let speed=(simd_dot(change,normal)/transfer+simd_dot(sample.velocity,normal))/gain
+                guard speed.isFinite,speed>0.1,speed<=18 else { continue }
+                stroke=MiloStroke(point:target,time:time,stance:stance,face:face,axis:axis,angularSpeed:speed)
+                plannedVelocity=velocityPerRadian*speed
+                break
+            }
+            guard let stroke else { return nil }
+            result=stroke
             // Include the same tangential transfer used by the real solver.
             // This adjusts the planned face; the actual rebound is untouched.
-            let relative=velocityPerRadian*speed-sample.velocity
+            let relative=plannedVelocity-sample.velocity
             let tangentImpulse=(relative-normal*simd_dot(relative,normal))*0.06
             normal=simd_normalize(change-tangentImpulse)
         }

@@ -22,7 +22,7 @@ struct SenseGripSetup: View {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(alignment: .center, spacing: 16) {
                     UprightRacketGuide()
-                    Text("Hold the controller normally, with the buttons under your thumb. Use your free hand to choose Align, then hold your racket controller comfortably in front of you. The racket stands upright after three seconds.")
+                    Text("Hold the controller normally, with the buttons under your thumb. Use your free hand to choose Align, then relax your racket wrist into a comfortable playing hold. The angle is captured after a brief steady hold.")
                         .font(.subheadline).foregroundStyle(Color.clubInk.opacity(0.75))
                         .fixedSize(horizontal: false, vertical: true)
                 }

@@ -298,7 +298,7 @@ struct PlaySetup:View {
             if inCourt {
                 RacketTrackingStatus().padding(18).frame(maxWidth:.infinity,alignment:.leading)
                     .background(.white,in:RoundedRectangle(cornerRadius:22))
-                Text(game.input == .hands ? "Grab your racket, then hold your hand comfortably in front of you. Align angle makes the racket stand upright from that pose." : "Use your free hand to choose Align, then hold your racket controller comfortably in front of you. Its angle is captured after three seconds.")
+                Text(game.input == .hands ? "Grab your racket, then hold your hand comfortably in front of you. Align angle makes the racket stand upright from that pose." : "Use your free hand to choose Align, then relax your racket wrist into a comfortable playing hold. Its angle is captured after a brief steady hold.")
                     .font(.system(size:14)).foregroundStyle(Color.clubInk.opacity(0.70))
                     .fixedSize(horizontal:false,vertical:true)
                 gripControls

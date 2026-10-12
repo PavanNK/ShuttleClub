@@ -54,7 +54,7 @@ struct AutoGlideReceivingTests {
         let expected=SIMD2(point.x-head.x,point.z-head.z)
         // Native serving keeps intentional lateral variation around the
         // original hold, rather than adding the hand offset to every feed.
-        #expect(abs(expected.x-sin(Float(1)*1.7)*0.35)<0.025)
+        #expect(abs(expected.x-sin(Float(1)*1.7)*0.12)<0.025)
         #expect(abs(expected.y)<0.025)
     }
 
@@ -69,7 +69,7 @@ struct AutoGlideReceivingTests {
             let flight=try launch(game,physical:physical);launched += 1
             let point=try #require(CourtNavigation.receivingPoint(for:flight,height:head.y))
             let expected=SIMD2(point.x-head.x,point.z-head.z)
-            #expect(abs(expected.x-sin(Float(cycle)*1.7)*0.35)<0.025)
+            #expect(abs(expected.x-sin(Float(cycle)*1.7)*0.12)<0.025)
             for _ in 0..<800 {
                 guard game.shuttleState != nil else { break }
                 tick(game,physical:physical)
