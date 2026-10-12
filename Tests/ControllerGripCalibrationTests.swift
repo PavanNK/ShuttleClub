@@ -78,6 +78,22 @@ struct ControllerGripCalibrationTests {
         #expect(afterReset.controllerGripFit == right.normalized())
         afterReset.leftHand=true;#expect(afterReset.controllerGripFit == SenseGripFit())
     }
+    @Test func invalidLiveEditsCannotReplaceTheChosenSavedControllerFit() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(defaults:saved)
+        game.receiveControllerPose(sample(game))
+        let chosen=SenseGripFit(translation:[0.02,0.01,-0.03],pitchDegrees:24,yawDegrees:12)
+        game.setControllerGripFit(chosen)
+        let before=game.assets.racket.transformMatrix(relativeTo:game.assets.root)
+        for invalid in [SenseGripFit(translation:[.nan,0,0]),
+                        SenseGripFit(calibratedOrientation:.zero),SenseGripFit(pitchDegrees:.infinity)] {
+            game.setControllerGripFit(invalid)
+            #expect(game.controllerGripFit == chosen.normalized())
+            #expect(SenseGripFitStore.load(left:false,defaults:saved) == chosen.normalized())
+            expectPose(game.assets.racket.transformMatrix(relativeTo:game.assets.root),before)
+        }
+        #expect(game.lastContact == nil && game.rallyHits == 0)
+    }
     enum InvalidSample:CaseIterable { case untracked,stale,wrongHand,invalidVelocity,invalidMatrix,singularMatrix }
     @Test(arguments:InvalidSample.allCases)
     func rejectedSamplesCannotAdjustOrResetFit(reason:InvalidSample) throws {

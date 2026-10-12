@@ -15,16 +15,9 @@ struct MiloAnimationTests {
         assets.robotHead.position = [0, 0.53, 0]
         assets.robotHead.addChild(assets.robotFace)
         assets.robotBody.addChild(assets.robotFreeArm)
-        for side: Float in [-1, 1] {
-            let leg = Entity(), foot = Entity()
-            leg.position = [side * 0.12, 0.73, 0]
-            foot.position = [side * 0.15, -0.7145, 0.12]
-            assets.robotBody.addChild(leg)
-            leg.addChild(foot)
-            assets.robotLegs.append(leg)
-            assets.robotLegRestPositions.append(leg.position)
-            assets.robotFeet.append(foot)
-        }
+        assets.robotBody.addChild(assets.robotHoverBase)
+        assets.robotHoverBase.position = assets.robotHoverRestPosition
+        assets.robotHoverBase.addChild(assets.robotHoverGlow)
         return assets
     }
 
@@ -52,21 +45,18 @@ struct MiloAnimationTests {
         #expect(assets.robotHead.parent === assets.robotTorso)
     }
 
-    @Test func walkingFeetStayLevelAndAboveTheirRestingSole() {
+    @Test func movingHoverBaseBobsWithinItsVisualEnvelope() {
         let assets = visualRig()
         assets.movement = 3
-        var lifted = false
+        var bobbed = false
         for frame in 0..<120 {
             assets.animateMilo(time: Float(frame) / 60, active: true, dt: 1 / 60, phase: .anticipating)
-            for foot in assets.robotFeet {
-                let pose = foot.transformMatrix(relativeTo: assets.robotBody)
-                #expect(pose.columns.3.y >= 0.0155 - 0.00001)
-                #expect(pose.columns.3.y <= 0.061)
-                #expect(simd_distance(pose.columns.1, SIMD4<Float>(0, 1, 0, 0)) < 0.00001)
-                if pose.columns.3.y > 0.03 { lifted = true }
-            }
+            let distance = simd_distance(assets.robotHoverBase.position, assets.robotHoverRestPosition)
+            #expect(distance < 0.04)
+            #expect(assets.robotHoverGlow.scale.y > 0 && assets.robotHoverGlow.scale.y < 1.6)
+            if distance > 0.005 { bobbed = true }
         }
-        #expect(lifted)
+        #expect(bobbed && assets.robotLegs.isEmpty && assets.robotFeet.isEmpty)
     }
 
     @Test func reactionsDecayInElapsedTimeAcrossDifferentFrameRates() {
@@ -83,20 +73,16 @@ struct MiloAnimationTests {
         #expect(abs(slow.robotReaction - 0.49) < 0.00001)
     }
 
-    @Test func recoveringBetweenRalliesStillMovesTheFeet() {
+    @Test func recoveringBetweenRalliesStillBanksAndPowersTheHoverEngine() {
         let assets = visualRig()
         assets.movement = 1.96
-        var lifted = false
+        var banked = false
         for frame in 0..<60 {
             assets.animateMilo(time: Float(frame) / 60, active: false, dt: 1 / 60, phase: .recovering)
-            for foot in assets.robotFeet {
-                let transform = foot.transformMatrix(relativeTo: assets.robotBody)
-                #expect(transform.columns.3.y >= 0.0155 - 0.00001)
-                #expect(simd_distance(transform.columns.1, SIMD4<Float>(0, 1, 0, 0)) < 0.00001)
-                if transform.columns.3.y > 0.03 { lifted = true }
-            }
+            #expect(simd_distance(assets.robotHoverBase.position, assets.robotHoverRestPosition) < 0.04)
+            if abs(assets.robotTorso.orientation.imag.x) > 0.02 { banked = true }
         }
-        #expect(lifted)
+        #expect(banked && assets.robotHoverGlow.scale.y > 1.15)
     }
 
     @Test func reducedMotionResetsVisualJointsWithoutChangingPhysicalPose() {
@@ -109,12 +95,12 @@ struct MiloAnimationTests {
         assets.animateMilo(time: 1, active: true, dt: 1 / 60, reducedMotion: true, phase: .celebrating)
         #expect(assets.robotTorso.position == assets.robotTorsoRestPosition)
         #expect(assets.robotFace.scale == SIMD3<Float>(1, 1, 1))
-        for entity in [assets.robotTorso, assets.robotHead, assets.robotFreeArm] + assets.robotLegs + assets.robotFeet {
+        #expect(assets.robotHoverBase.position == assets.robotHoverRestPosition)
+        #expect(assets.robotHoverGlow.scale == SIMD3<Float>(1, 1, 1))
+        for entity in [assets.robotTorso, assets.robotHead, assets.robotFreeArm, assets.robotHoverBase] {
             #expect(simd_length(entity.orientation.imag) < 0.00001)
             #expect(abs(abs(entity.orientation.real) - 1) < 0.00001)
         }
-        for (index, leg) in assets.robotLegs.enumerated() {
-            #expect(leg.position == assets.robotLegRestPositions[index])
-        }
+        #expect(assets.robotLegs.isEmpty && assets.robotFeet.isEmpty)
     }
 }

@@ -85,6 +85,7 @@ struct ClubGateway:View {
         navigation.opening=true;navigation.sceneReady=false;navigation.error=nil
         #if DEBUG
         navigation.playing=ProcessInfo.processInfo.arguments.contains("--preview-court")
+        if ProcessInfo.processInfo.arguments.contains("--preview-sense-fit") { game.input = .sense }
         #endif
         navigation.log.info("Opening the club immersive space")
         switch await enter(id:"club") {

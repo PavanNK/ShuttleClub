@@ -271,6 +271,7 @@ struct PlaySetup:View {
         }.onAppear {
             #if DEBUG
             if inCourt,ProcessInfo.processInfo.arguments.contains("--preview-hand-angles") { fineTuningHand=true }
+            if inCourt,ProcessInfo.processInfo.arguments.contains("--preview-sense-fit") { adjustingController=true }
             #endif
         }.onChange(of:game.input) { _,_ in adjustingController=false;fineTuningHand=false;fitNotice=nil }
             .onChange(of:game.leftHand) { _,_ in fineTuningHand=false;fitNotice=nil }
@@ -297,10 +298,11 @@ struct PlaySetup:View {
             if inCourt {
                 RacketTrackingStatus().padding(18).frame(maxWidth:.infinity,alignment:.leading)
                     .background(.white,in:RoundedRectangle(cornerRadius:22))
-                Text(game.input == .hands ? "Grab your racket, then hold your hand comfortably in front of you. Align angle makes the racket stand upright from that pose." : "Hold your controller comfortably in front of you. Align angle makes the racket stand upright from that pose.")
+                Text(game.input == .hands ? "Grab your racket, then hold your hand comfortably in front of you. Align angle makes the racket stand upright from that pose." : "Use your free hand to choose Align, then hold your racket controller comfortably in front of you. Its angle is captured after three seconds.")
                     .font(.system(size:14)).foregroundStyle(Color.clubInk.opacity(0.70))
                     .fixedSize(horizontal:false,vertical:true)
                 gripControls
+                if game.input == .sense,game.isControllerAlignmentPending { ControllerAlignmentCue() }
                 if let fitNotice {
                     Label(fitNotice,systemImage:"checkmark.circle.fill")
                         .font(.system(size:14,weight:.semibold)).foregroundStyle(Color.clubViolet)
@@ -320,6 +322,7 @@ struct PlaySetup:View {
                 }.padding(20).frame(maxWidth:.infinity,alignment:.leading)
                     .background(.white,in:RoundedRectangle(cornerRadius:22))
             }
+            CourtMovementOptions()
             DisclosureGroup(isExpanded:$showingMore) {
                 VStack(alignment:.leading,spacing:14) {
                     Text("Milo’s pace").font(.system(size:15,weight:.semibold))
@@ -372,11 +375,11 @@ struct PlaySetup:View {
     }
     @ViewBuilder private var gripControls:some View {
         HStack(spacing:12) {
-            Button("Align angle",action:alignFit)
+            Button(game.input == .sense && game.isControllerAlignmentPending ? "Aligning…":"Align angle",action:alignFit)
                 .accessibilityIdentifier(game.input == .hands ? "calibrateGrip":"calibrateControllerGrip")
                 .frame(maxWidth:.infinity).frame(height:46)
                 .background(setupGold,in:RoundedRectangle(cornerRadius:16))
-                .disabled(game.input == .hands ? !game.canAdjustHandGrip:!game.canAdjustControllerGrip)
+                .disabled(!canAdjustFit)
                 .opacity(canAdjustFit ? 1:0.45)
             if game.input == .hands {
                 Button("Reset hand fit") {
@@ -393,8 +396,8 @@ struct PlaySetup:View {
                     .accessibilityIdentifier("adjustControllerFit")
                     .frame(maxWidth:.infinity).frame(height:46)
                     .background(.white,in:RoundedRectangle(cornerRadius:16))
-                    .disabled(!game.canAdjustControllerGrip)
-                    .opacity(game.canAdjustControllerGrip ? 1:0.45)
+                    .disabled(!canAdjustFit)
+                    .opacity(canAdjustFit ? 1:0.45)
             }
         }.font(.system(size:16,weight:.bold,design:.rounded)).buttonStyle(.plain).hoverEffect(.lift)
     }
@@ -450,13 +453,65 @@ struct PlaySetup:View {
     }
     private func alignFit() {
         guard canAdjustFit else { return }
-        game.setGrip()
-        fitNotice="Angle saved for your \(selectedHand) \(game.input == .hands ? "hand":"controller")."
+        if game.input == .sense {
+            fitNotice=nil;game.beginControllerAlignment()
+        } else {
+            game.setGrip();fitNotice="Angle saved for your \(selectedHand) hand."
+        }
     }
-    private var canAdjustFit:Bool { game.input == .hands ? game.canAdjustHandGrip:game.canAdjustControllerGrip }
+    private var canAdjustFit:Bool { game.input == .hands ? game.canAdjustHandGrip:game.canAdjustControllerGrip && !game.isControllerAlignmentPending }
     private func close() {
+        game.cancelControllerAlignment()
         if let onClose { onClose() }
         else if inCourt { game.finishTrackingSetup() }
         else { dismiss() }
+    }
+}
+
+/// Shared by setup and the court menu; kept collapsed during ordinary play.
+struct CourtMovementOptions:View {
+    @Environment(GameModel.self) private var game
+    @State private var expanded=false
+    private let choices:[CourtMovement]=[.thumbstick,.autoGlide,.stationary]
+    var body:some View {
+        DisclosureGroup(isExpanded:$expanded) {
+            VStack(alignment:.leading,spacing:12) {
+                HStack(spacing:8) {
+                    ForEach(choices,id:\.title) { choice in
+                        let selected=game.effectiveCourtMovement == choice
+                        Button { game.setCourtMovement(choice) } label: {
+                            Text(choice.title).font(.system(size:14,weight:.bold,design:.rounded))
+                                .frame(maxWidth:.infinity).frame(height:44)
+                                .foregroundStyle(selected ? Color.white:Color.clubInk)
+                                .background(selected ? Color.clubViolet:Color.white,in:RoundedRectangle(cornerRadius:14))
+                        }.buttonStyle(.plain).hoverEffect(.lift)
+                            .disabled(choice == .thumbstick && game.input == .hands)
+                            .accessibilityAddTraits(selected ? .isSelected:[])
+                    }
+                }
+                Text(game.effectiveCourtMovement.detail)
+                    .font(.system(size:14)).foregroundStyle(Color.clubInk.opacity(0.70))
+                    .fixedSize(horizontal:false,vertical:true)
+                Text("Play from one comfortable spot. These choices move the virtual court or keep it fixed.")
+                    .font(.system(size:13)).foregroundStyle(Color.clubInk.opacity(0.60))
+                    .fixedSize(horizontal:false,vertical:true)
+                if game.input == .hands,game.courtMovement == .thumbstick {
+                    Text("Hands use Auto glide. Thumbstick movement is available with Sense controllers.")
+                        .font(.system(size:13)).foregroundStyle(Color.clubInk.opacity(0.60))
+                        .fixedSize(horizontal:false,vertical:true)
+                }
+            }.padding(.top,12)
+        } label: {
+            HStack {
+                Text("Move in court").font(.system(size:16,weight:.semibold,design:.rounded))
+                Spacer()
+                Text(game.effectiveCourtMovement.title).font(.system(size:13)).foregroundStyle(.secondary)
+            }
+        }.tint(.clubViolet).accessibilityIdentifier("courtMovementOptions")
+            .onAppear {
+                #if DEBUG
+                if ProcessInfo.processInfo.arguments.contains("--preview-court-movement") { expanded=true }
+                #endif
+            }
     }
 }

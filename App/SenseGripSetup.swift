@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SenseGripSetup: View {
     @Environment(GameModel.self) private var game
-    @State private var adjustment: Adjustment = .position
+    @State private var adjustment: Adjustment = .angle
     var onBack: @MainActor () -> Void
 
     private enum Adjustment: String, CaseIterable, Identifiable {
@@ -22,14 +22,19 @@ struct SenseGripSetup: View {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(alignment: .center, spacing: 16) {
                     UprightRacketGuide()
-                    Text("Hold the controller in a comfortable ready pose, with your hand in front of you. Align makes the racket stand upright from that pose.")
+                    Text("Hold the controller normally, with the buttons under your thumb. Use your free hand to choose Align, then hold your racket controller comfortably in front of you. The racket stands upright after three seconds.")
                         .font(.subheadline).foregroundStyle(Color.clubInk.opacity(0.75))
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                Button("Align angle") { game.setGrip() }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(!game.canAdjustControllerGrip)
-                    .accessibilityIdentifier("alignControllerRacket")
+                HStack {
+                    Button(game.isControllerAlignmentPending ? "Aligning in \(Int(ceil(Double(game.controllerAlignmentCountdown))))…" : "Align from my hold") { game.beginControllerAlignment() }
+                        .buttonStyle(.borderedProminent)
+                        .disabled(!game.canAdjustControllerGrip || game.isControllerAlignmentPending)
+                        .accessibilityIdentifier("alignControllerRacket")
+                    if game.isControllerAlignmentPending {
+                        Button("Cancel") { game.cancelControllerAlignment() }.buttonStyle(.bordered)
+                    }
+                }
             }.padding(18).frame(maxWidth: .infinity, alignment: .leading)
                 .background(.white, in: RoundedRectangle(cornerRadius: 18))
 
@@ -57,6 +62,14 @@ struct SenseGripSetup: View {
                     fitSlider("Forward & back", keyPath: \.translation.z, range: -0.08...0.08, step: 0.001,
                               centimetres: true, identifier: "controllerFitDepth")
                 } else {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Turn the face").font(.subheadline.bold())
+                        HStack(spacing: 8) {
+                            faceChoice("−90°", degrees: -90)
+                            faceChoice("Centre", degrees: 0)
+                            faceChoice("+90°", degrees: 90)
+                        }
+                    }
                     fitSlider("Front/back tilt", keyPath: \.pitchDegrees, range: -90...90, step: 1,
                               identifier: "controllerFitPitch")
                     fitSlider("Twist", keyPath: \.yawDegrees, range: -90...90, step: 1,
@@ -65,15 +78,15 @@ struct SenseGripSetup: View {
                               identifier: "controllerFitRoll")
                 }
             }.padding(18).background(.white, in: RoundedRectangle(cornerRadius: 18))
-                .disabled(!game.canAdjustControllerGrip)
+                .disabled(!game.canAdjustControllerGrip || game.isControllerAlignmentPending)
             if adjustment == .position { Text("Position adjustments follow your controller grip.").font(.caption).foregroundStyle(.secondary) }
 
             HStack {
                 Button("Reset fit") { game.resetControllerGrip() }
-                    .buttonStyle(.bordered).disabled(!game.canAdjustControllerGrip)
+                    .buttonStyle(.bordered).disabled(!game.canAdjustControllerGrip || game.isControllerAlignmentPending)
                     .accessibilityIdentifier("resetControllerRacketFit")
                 Spacer()
-                Text("Changes save automatically.\nSeparate fits for left and right.")
+                Text("Fit saves for this hand.\nAlign changes its angle; Reset restores default.")
                     .font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.trailing)
             }
             if !game.canAdjustControllerGrip {
@@ -83,6 +96,23 @@ struct SenseGripSetup: View {
         }.padding(30).frame(width: 540)
             .foregroundStyle(Color.clubInk).tint(.clubViolet)
             .background(Color.clubPaper, in: RoundedRectangle(cornerRadius: 26))
+            .onDisappear { game.cancelControllerAlignment() }
+    }
+
+    private func faceChoice(_ title: String, degrees: Float) -> some View {
+        let selected = abs(game.controllerGripFit.yawDegrees - degrees) < 0.5
+        return Button {
+            guard game.canAdjustControllerGrip else { return }
+            var fit = game.controllerGripFit; fit.yawDegrees = degrees
+            game.setControllerGripFit(fit)
+        } label: {
+            Text(title).font(.system(size: 15, weight: .bold, design: .rounded))
+                .frame(maxWidth: .infinity).frame(height: 42)
+                .foregroundStyle(selected ? Color.white : Color.clubInk)
+                .background(selected ? Color.clubViolet : Color.clubMint.opacity(0.13),
+                            in: RoundedRectangle(cornerRadius: 13))
+        }.buttonStyle(.plain).accessibilityAddTraits(selected ? .isSelected : [])
+            .accessibilityLabel(degrees == 0 ? "Centre racket face" : "Turn racket face \(Int(degrees)) degrees")
     }
 
     private func fitBinding(_ keyPath: WritableKeyPath<SenseGripFit, Float>) -> Binding<Float> {

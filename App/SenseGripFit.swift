@@ -10,8 +10,10 @@ struct SenseGripFit: Codable, Equatable, Sendable {
     var yawDegrees: Float = 0
     var rollDegrees: Float = 0
 
-    // OpenXR grip -Z follows the curled fingers toward the thumb; +X is the
-    // palm normal. The authored racket's shaft is +Y and its face normal +Z.
+    // OpenXR standard grip -Z follows the curled-finger tube from little finger
+    // toward thumb/index. +X is palm-normal (outward for left, inward for right).
+    // The authored racket's shaft is +Y and its face normal +Z. Face roll around
+    // that shaft is fitted to the user's hold; this basis does not infer a hand.
     static let baseMount = simd_float4x4(columns: (
         SIMD4<Float>(0, -1, 0, 0), SIMD4<Float>(0, 0, -1, 0),
         SIMD4<Float>(1, 0, 0, 0), SIMD4<Float>(0, 0, 0, 1)))
@@ -31,7 +33,8 @@ struct SenseGripFit: Codable, Equatable, Sendable {
     }
 
     /// Translation is applied in the original racket frame. Fine rotations are
-    /// local to the calibrated base: yaw(+Y) * pitch(+X) * roll(+Z).
+    /// local to the calibrated base: pitch(+X) * roll(+Z) * yaw(+Y). Applying
+    /// shaft twist first leaves the already tilted shaft direction unchanged.
     var offset: simd_float4x4 {
         let fit = normalized()
         var result = simd_float4x4(simd_quatf(vector: fit.calibratedOrientation) * fit.localEulerAdjustment)
@@ -79,6 +82,16 @@ struct SenseGripFit: Codable, Equatable, Sendable {
         let pitch = simd_quatf(angle: pitchDegrees * radians, axis: [1, 0, 0])
         let yaw = simd_quatf(angle: yawDegrees * radians, axis: [0, 1, 0])
         let roll = simd_quatf(angle: rollDegrees * radians, axis: [0, 0, 1])
+        return pitch * roll * yaw
+    }
+
+    /// Older saved fits applied twist outside the tilts. Preserve their exact
+    /// mounted pose when decoding, then make subsequent twist edits shaft-local.
+    private var legacyEulerAdjustment: simd_quatf {
+        let radians = Float.pi / 180
+        let pitch = simd_quatf(angle: pitchDegrees * radians, axis: [1, 0, 0])
+        let yaw = simd_quatf(angle: yawDegrees * radians, axis: [0, 1, 0])
+        let roll = simd_quatf(angle: rollDegrees * radians, axis: [0, 0, 1])
         return yaw * pitch * roll
     }
 
@@ -115,7 +128,7 @@ struct SenseGripFit: Codable, Equatable, Sendable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case translation, calibratedOrientation, pitchDegrees, yawDegrees, rollDegrees
+        case translation, calibratedOrientation, pitchDegrees, yawDegrees, rollDegrees, rotationOrderVersion
     }
 
     init(translation: SIMD3<Float> = .zero, calibratedOrientation: SIMD4<Float> = [0, 0, 0, 1],
@@ -134,11 +147,20 @@ struct SenseGripFit: Codable, Equatable, Sendable {
         pitchDegrees = try values.decode(Float.self, forKey: .pitchDegrees)
         yawDegrees = try values.decode(Float.self, forKey: .yawDegrees)
         rollDegrees = try values.decode(Float.self, forKey: .rollDegrees)
+        let rotationOrder = try values.decodeIfPresent(Int.self, forKey: .rotationOrderVersion) ?? 1
+        guard rotationOrder == 1 || rotationOrder == 2 else {
+            throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath,
+                debugDescription: "Unsupported Sense grip rotation order."))
+        }
         guard hasValidData else {
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath,
                 debugDescription: "Sense grip fit requires finite values and a nonzero quaternion."))
         }
         self = normalized()
+        if rotationOrder == 1 {
+            let base = simd_quatf(vector: calibratedOrientation)
+            calibratedOrientation = (base * legacyEulerAdjustment * localEulerAdjustment.inverse).normalized.vector
+        }
     }
 
     func encode(to encoder: any Encoder) throws {
@@ -153,6 +175,7 @@ struct SenseGripFit: Codable, Equatable, Sendable {
         try values.encode(fit.pitchDegrees, forKey: .pitchDegrees)
         try values.encode(fit.yawDegrees, forKey: .yawDegrees)
         try values.encode(fit.rollDegrees, forKey: .rollDegrees)
+        try values.encode(2, forKey: .rotationOrderVersion)
     }
 }
 

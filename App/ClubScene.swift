@@ -9,17 +9,20 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
 
 @MainActor final class SceneAssets {
     let root = Entity(), racket = Entity(), shuttle = Entity(), milo = Entity(), targets = Entity(), confetti = Entity()
+    let interfaceRoot = Entity()
     var targetLocations: [TargetLocation] = []
     var robotBody = Entity(), robotArm = Entity(), robotRacket = Entity(), robotFreeArm = Entity(), robotFace = Entity()
     var robotTorso = Entity(), robotHead = Entity()
+    var robotHoverBase = Entity(), robotHoverGlow = Entity()
     let robotTorsoRestPosition: V3 = [0, 0.9, 0]
+    let robotHoverRestPosition: V3 = [0, 0.73, 0]
     var robotReaction: Float = 0
+    // Kept empty for callers inspecting the former ground-contact rig.
     var robotLegs: [Entity] = []
     var robotFeet: [Entity] = []
     var robotLegRestPositions: [V3] = []
     var movement: Float = 0
-    private var stridePhase: Float = 0
-    private var strideAmount: Float = 0
+    private var hoverAmount: Float = 0
 
     /// Only visual joints are animated here. GameModel owns the shoulder,
     /// racket and robot root used by the actual swept string collision.
@@ -36,20 +39,17 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
             robotHead.orientation = simd_quatf(angle: 0, axis: [0, 1, 0])
             robotFreeArm.orientation = simd_quatf(angle: 0, axis: [0, 1, 0])
             robotFace.scale = [1, 1, 1]
-            strideAmount = 0
-            for (index, leg) in robotLegs.enumerated() {
-                leg.orientation = simd_quatf(angle: 0, axis: [0, 1, 0])
-                if robotLegRestPositions.indices.contains(index) { leg.position = robotLegRestPositions[index] }
-                if robotFeet.indices.contains(index) { robotFeet[index].orientation = simd_quatf(angle: 0, axis: [0, 1, 0]) }
-            }
+            hoverAmount = 0
+            robotHoverBase.position = robotHoverRestPosition
+            robotHoverBase.orientation = simd_quatf(angle: 0, axis: [0, 1, 0])
+            robotHoverGlow.scale = [1, 1, 1]
             return
         }
 
         let blend = 1 - exp(-delta * 12)
         let speed = movement.isFinite ? max(0, movement) : 0
-        let strideTarget = min(1, speed / 2.4)
-        strideAmount += (strideTarget - strideAmount) * blend
-        stridePhase += delta * (8 + min(4, speed) * 2)
+        let hoverTarget = min(1, speed / 3)
+        hoverAmount += (hoverTarget - hoverAmount) * blend
 
         var lookYaw: Float = 0
         var lookPitch: Float = 0
@@ -64,39 +64,32 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
         robotHead.orientation = simd_slerp(robotHead.orientation, headPose, blend)
 
         let readySway = active ? sin(time * 4) * 0.008 : sin(time * 1.9) * 0.012
-        let stepBounce = abs(sin(stridePhase)) * strideAmount * 0.014
+        let hoverBob = sin(time * (active ? 3.6 : 2.4)) * (0.012 + hoverAmount * 0.008)
         let winding = phase == .preparingServe
         let striking = phase == .striking
         let recovering = phase == .recovering
         let celebrating = phase == .celebrating || reaction > 0.1
-        robotTorso.position = robotTorsoRestPosition + [readySway, sin(time * 2.8) * 0.006 + stepBounce + reaction * 0.014, 0]
-        let lean = winding ? 0.035 : striking ? -0.055 : active ? -0.022 : 0
-        let torsoPose = simd_quatf(angle: Float(lean), axis: [1, 0, 0])
-            * simd_quatf(angle: -lookYaw * strideAmount * 0.10 + readySway, axis: [0, 0, 1])
+        robotTorso.position = robotTorsoRestPosition + [readySway, hoverBob + reaction * 0.014, -hoverAmount * 0.015]
+        let lean: Float = (winding ? 0.035 : striking ? -0.055 : active ? -0.022 : 0) - hoverAmount * 0.11
+        let bank = -lookYaw * hoverAmount * 0.32 + readySway
+        let torsoPose = simd_quatf(angle: lean, axis: [1, 0, 0])
+            * simd_quatf(angle: bank, axis: [0, 0, 1])
         robotTorso.orientation = simd_slerp(robotTorso.orientation, torsoPose, blend)
+        // The engine and armour bank separately from the physical shoulder.
+        // Neither the arm pivot nor the racket's measured strings are moved.
+        robotHoverBase.position = robotHoverRestPosition + [readySway * 0.25, hoverBob * 0.8, 0]
+        let enginePose = simd_quatf(angle: lean * 0.6, axis: [1, 0, 0])
+            * simd_quatf(angle: bank * 0.7, axis: [0, 0, 1])
+        robotHoverBase.orientation = simd_slerp(robotHoverBase.orientation, enginePose, blend)
+        robotHoverGlow.scale = [1, 0.8 + hoverAmount * 0.65 + sin(time * 7) * 0.045, 1]
 
         // The free hand balances the body while Milo reaches and recovers.
         let freeLift: Float = celebrating ? 0.55 + reaction * 0.25 : winding ? 0.22 : striking ? 0.48 : recovering ? 0.28 : active ? 0.18 : 0.06
-        let freeSwing = sin(stridePhase + .pi) * strideAmount * 0.18
+        let freeSwing = sin(time * 4.2) * hoverAmount * 0.10
         let freePose = simd_quatf(angle: freeLift + sin(time * 2.2) * 0.035, axis: [0, 0, 1])
             * simd_quatf(angle: freeSwing + (striking ? -0.12 : 0), axis: [1, 0, 0])
         robotFreeArm.orientation = simd_slerp(robotFreeArm.orientation, freePose, blend)
         robotFace.scale.y = 1 - 0.88 * pow(max(0, sin(time * 0.83)), 60)
-        for (index,leg) in robotLegs.enumerated() {
-            let step = stridePhase + Float(index) * .pi
-            let rotation = simd_quatf(angle: sin(step) * 0.18 * strideAmount, axis: [1, 0, 0])
-                * simd_quatf(angle: sin(step) * 0.045 * strideAmount, axis: [0, 0, 1])
-            leg.orientation = rotation
-            guard robotLegRestPositions.indices.contains(index), robotFeet.indices.contains(index) else { continue }
-            let rest = robotLegRestPositions[index]
-            let foot = robotFeet[index]
-            // Compensate hip rotation at the sole, then lift the travelling foot.
-            // The stance foot remains level rather than sinking through the court.
-            let heightCorrection = foot.position.y - rotation.act(foot.position).y
-            let lift = max(0, sin(step)) * strideAmount * 0.045
-            leg.position = rest + [0, heightCorrection + lift, 0]
-            foot.orientation = rotation.inverse
-        }
     }
     func animateConfetti(age: Float) {
         for (i, e) in confetti.children.enumerated() {
@@ -291,6 +284,8 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
     }
     static func build() -> SceneAssets {
         let a = SceneAssets(), r = a.root
+        r.addChild(a.interfaceRoot)
+        a.interfaceRoot.name="Player interface"
         r.name = "Shuttle Club indoor court"
         let white = material(.white), steel = material(dark, metal:0.65)
         var violet = material(purple,rough:0.38)
@@ -505,25 +500,18 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
         }
         for child in torso.children { child.position -= a.robotTorsoRestPosition }
         torso.position=a.robotTorsoRestPosition
-        sphere(b,0.174,[0,0.775,0],black,scale:[1,0.46,0.67])
-        sphere(b,0.19,[0,0.73,0.015],ivory,scale:[1.18,0.60,0.75])
-        panel(b,size:[0.18,0.08],corner:0.028,bulge:0.025,at:[0,0.775,0.13],mat:orange)
+        let hover=a.robotHoverBase;hover.name="Milo floating engine";hover.position=a.robotHoverRestPosition;b.addChild(hover)
+        sphere(hover,0.174,[0,0.045,0],black,scale:[1,0.46,0.67])
+        sphere(hover,0.19,[0,0,0.015],ivory,scale:[1.18,0.60,0.75])
+        panel(hover,size:[0.18,0.08],corner:0.028,bulge:0.025,at:[0,0.045,0.13],mat:orange)
+        ring(hover,rx:0.137,ry:0.137,tube:0.010,at:[0,-0.075,0],mat:aluminium)?.orientation=simd_quatf(angle:.pi/2,axis:[1,0,0])
+        rod(hover,[0,-0.085,0],[0,-0.115,0],0.112,black)
+        let thrust=a.robotHoverGlow;thrust.name="Milo hover light";thrust.position=[0,-0.13,0];hover.addChild(thrust)
+        let engineLight=glow(.init(red:0.08,green:0.76,blue:0.86,alpha:1))
+        let halo=ring(thrust,rx:0.097,ry:0.097,tube:0.006,at:.zero,mat:engineLight)
+        halo?.orientation=simd_quatf(angle:.pi/2,axis:[1,0,0]);halo?.name="Milo hover light"
+        let plume=sphere(thrust,0.095,[0,-0.025,0],engineLight,scale:[1,0.35,1]);plume.name="Milo hover light"
         for side:Float in [-1,1] {
-            let hip=V3(side*0.12,0.73,0),knee=V3(side*0.21,0.43,0.05),ankle=V3(side*0.27,0.11,0.04)
-            let leg=Entity(); leg.position=hip; b.addChild(leg); a.robotLegs.append(leg);a.robotLegRestPositions.append(hip)
-            sphere(leg,0.071,.zero,black)
-            taperedRod(leg,[0,-0.05,0],knee-hip+[0,0.03,0],radius:0.075,endRadius:0.062,mat:ivory)
-            sphere(leg,0.075,knee-hip,black)
-            panel(leg,size:[0.096,0.11],corner:0.035,bulge:0.018,at:knee-hip+[0,0,0.055],mat:ivory)
-            sphere(leg,0.020,knee-hip+[side*0.078,0,0],aluminium)
-            taperedRod(leg,knee-hip-[0,0.06,0],ankle-hip+[0,0.03,0],radius:0.055,endRadius:0.041,mat:ivory)
-            sphere(leg,0.050,ankle-hip,black)
-            let shoe=Entity(); shoe.position=V3(side*0.27,0.0155,0.12)-hip; leg.addChild(shoe);a.robotFeet.append(shoe)
-            sphere(shoe,0.105,[0,0.016,0],material(purple,rough:0.56),scale:[0.97,0.30,1.69])
-            sphere(shoe,0.104,[0,0.055,0.01],ivory,scale:[0.86,0.65,1.57])
-            sphere(shoe,0.082,[0,0.075,-0.07],material(.init(red:0.77,green:0.77,blue:0.78,alpha:1),rough:0.8),scale:[0.85,0.5,0.60])
-            for i in 0..<4 { rod(shoe,[-0.047,0.122,Float(i)*0.026-0.043],[0.047,0.122,Float(i)*0.026-0.034],0.0035,material(.white,rough:0.85)) }
-            for i in 0..<3 { rod(shoe,[side*0.085,0.062,Float(i)*0.04-0.055],[side*0.087,0.043,Float(i)*0.04-0.035],0.005,material(purple)) }
             let shoulder=V3(side*0.25,1.07,0),elbow=V3(side*0.38,0.89,0.02),wrist=V3(side*0.40,0.80,0.18)
             let arm=side < 0 ? a.robotArm : a.robotFreeArm; arm.position=shoulder; b.addChild(arm)
             sphere(arm,0.073,.zero,black); sphere(arm,0.076,[side*0.024,0.004,0.01],orange,scale:[1.05,0.82,1])
@@ -650,7 +638,7 @@ enum MiloAnimationPhase: Equatable { case ready, preparingServe, anticipating, s
     }
     static func lights(_ r: Entity) {
         func enableShadows(_ entity: Entity) {
-            if entity.components[ModelComponent.self] != nil { entity.components.set(DynamicLightShadowComponent(castsShadow:entity.name != "gardenSky" && entity.name != "daylight sky surround" && entity.name != "garden leaves" && entity.name != "soft contact shadow")) }
+            if entity.components[ModelComponent.self] != nil { entity.components.set(DynamicLightShadowComponent(castsShadow:entity.name != "gardenSky" && entity.name != "daylight sky surround" && entity.name != "garden leaves" && entity.name != "soft contact shadow" && entity.name != "Milo hover light")) }
             for child in entity.children { enableShadows(child) }
         }
         enableShadows(r)

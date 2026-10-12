@@ -49,12 +49,76 @@ struct SenseGripFitTests {
         let fit = SenseGripFit(translation: [0.03, -0.02, 0.01],
             calibratedOrientation: base.vector, pitchDegrees: 20, yawDegrees: -15, rollDegrees: 10)
         let radians = Float.pi / 180
-        let expected = base * simd_quatf(angle: -15 * radians, axis: [0, 1, 0])
-            * simd_quatf(angle: 20 * radians, axis: [1, 0, 0])
+        let expected = base * simd_quatf(angle: 20 * radians, axis: [1, 0, 0])
             * simd_quatf(angle: 10 * radians, axis: [0, 0, 1])
+            * simd_quatf(angle: -15 * radians, axis: [0, 1, 0])
         #expect(sameRotation(simd_quatf(fit.offset), expected))
         #expect(fit.offset.columns.3 == SIMD4<Float>(0.03, -0.02, 0.01, 1))
         #expect(abs(simd_determinant(fit.offset) - 1) < 0.00001)
+    }
+
+    @Test func quarterTurnPresetsKeepTiltedShaftHandleAndHeadVelocityFixed() {
+        let base = simd_quatf(angle: 0.65, axis: simd_normalize(SIMD3<Float>(1, 2, -1)))
+        let original = SenseGripFit(translation: [0.02, -0.03, 0.01],
+            calibratedOrientation: base.vector, pitchDegrees: 28, rollDegrees: -21)
+        let rotations = [simd_quatf(angle: 0, axis: [0, 1, 0]),
+                         simd_quatf(angle: 1.2, axis: simd_normalize(SIMD3<Float>(-2, 1, 3)))]
+        for rotation in rotations {
+            let grip = pose(rotation: rotation, translation: [1.1, 1.3, -0.8])
+            let before = original.mountedPose(fromGrip: grip)
+            let velocity = SenseGripFit.headVelocity(worldFromAnchor: grip, mountedPose: before,
+                                                     linear: [0.4, -0.2, 0.1], angular: [1, 3, -2])
+            for degrees in [Float(-90), Float(90)] {
+                var turned = original; turned.yawDegrees = degrees
+                let after = turned.mountedPose(fromGrip: grip)
+                #expect(simd_distance(before.columns.3, after.columns.3) < 0.00001)
+                #expect(simd_distance(before.columns.1, after.columns.1) < 0.00001)
+                #expect(simd_distance(before * SIMD4<Float>(0, 0.37, 0, 1),
+                                      after * SIMD4<Float>(0, 0.37, 0, 1)) < 0.00001)
+                #expect(abs(simd_dot(before.columns.2, after.columns.2)) < 0.00001)
+                let turnedVelocity = SenseGripFit.headVelocity(worldFromAnchor: grip, mountedPose: after,
+                    linear: [0.4, -0.2, 0.1], angular: [1, 3, -2])
+                #expect(simd_distance(velocity, turnedVelocity) < 0.00001)
+            }
+        }
+    }
+
+    @Test func legacyRotationOrderMigrationPreservesSavedMountedPoseAndDoesNotRepeat() throws {
+        let name = "SenseGripLegacyTests.\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: name))
+        defer { defaults.removePersistentDomain(forName: name) }
+        let radians = Float.pi / 180
+        let base = simd_quatf(angle: 0.6, axis: simd_normalize(SIMD3<Float>(1, -2, 1)))
+        let translation = SIMD3<Float>(0.02, -0.03, 0.01)
+        let legacyObject: [String: Any] = [
+            "translation": [translation.x, translation.y, translation.z],
+            "calibratedOrientation": [base.vector.x, base.vector.y, base.vector.z, base.vector.w],
+            "pitchDegrees": 21, "yawDegrees": -37, "rollDegrees": 14]
+        let legacyData = try JSONSerialization.data(withJSONObject: legacyObject)
+        let oldRotation = base * simd_quatf(angle: -37 * radians, axis: [0, 1, 0])
+            * simd_quatf(angle: 21 * radians, axis: [1, 0, 0])
+            * simd_quatf(angle: 14 * radians, axis: [0, 0, 1])
+        var oldOffset = simd_float4x4(oldRotation)
+        oldOffset.columns.3 = SIMD4<Float>(translation, 1)
+        let grip = pose(rotation: simd_quatf(angle: -0.9, axis: [0, 1, 0]), translation: [0.7, 1.1, -2])
+        let expected = grip * SenseGripFit.baseMount * oldOffset
+        defaults.set(legacyData, forKey: "ShuttleClub.SenseGripFit.left.v1")
+        let otherHand = SenseGripFit(pitchDegrees: -12, yawDegrees: 8, rollDegrees: 5)
+        #expect(SenseGripFitStore.save(otherHand, left: false, defaults: defaults))
+        let migrated = SenseGripFitStore.load(left: true, defaults: defaults)
+        #expect(matricesMatch(migrated.mountedPose(fromGrip: grip), expected))
+        #expect(migrated.translation == translation)
+        #expect(migrated.pitchDegrees == 21 && migrated.yawDegrees == -37 && migrated.rollDegrees == 14)
+        #expect(matricesMatch(SenseGripFitStore.load(left: false, defaults: defaults).offset, otherHand.offset))
+        #expect(SenseGripFitStore.save(migrated, left: true, defaults: defaults))
+        let encoded = try #require(defaults.data(forKey: "ShuttleClub.SenseGripFit.left.v1"))
+        let object = try #require(JSONSerialization.jsonObject(with: encoded) as? [String: Any])
+        #expect((object["rotationOrderVersion"] as? Int) == 2)
+        let relaunched = try #require(UserDefaults(suiteName: name))
+        let reloaded = SenseGripFitStore.load(left: true, defaults: relaunched)
+        #expect(matricesMatch(reloaded.mountedPose(fromGrip: grip), expected))
+        #expect(sameRotation(simd_quatf(vector: reloaded.calibratedOrientation),
+                             simd_quatf(vector: migrated.calibratedOrientation)))
     }
 
     @Test func calibrationPreservesTrimAndTranslationAndFollowsMovedCourt() {

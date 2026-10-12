@@ -15,11 +15,11 @@ struct CourtView:View {
             if ProcessInfo.processInfo.arguments.contains("--preview-court-tracking") { game.showPlaySetup=true }
             #endif
             if let hud=attachments.entity(for:"score") { hud.position=[0,3.40,-5.5];hud.scale=[8.5,8.5,8.5];game.assets.root.addChild(hud) }
-            if let controls=attachments.entity(for:"controls") { placeControls(controls);game.assets.root.addChild(controls) }
+            if let controls=attachments.entity(for:"controls") { placeControls(controls);game.assets.interfaceRoot.addChild(controls) }
             game.subscribe(to:content,onReady:onReady)
         } update: { _,attachments in
             if let controls=attachments.entity(for:"controls") {
-                if controls.parent !== game.assets.root { game.assets.root.addChild(controls) }
+                if controls.parent !== game.assets.interfaceRoot { game.assets.interfaceRoot.addChild(controls) }
                 placeControls(controls)
             }
         } attachments: {
@@ -86,10 +86,11 @@ struct CourtControls:View {
             } else {
                 Text(game.message).font(.system(size:11,weight:.bold,design:.rounded)).multilineTextAlignment(.center).frame(maxWidth:200)
             }
+            if game.input == .sense,game.isControllerAlignmentPending { ControllerAlignmentCue(compact:true) }
             if game.isPreparingServe {
                 if game.paused { Text("Serve paused").font(.caption.bold()) }
                 ProgressView(value:Double(0.65-game.serveCountdown),total:0.65).tint(.clubViolet).frame(width:180).accessibilityLabel("Serve windup")
-            } else if game.canServe && tracked && !game.paused && game.automaticServing {
+            } else if game.canServe && tracked && !game.paused && game.automaticServing && !game.isControllerAlignmentPending {
                 Label("Milo serves in \(max(1,Int(ceil(game.nextServeCountdown))))…",systemImage:"figure.badminton").font(.caption.bold()).monospacedDigit()
             }
             HStack(spacing:12) {
@@ -119,12 +120,37 @@ struct CourtMenu:View {
             Button { game.showRackets=true } label:{ menuRow(game.racketKind.name,"Choose your racket","figure.badminton") }.disabled(!game.canServe)
             Button { game.showPlaySetup=true } label:{ menuRow("Racket & tracking","Hands, Sense controllers and grip","hand.raised.fill") }.accessibilityIdentifier("courtPlaySetup")
             Button { game.showSettings=true } label:{ menuRow("Sound & comfort","Music, effects and animation","slider.horizontal.3") }
-            HStack { Button("Align angle") { game.setGrip() }.disabled(game.input == .hands ? !game.canAdjustHandGrip:!game.canAdjustControllerGrip);Button("Recenter") { game.recenter() }.disabled(!game.canServe);Button("Restart") { game.restart();closeMenus() } }.buttonStyle(.bordered).font(.system(size:15,weight:.semibold))
+            CourtMovementOptions()
+            HStack {
+                Button(game.input == .sense && game.isControllerAlignmentPending ? "Aligning…":"Align angle") {
+                    if game.input == .sense { game.beginControllerAlignment() }
+                    else { game.setGrip() }
+                }.disabled(game.input == .hands ? !game.canAdjustHandGrip:!game.canAdjustControllerGrip || game.isControllerAlignmentPending)
+                Button("Recenter") { game.recenter() }.disabled(!game.canServe || game.isControllerAlignmentPending)
+                Button("Restart") { game.cancelControllerAlignment();game.restart();closeMenus() }
+            }.buttonStyle(.bordered).font(.system(size:15,weight:.semibold))
+            if game.input == .sense,game.isControllerAlignmentPending { ControllerAlignmentCue() }
             if !game.racketReady { RacketTrackingStatus(compact:true) }
             Button { if game.racketReady { game.paused=false };closeMenus() } label:{ Label(game.rallyInProgress ? "Resume rally":"Back to court",systemImage:"play.fill") }.buttonStyle(ClubPrimaryButton(colour:.clubCoral)).disabled(game.rallyInProgress && !game.racketReady)
             Button("Leave the court") { closeMenus();game.stop();navigation.playing=false }.font(.subheadline).frame(maxWidth:.infinity)
         }.padding(30).frame(width:510).foregroundStyle(Color.clubInk).tint(.clubViolet).background(Color.clubPaper,in:RoundedRectangle(cornerRadius:26))
     }
-    private func closeMenus() { game.showCourtMenu=false;game.showSettings=false;game.showRackets=false;game.showPlaySetup=false }
+    private func closeMenus() { game.cancelControllerAlignment();game.showCourtMenu=false;game.showSettings=false;game.showRackets=false;game.showPlaySetup=false }
     private func menuRow(_ title:String,_ subtitle:String,_ icon:String)->some View { HStack(spacing:15) { Image(systemName:icon).font(.title2).foregroundStyle(Color.clubViolet).frame(width:42);VStack(alignment:.leading,spacing:4) { Text(title).font(.system(size:18,weight:.bold,design:.rounded));Text(subtitle).font(.system(size:14)).foregroundStyle(.secondary) };Spacer();Image(systemName:"chevron.right") }.padding(16).foregroundStyle(Color.clubInk).background(.white,in:RoundedRectangle(cornerRadius:19)) }
+}
+
+struct ControllerAlignmentCue:View {
+    @Environment(GameModel.self) private var game
+    var compact=false
+    var body:some View {
+        VStack(spacing:7) {
+            Label("Hold naturally · \(max(1,Int(ceil(Double(game.controllerAlignmentCountdown)))))…",systemImage:"hand.raised.fill")
+                .font(.system(size:compact ? 12:14,weight:.semibold,design:.rounded))
+                .monospacedDigit().foregroundStyle(Color.clubViolet)
+                .accessibilityIdentifier("controllerAlignmentCountdown")
+            Button("Cancel alignment") { game.cancelControllerAlignment() }
+                .font(.system(size:compact ? 12:14,weight:.semibold)).buttonStyle(.bordered)
+                .accessibilityIdentifier("cancelControllerAlignment")
+        }.frame(maxWidth:.infinity)
+    }
 }

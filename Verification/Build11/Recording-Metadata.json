@@ -1,0 +1,16 @@
+[
+  {
+    "duration_seconds" : 41.805,
+    "file" : "Native-Rally.mp4",
+    "height" : 720,
+    "nominal_fps" : 53.946319580078125,
+    "width" : 1280
+  },
+  {
+    "duration_seconds" : 42.734999999999999,
+    "file" : "Deliberate-Miss.mp4",
+    "height" : 720,
+    "nominal_fps" : 54.002342224121094,
+    "width" : 1280
+  }
+]

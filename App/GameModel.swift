@@ -22,10 +22,10 @@ enum Difficulty: String, CaseIterable, Identifiable { case friendly = "Friendly"
 @MainActor @Observable
 final class GameModel {
     var mode: GameMode = .practice
-    var input: InputMode = .hands { didSet { controllerGripDefaults.set(input.rawValue,forKey:"ShuttleClub.input.v1") } }
+    var input: InputMode = .hands { didSet { controllerGripDefaults.set(input.rawValue,forKey:"ShuttleClub.input.v1");if input != oldValue { cancelControllerAlignment(retryOnNextReady:true);navigation.stop();autoGlideTarget=nil } } }
     var racketKind = RacketKind(rawValue:UserDefaults.standard.string(forKey:"racket") ?? "") ?? .coral
     var showRackets = false
-    var leftHand = false { didSet { controllerGripDefaults.set(leftHand,forKey:"ShuttleClub.racketHand.left.v1") } }
+    var leftHand = false { didSet { controllerGripDefaults.set(leftHand,forKey:"ShuttleClub.racketHand.left.v1");if leftHand != oldValue { cancelControllerAlignment(retryOnNextReady:true);navigation.stop();autoGlideTarget=nil } } }
     var soundEnabled = true { didSet { syncAudio() } }
     var musicEnabled = true { didSet { syncAudio() } }
     var musicVolume:Float = 0.55 { didSet { syncAudio() } }
@@ -36,10 +36,14 @@ final class GameModel {
     var showCourtMenu = false
     var showPlaySetup = false
     var controllerReady = false
+    private(set) var courtMovement: CourtMovement = .thumbstick
+    var effectiveCourtMovement: CourtMovement { input == .hands && courtMovement == .thumbstick ? .autoGlide : courtMovement }
+    private(set) var controllerAlignmentCountdown: Float = 0
+    var isControllerAlignmentPending: Bool { controllerAlignmentCountdown > 0 }
     private var rightControllerGripFit = SenseGripFit()
     private var leftControllerGripFit = SenseGripFit()
     var difficulty: Difficulty = .friendly
-    var paused = false { didSet { syncAudio();if paused { nextServeCountdown=2;servePinch.reset() } } }
+    var paused = false { didSet { syncAudio();if paused { nextServeCountdown=2;servePinch.reset();navigation.stop();contactFeedback?.reset() } else if oldValue,lastHitter == .milo { planPlayerGlide() } } }
     var message = "Welcome to Shuttle Club."
     var trackingMessage = ""
     var handVisible = false
@@ -81,6 +85,16 @@ final class GameModel {
     @ObservationIgnored private var heldHandLeft:Bool?
     @ObservationIgnored private var measuredRacket = matrix_identity_float4x4
     @ObservationIgnored private var previousMeasuredRacket = matrix_identity_float4x4
+    @ObservationIgnored private var measuredWorldRacket = matrix_identity_float4x4
+    @ObservationIgnored private var navigation = CourtNavigation()
+    @ObservationIgnored private var worldFromCourtOrigin: simd_float4x4?
+    @ObservationIgnored private var autoGlideTarget: SIMD2<Float>?
+    @ObservationIgnored private var playerReadyOffset: V3?
+    @ObservationIgnored private var alignmentHand: Bool?
+    @ObservationIgnored private var alignmentTimestamp: Double = 0
+    @ObservationIgnored private var alignmentPose: simd_float4x4?
+    @ObservationIgnored private var initialAlignmentAttempted = Set<Bool>()
+    @ObservationIgnored private var contactFeedback: ShuttleContactFeedback?
     @ObservationIgnored private var lastPoseTimestamp: Double = 0
     @ObservationIgnored private var trackingWasValid = false
     @ObservationIgnored private var trackingTask: Task<Void, Never>?
@@ -100,7 +114,6 @@ final class GameModel {
     @ObservationIgnored private var pendingWrist: simd_float4x4?
     @ObservationIgnored private var wristTimestamp: CFTimeInterval = 0
     @ObservationIgnored private var demoClock: Float = 0
-    @ObservationIgnored private var stepClock:Float=0
     @ObservationIgnored private var opponentTarget: V3?
     private struct MiloStroke {
         let point:V3
@@ -128,6 +141,7 @@ final class GameModel {
         leftHandGripFit=HandGripFitStore.load(left:true,defaults:gripDefaults)
         input=InputMode(rawValue:gripDefaults.string(forKey:"ShuttleClub.input.v1") ?? "") ?? .hands
         leftHand=gripDefaults.bool(forKey:"ShuttleClub.racketHand.left.v1")
+        courtMovement=CourtMovement(rawValue:gripDefaults.string(forKey:"ShuttleClub.courtMovement.v1") ?? "") ?? .thumbstick
     }
     var controllerGripFit:SenseGripFit { leftHand ? leftControllerGripFit:rightControllerGripFit }
     var canAdjustControllerGrip:Bool {
@@ -150,6 +164,15 @@ final class GameModel {
     }
     var racketReady:Bool { trackedRacketReady }
     var handHeadVelocity:V3 { input == .hands ? racketSpeed:.zero }
+    var virtualCourtPosition: SIMD2<Float> { navigation.position }
+    var virtualCourtSpeed: Float { simd_length(navigation.velocity) }
+    var playerReturnTarget: V3 {
+        let p=navigation.position
+        if effectiveCourtMovement == .autoGlide,let ready=playerReadyOffset {
+            return [min(2.4,max(-2.4,p.x+ready.x)),ready.y,min(1.2,max(Court.netZ+0.8,p.y+ready.z))]
+        }
+        return [p.x,1.6,p.y-0.25]
+    }
     struct ContactEvidence { let side:Side; let cork:V3; let stringPoint:V3; let racketPose:simd_float4x4;let headVelocity:V3;let contactVelocity:V3 }
     private(set) var lastContact: ContactEvidence?
     @ObservationIgnored private var previewContactAt: Float = 0
@@ -172,6 +195,8 @@ final class GameModel {
         trackingActive=true
         session = ARKitSession(); hands = HandTrackingProvider(); world = WorldTrackingProvider()
         assets = ClubScene.build()
+        contactFeedback=ShuttleContactFeedback(root:assets.root)
+        navigation.reset();worldFromCourtOrigin=nil;autoGlideTarget=nil;playerReadyOffset=nil
         #if DEBUG
         // Move only the debug inspection scene back from the simulator camera.
         // All cork, racket and court coordinates relative to it are unchanged.
@@ -412,6 +437,8 @@ final class GameModel {
         if servePinch.update(distance:distance,timestamp:timestamp,now:now) { serve() }
     }
     private func discardTrackingSamples() {
+        cancelControllerAlignment(retryOnNextReady:true);navigation.stop();autoGlideTarget=nil
+        playerReadyOffset=nil
         servePinch.reset()
         nextServeCountdown=2
         pendingWrist=nil;wristTimestamp=0;handVisible=false;handRacketHeld=false;controllerReady=false
@@ -444,6 +471,7 @@ final class GameModel {
         frameUpdates?.cancel();frameUpdates=nil
         trackingActive=false;endTracking();flight=nil;serveCountdown=0;canServe=true;showPlaySetup=false
         miloStroke=nil;miloFollowThrough=nil;miloPhase = .ready;assets.movement=0
+        contactFeedback?.reset();navigation.reset();worldFromCourtOrigin=nil
         paused=false
     }
     /// A controller button cannot resume a rally behind an open court panel.
@@ -456,6 +484,7 @@ final class GameModel {
     /// Return from tracking setup to the actual court, including when setup
     /// was reached through another panel. Paused rallies still need Resume.
     func finishTrackingSetup() {
+        cancelControllerAlignment()
         showPlaySetup=false;showCourtMenu=false;showSettings=false;showRackets=false
         nextServeCountdown=2;servePinch.reset();handGripGesture.suspend()
         if paused {
@@ -471,6 +500,7 @@ final class GameModel {
         // to pause then, and a disabled Serve button would prevent starting it.
         sceneActive=active
         if !active {
+            cancelControllerAlignment(retryOnNextReady:true);navigation.stop();autoGlideTarget=nil;contactFeedback?.reset()
             servePinch.reset();nextServeCountdown=2;handGripGesture.suspend()
             pendingWrist=nil;wristTimestamp=0;pendingHandLeft=nil;handVisible=false;handRacketHeld=false
             openWristFromGrip=nil
@@ -482,7 +512,102 @@ final class GameModel {
         paused=true
         message="Rally paused. Bring your racket into view, then tap Resume."
     }
-    func recenter() { guard canServe else { return }; calibrated = false; calibrate(); lastPoseTimestamp=0; poseValid=false }
+    func recenter() {
+        guard canServe,!isControllerAlignmentPending else { return }
+        if let origin=worldFromCourtOrigin { assets.root.transform=Transform(matrix:origin) }
+        navigation.reset();worldFromCourtOrigin=nil;autoGlideTarget=nil
+        playerReadyOffset=nil
+        assets.interfaceRoot.position = .zero
+        calibrated=false;calibrate();lastPoseTimestamp=0;poseValid=false;trackingWasValid=false
+        racketSpeed = .zero;racketAngularVelocity = .zero
+    }
+    /// Capture the playing hold after the user has stopped pointing at a menu.
+    /// Tracking loss, input/hand changes and leaving setup cancel the capture.
+    func beginControllerAlignment() {
+        guard canAdjustControllerGrip else { return }
+        controllerAlignmentCountdown=3;alignmentHand=leftHand
+        initialAlignmentAttempted.insert(leftHand)
+        alignmentTimestamp=controllerGripTimestamp;alignmentPose=lastControllerGrip
+        navigation.stop();nextServeCountdown=2
+        message="Hold the controller comfortably for play. Keep it still for 3 seconds."
+    }
+    func cancelControllerAlignment(retryOnNextReady:Bool = false) {
+        if retryOnNextReady,let hand=alignmentHand { initialAlignmentAttempted.remove(hand) }
+        controllerAlignmentCountdown=0;alignmentHand=nil;alignmentTimestamp=0;alignmentPose=nil
+    }
+    func updateControllerAlignment(_ dt:Float) {
+        guard isControllerAlignmentPending else { return }
+        if dt == 0 { return }
+        guard dt.isFinite,dt > 0,dt <= 0.1,alignmentHand == leftHand,canAdjustControllerGrip,
+              let grip=lastControllerGrip else { cancelControllerAlignment(retryOnNextReady:true);return }
+        if controllerGripTimestamp > alignmentTimestamp,let previous=alignmentPose {
+            let rotation=RacketMotion.angularVelocity(from:previous,to:grip,duration:1)
+            if simd_distance(previous.columns.3.xyz,grip.columns.3.xyz)>0.012 || simd_length(rotation)>0.05 {
+                controllerAlignmentCountdown=3
+                alignmentPose=grip
+                message="Keep your comfortable playing hold still for 3 seconds."
+            }
+            alignmentTimestamp=controllerGripTimestamp
+        }
+        controllerAlignmentCountdown=max(0,controllerAlignmentCountdown-dt)
+        if controllerAlignmentCountdown < 0.0001 {
+            cancelControllerAlignment();setGrip()
+            controllerGripDefaults.set(true,forKey:"ShuttleClub.SenseNaturalHold.\(leftHand ? "left":"right").v2")
+        }
+    }
+    private func beginInitialControllerAlignmentIfNeeded() {
+        guard trackingActive,!collisionPreview,input == .sense,canServe,!paused,
+              !showCourtMenu,!showSettings,!showRackets,!showPlaySetup,
+              !isControllerAlignmentPending,!initialAlignmentAttempted.contains(leftHand),canAdjustControllerGrip else { return }
+        initialAlignmentAttempted.insert(leftHand)
+        // Preserve an existing chosen fit. A new/default attachment is fitted
+        // once before its first serve; the setup button can refit either hand.
+        let key="ShuttleClub.SenseNaturalHold.\(leftHand ? "left":"right").v2"
+        if !controllerGripDefaults.bool(forKey:key),controllerGripFit == SenseGripFit() { beginControllerAlignment() }
+    }
+    func setCourtMovement(_ movement:CourtMovement) {
+        courtMovement=movement;controllerGripDefaults.set(movement.rawValue,forKey:"ShuttleClub.courtMovement.v1")
+        navigation.stop();autoGlideTarget=nil
+        lastPoseTimestamp=0;poseValid=false;trackingWasValid=false;racketSpeed = .zero;racketAngularVelocity = .zero
+    }
+    /// Called by the frame loop after the prior frame's fresh tracking gate.
+    /// Tests can supply axes here without connecting or querying any hardware.
+    func advanceCourtMovement(_ dt:Float,stick:SIMD2<Float>) {
+        let allowed=sceneActive && trackedRacketReady && !paused && !isControllerAlignmentPending &&
+            !showCourtMenu && !showSettings && !showRackets && !showPlaySetup && !collisionPreview
+        let direction:SIMD2<Float>
+        switch effectiveCourtMovement {
+        case .thumbstick:direction=CourtNavigation.direction(stick)
+        case .autoGlide:direction=autoGlideTarget.map { navigation.direction(toward:$0) } ?? .zero
+        case .stationary:direction = .zero
+        }
+        let before=navigation.position
+        navigation.step(dt:dt,direction:direction,allowed:allowed)
+        guard navigation.position != before else { return }
+        if worldFromCourtOrigin == nil { worldFromCourtOrigin=assets.root.transformMatrix(relativeTo:nil) }
+        guard let origin=worldFromCourtOrigin else { return }
+        var offset=matrix_identity_float4x4
+        offset.columns.3=SIMD4(-navigation.position.x,0,-navigation.position.y,1)
+        assets.root.transform=Transform(matrix:origin*offset)
+        // Menus remain directly in front of the physical player while the
+        // court moves. They must not drift several metres to the side.
+        assets.interfaceRoot.position=[navigation.position.x,0,navigation.position.y]
+    }
+    private func planPlayerGlide() {
+        autoGlideTarget=nil
+        guard effectiveCourtMovement == .autoGlide,!collisionPreview,let flight else { return }
+        let ready=playerReadyOffset ?? V3(0,1.6,-0.25)
+        guard let point=CourtNavigation.receivingPoint(for:flight,height:ready.y) else { return }
+        let physical=SIMD2(ready.x,ready.z)
+        autoGlideTarget=SIMD2(point.x,point.z)-physical
+    }
+    private func capturePlayerReadyOffset() {
+        guard playerReadyOffset == nil,canServe,lastPoseTimestamp > 0,trackedRacketReady,!isControllerAlignmentPending else { return }
+        let head=(measuredRacket*SIMD4<Float>(0,0.37,0,1)).xyz
+        let physical=head-V3(navigation.position.x,0,navigation.position.y)
+        guard physical.isFiniteVector else { return }
+        playerReadyOffset=[min(0.75,max(-0.75,physical.x)),min(1.85,max(1.15,physical.y)),min(-0.1,max(-0.85,physical.z))]
+    }
     func setGrip() {
         if input == .sense {
             guard canAdjustControllerGrip,let grip=lastControllerGrip else { return }
@@ -510,7 +635,9 @@ final class GameModel {
         if leftHand { leftHandGripFit=fit } else { rightHandGripFit=fit }
         let pose=simd_inverse(assets.root.transformMatrix(relativeTo:nil))*wrist*fit.offset
         measuredRacket=pose;previousMeasuredRacket=pose;assets.racket.transform=Transform(matrix:pose)
-        lastPoseTimestamp=0;poseValid=false;racketSpeed = .zero;racketAngularVelocity = .zero;oldHead=(pose*SIMD4<Float>(0,0.37,0,1)).xyz
+        measuredWorldRacket=wrist*fit.offset
+        playerReadyOffset=nil
+        lastPoseTimestamp=0;poseValid=false;racketSpeed = .zero;racketAngularVelocity = .zero;oldHead=(measuredWorldRacket*SIMD4<Float>(0,0.37,0,1)).xyz
         nextServeCountdown=2;servePinch.reset()
     }
     func resetHandGrip() {
@@ -520,16 +647,18 @@ final class GameModel {
     }
     func setControllerGripFit(_ requested:SenseGripFit) {
         guard canAdjustControllerGrip,let grip=lastControllerGrip else { return }
+        guard SenseGripFitStore.save(requested,left:leftHand,defaults:controllerGripDefaults) else { return }
         let fit=requested.normalized()
         if leftHand { leftControllerGripFit=fit } else { rightControllerGripFit=fit }
-        SenseGripFitStore.save(fit,left:leftHand,defaults:controllerGripDefaults)
         // An adjustment is a new attachment, not a swing. Commit its current
         // measured pose and discard motion history before accepting contacts.
         let pose=simd_inverse(assets.root.transformMatrix(relativeTo:nil)) * fit.mountedPose(fromGrip:grip)
         measuredRacket=pose;previousMeasuredRacket=pose
+        measuredWorldRacket=fit.mountedPose(fromGrip:grip)
+        playerReadyOffset=nil
         assets.racket.transform=Transform(matrix:pose)
         lastPoseTimestamp=0;poseValid=false;racketSpeed = .zero;racketAngularVelocity = .zero
-        oldHead=(pose * SIMD4<Float>(0,0.37,0,1)).xyz
+        oldHead=(measuredWorldRacket * SIMD4<Float>(0,0.37,0,1)).xyz
         nextServeCountdown=2;servePinch.reset()
     }
     func resetControllerGrip() {
@@ -544,12 +673,15 @@ final class GameModel {
             let yaw = atan2(m.columns.2.x, m.columns.2.z)
             assets.root.position = [m.columns.3.x, m.columns.3.y - 1.65, m.columns.3.z]
             assets.root.orientation = simd_quatf(angle: yaw, axis: [0, 1, 0]); calibrated = true
+            worldFromCourtOrigin=assets.root.transformMatrix(relativeTo:nil)
         }
         #if targetEnvironment(simulator)
         calibrated = true
+        if worldFromCourtOrigin == nil { worldFromCourtOrigin=assets.root.transformMatrix(relativeTo:nil) }
         #endif
     }
     func restart() {
+        cancelControllerAlignment();contactFeedback?.reset();navigation.stop();autoGlideTarget=nil
         flight = nil;serveCountdown=0;nextServeCountdown=2;servePinch.reset();score = MatchScore(); targetPoints = 0; streak = 0; rallyCount = 0; rallyHits = 0; bestRally = 0
         canServe = true; paused = false; celebration = 0; showCourtMenu=false;showPlaySetup=false
         lastPoseTimestamp=0; trackingWasValid=false; poseValid=false; racketSpeed = .zero;racketAngularVelocity = .zero
@@ -562,7 +694,9 @@ final class GameModel {
     }
     func serve() {
         guard canServe,!paused,sceneActive,mode != .match || score.winner == nil,trackedRacketReady,
+              !isControllerAlignmentPending,
               !showCourtMenu,!showSettings,!showRackets,!showPlaySetup else { return }
+        capturePlayerReadyOffset()
         rallyCount += 1
         nextServeCountdown=2
         rallyHits = 0;lastContact=nil;opponentTarget=nil;servePinch.reset()
@@ -596,10 +730,13 @@ final class GameModel {
         }
         placeShuttleAtServeStrings()
         if serveCountdown > 0 { message=progress < 0.55 ? "Milo is winding up…":"Here it comes!";return }
-        let target = V3(sin(Float(rallyCount) * 1.7) * 0.35, 1.6, -0.25)
+        let base=playerReturnTarget
+        let serveX=effectiveCourtMovement == .autoGlide ? (playerReadyOffset?.x ?? base.x):base.x
+        let target = V3(min(2.4,max(-2.4,serveX+sin(Float(rallyCount)*1.7)*0.35)),base.y,base.z)
         let origin=assets.robotRacket.convert(position:[0,0.37,0],to:assets.root)
         // Launch from the actual release pose, after preparation has completed.
         flight = Flight.clearanceShot(from:origin,to:target,duration:1.65)
+        planPlayerGlide()
         configurePreviewSwing()
         sinceContact=0
         message = input == .hands ? "Return the shuttle with your racket." : "Wait for the shuttle."
@@ -608,6 +745,7 @@ final class GameModel {
         beginMiloRecovery(followThrough:false)
     }
     private func recordReturn(message: String) {
+        autoGlideTarget=nil
         miloStroke=mode == .targets ? nil : flight.flatMap(makeMiloStroke)
         opponentTarget=miloStroke?.stance
         if opponentTarget == nil,mode != .targets,let flight {
@@ -628,11 +766,13 @@ final class GameModel {
         assets.racket.addChild(ClubScene.makeRacket(kind))
     }
     private func pauseForTrackingLoss() {
+        cancelControllerAlignment(retryOnNextReady:true);navigation.stop();autoGlideTarget=nil
         servePinch.reset()
         poseValid=false; racketSpeed = .zero;racketAngularVelocity = .zero; lastPoseTimestamp=0
         if rallyInProgress { paused=true; message="Tracking paused. Bring your racket into view, then Resume." }
     }
     private func point(_ winner: Side, landing: V3, reason: String) {
+        autoGlideTarget=nil;navigation.stop()
         flight = nil;canServe=true;nextServeCountdown=2
         beginMiloRecovery(followThrough:false)
         assets.robotReaction = winner == .milo ? 1:0.3
@@ -656,6 +796,7 @@ final class GameModel {
 
     private func updateAutomaticServe(_ dt:Float) {
         guard automaticServing,canServe,!paused,sceneActive,trackedRacketReady,
+              !isControllerAlignmentPending,
               !showCourtMenu,!showSettings,!showRackets,!showPlaySetup,
               mode != .match || score.winner == nil else { nextServeCountdown=2;return }
         nextServeCountdown=max(0,nextServeCountdown-dt)
@@ -675,7 +816,7 @@ final class GameModel {
             return
         }
         let dt=max(0,delta)
-        let previousRobotRacket=assets.robotRacket.transformMatrix(relativeTo:assets.root)
+        contactFeedback?.update(dt:dt,reducedMotion:reducedMotion)
         previousMeasuredRacket = measuredRacket
         calibrate()
         if !collisionPreview, trackingRunning, calibrated, world.state == .running,
@@ -686,7 +827,11 @@ final class GameModel {
         #if DEBUG
         if collisionPreview { updatePreviewHand(dt) }
         #endif
+        advanceCourtMovement(dt,stick:input == .sense ? sense.movementInput(leftHand:leftHand):.zero)
         updateRacket(dt)
+        beginInitialControllerAlignmentIfNeeded()
+        updateControllerAlignment(dt)
+        capturePlayerReadyOffset()
         if !canServe || paused || !trackedRacketReady { servePinch.reset() }
         if rallyInProgress && !trackedRacketReady { pauseForTrackingLoss() }
         updateAutomaticServe(dt)
@@ -703,24 +848,28 @@ final class GameModel {
             assets.animateMilo(time:elapsed,active:true,dt:dt,reducedMotion:reducedMotion,phase:miloPhase,lookTarget:assets.shuttle.position)
             return
         }
-        if flight != nil,lastHitter == .player,mode != .targets { updateMiloResponse(dt) }
-        else { updateMiloRecovery(dt) }
-        if assets.movement > 0.5 {
-            stepClock += dt
-            if stepClock > 0.26 { stepClock=0; if soundEnabled { SoundBank.play(.step,strength:0.65,at:assets.milo) } }
-        } else { stepClock=0 }
+        let incomingToMilo=flight != nil && lastHitter == .player && mode != .targets
+        if incomingToMilo {
+            // Tracking and court navigation have already committed once for
+            // this frame. The authored robot stroke needs the same short
+            // intervals as the shuttle, so contact uses its visible motion
+            // near impact rather than a whole-frame chord average.
+            elapsed -= dt;sinceContact -= dt
+            updateMiloRally(dt)
+        } else { updateMiloRecovery(dt) }
         if celebration > 0 {
             celebration -= dt; assets.animateConfetti(age: 1.2 - celebration)
             if celebration <= 0 { assets.confetti.isEnabled = false }
         }
         assets.animateMilo(time:elapsed,active:rallyInProgress,dt:dt,reducedMotion:reducedMotion,
                            phase:miloPhase,lookTarget:flight?.position)
+        if incomingToMilo { return }
         guard var ball = flight else { return }
         let previousBall=ball
         let before = ball.position; ball.step(dt)
         let fault=RallyEvents.first(from:before,to:ball.position)
         flight = ball; assets.shuttle.position = ball.position
-        if simd_length(ball.velocity) > 0.1 { assets.shuttle.orientation = simd_quatf(from: [0, 1, 0], to: -simd_normalize(ball.velocity)) }
+        updateShuttleOrientation(velocity:ball.velocity,dt:dt)
         if lastHitter == .milo, poseValid, sinceContact > 0.18,
            let returned=contactReturn(previousBall:previousBall,currentBall:ball,oldPose:previousMeasuredRacket,
                                       newPose:measuredRacket,headVelocity:racketSpeed,angularVelocity:racketAngularVelocity,kind:racketKind,dt:dt,side:.player,
@@ -729,24 +878,6 @@ final class GameModel {
             resolveContactFlight(returned,hitter:.player)
             if input == .sense && hapticsEnabled { sense.impact(strength:simd_length(returned.velocity-ball.velocity)/35) }
             return
-        }
-        if lastHitter == .player && mode != .targets {
-            let robotPose=assets.robotRacket.transformMatrix(relativeTo:assets.root)
-            let oldHead=(previousRobotRacket * SIMD4<Float>(0,0.37,0,1)).xyz
-            let newHead=(robotPose * SIMD4<Float>(0,0.37,0,1)).xyz
-            let headVelocity=(newHead-oldHead)/max(0.005,dt)
-            let angularVelocity=RacketMotion.angularVelocity(from:previousRobotRacket,to:robotPose,duration:dt)
-            if sinceContact > 0.18,let returned=contactReturn(previousBall:previousBall,currentBall:ball,
-                oldPose:previousRobotRacket,newPose:robotPose,headVelocity:headVelocity,angularVelocity:angularVelocity,kind:.coral,dt:dt,side:.milo,
-                beforeFault:fault?.fraction) {
-                beginMiloRecovery(followThrough:true)
-                flight=returned; lastHitter = .milo; sinceContact=0; message="Milo made contact. Your turn!"
-                resolveContactFlight(returned,hitter:.milo)
-                rallyHits += 1; bestRally=max(bestRally,rallyHits)
-                configurePreviewSwing()
-                if soundEnabled { SoundBank.play(rallyHits%2 == 0 ? .hit:.hitAlt,strength:min(1,simd_length(flight?.velocity ?? .zero)/15),at:assets.shuttle) }
-                return
-            }
         }
         if let fault { resolveFault(fault,hitter:lastHitter) }
     }
@@ -758,31 +889,35 @@ final class GameModel {
             sense.dispatchButtonActions()
         } else if input == .hands, pendingHandLeft == leftHand,let wrist=pendingWrist,
                   TrackingGate.accepts(age:CACurrentMediaTime()-wristTimestamp,fullPosition:true,speed:0) {
-            let local=simd_inverse(assets.root.transformMatrix(relativeTo:nil)) * wrist * handGripFit.offset
-            let head=(local * SIMD4<Float>(0,0.37,0,1)).xyz
+            let inverse=simd_inverse(assets.root.transformMatrix(relativeTo:nil))
+            let physical=wrist*handGripFit.offset
+            let local=inverse*physical
+            let head=(physical * SIMD4<Float>(0,0.37,0,1)).xyz
             // Derive speed only from new measured anchors, never from repeated render frames.
             var sampleVelocity=V3.zero
             var sampleAngularVelocity=V3.zero
             if wristTimestamp > lastPoseTimestamp {
-                let sampleInterval=pendingHandHasTimestamp ? Float(max(0.005,wristTimestamp-lastPoseTimestamp)):max(0.005,dt)
+                let sampleInterval=pendingHandHasTimestamp ? Float(max(0.005,wristTimestamp-lastPoseTimestamp)):max(0.00001,dt)
                 let raw=(head-oldHead)/sampleInterval
                 poseValid=handRacketHeld && lastPoseTimestamp > 0 &&
                     (pendingHandHasTimestamp || dt > 0) && simd_length(raw) < 35
                 if poseValid {
-                    sampleVelocity=raw
-                    sampleAngularVelocity=RacketMotion.angularVelocity(from:measuredRacket,to:local,duration:sampleInterval)
+                    // Virtual translation changes the court-local sweep, but
+                    // only measured physical motion supplies impact energy.
+                    sampleVelocity=(inverse*SIMD4(raw,0)).xyz
+                    let angular=RacketMotion.angularVelocity(from:measuredWorldRacket,to:physical,duration:sampleInterval)
+                    sampleAngularVelocity=(inverse*SIMD4(angular,0)).xyz
                 }
                 lastPoseTimestamp=wristTimestamp; oldHead=head
             }
             if !trackingWasValid { previousMeasuredRacket=local }
             // Native speed uses the anchor's acquisition interval rather than
             // the render rate. Reused anchors contribute no new swing speed.
-            let previousHead=(previousMeasuredRacket * SIMD4<Float>(0,0.37,0,1)).xyz
-            racketSpeed=pendingHandHasTimestamp ? sampleVelocity : (poseValid && dt > 0 ? (head-previousHead)/dt:.zero)
-            racketAngularVelocity=pendingHandHasTimestamp ? sampleAngularVelocity : (poseValid && dt > 0 ? RacketMotion.angularVelocity(from:previousMeasuredRacket,to:local,duration:dt):.zero)
+            racketSpeed=sampleVelocity
+            racketAngularVelocity=sampleAngularVelocity
             if !handRacketHeld { poseValid=false;racketSpeed = .zero;racketAngularVelocity = .zero }
             if simd_length(racketSpeed) >= 45 { poseValid=false;racketSpeed = .zero;racketAngularVelocity = .zero }
-            measuredRacket=local; assets.racket.transform=Transform(matrix:local); assets.racket.isEnabled=true
+            measuredWorldRacket=physical;measuredRacket=local; assets.racket.transform=Transform(matrix:local); assets.racket.isEnabled=true
             assets.racket.components.set(OpacityComponent(opacity:handRacketHeld ? 1:0.35))
             trackingWasValid=true
         } else {
@@ -813,6 +948,13 @@ final class GameModel {
         // A cached or reordered packet cannot move the racket or re-arm it.
         if let previous=lastControllerInputTimestamp,pose.timestamp <= previous {
             racketSpeed = .zero;racketAngularVelocity = .zero
+            if pose.timestamp == previous,controllerReady,controllerGripLeft == leftHand {
+                // Render can outpace accessory samples. Keep the last accepted
+                // physical attachment fixed while the virtual court slides;
+                // duplicate input cannot alter it or re-arm contact history.
+                measuredRacket=simd_inverse(assets.root.transformMatrix(relativeTo:nil))*measuredWorldRacket
+                assets.racket.transform=Transform(matrix:measuredRacket)
+            }
             return
         }
         lastControllerInputTimestamp=pose.timestamp
@@ -821,7 +963,9 @@ final class GameModel {
         lastControllerGrip=pose.originFromGrip;controllerGripTimestamp=pose.timestamp;controllerGripLeft=pose.leftHand
         let inverse=simd_inverse(assets.root.transformMatrix(relativeTo:nil))
         let local=inverse * pose.measured
-        racketAngularVelocity=lastPoseTimestamp > 0 ? RacketMotion.angularVelocity(from:measuredRacket,to:local,duration:Float(pose.timestamp-lastPoseTimestamp)):.zero
+        let angular=lastPoseTimestamp > 0 ? RacketMotion.angularVelocity(from:measuredWorldRacket,to:pose.measured,duration:Float(pose.timestamp-lastPoseTimestamp)):.zero
+        racketAngularVelocity=(inverse*SIMD4(angular,0)).xyz
+        measuredWorldRacket=pose.measured
         measuredRacket=local
         assets.racket.transform=Transform(matrix:measuredRacket);assets.racket.isEnabled=true
         racketSpeed=(inverse * SIMD4(pose.headVelocity,0)).xyz
@@ -857,6 +1001,7 @@ final class GameModel {
                   normal:hit.pose.columns.2.xyz,contact:hit.point,racket:kind) else { return nil }
         let point=hit.stringPoint
         lastContact=ContactEvidence(side:side,cork:cork,stringPoint:point,racketPose:hit.pose,headVelocity:headVelocity,contactVelocity:contactVelocity)
+        contactFeedback?.show(at:point,normal:hit.pose.columns.2.xyz,strength:min(1,simd_length(velocity-incoming)/35))
         var result=Flight(position:cork,velocity:velocity)
         #if DEBUG
         print("STRING CONTACT: \(side), cork \(cork), strings \(point), fraction \(hit.fraction)")
@@ -869,6 +1014,13 @@ final class GameModel {
         #endif
         result.step(dt*(1-hit.fraction)); assets.shuttle.position=result.position
         return result
+    }
+    private func updateShuttleOrientation(velocity:V3,dt:Float) {
+        guard velocity.isFiniteVector,simd_length(velocity)>0.1 else { return }
+        let target=simd_quatf(from:V3(0,1,0),to:-simd_normalize(velocity))
+        // Cork and flight keep their exact physical path. The feather skirt
+        // turns into the new airflow briefly after a genuine impact.
+        assets.shuttle.orientation=simd_slerp(assets.shuttle.orientation,target,1-exp(-dt*35))
     }
     private func resolveContactFlight(_ returned:Flight,hitter:Side) {
         guard let contact=lastContact else { return }
@@ -899,19 +1051,20 @@ final class GameModel {
         var probe=incoming
         var fallback:MiloStroke?
         var nextAttempt:Float=0
-        for index in 1...480 {
+        let reaction=miloReactionDelay(),travelSpeed=miloTravelSpeed()
+        for index in 1...768 {
             probe.step(1/240)
             if probe.position.y < 0.65,probe.velocity.y < 0 { break }
             let time=Float(index)/240
             guard probe.position.z < Court.netZ-0.45,probe.position.z > -11.7,
-                  probe.velocity.y < 0,probe.position.y <= 1.95,time > difficulty.reaction+0.14,
+                  (probe.velocity.y < 0 || probe.position.y < 1.65),probe.position.y <= 2.1,time > reaction+0.14,
                   time >= nextAttempt else { continue }
             // A bounded 40 Hz planning search runs once per incoming shot.
             // Choose by the final face, reach and impulse, not body proximity.
             nextAttempt=time+0.025
             guard let stroke=planMiloStroke(sample:probe,time:time) else { continue }
             fallback=stroke
-            if simd_distance(stroke.stance,assets.milo.position) <= difficulty.speed*(time-difficulty.reaction-0.10) {
+            if simd_distance(stroke.stance,assets.milo.position) <= travelSpeed*(time-reaction-0.10) {
                 return stroke
             }
         }
@@ -920,7 +1073,10 @@ final class GameModel {
         return fallback
     }
     private func planMiloStroke(sample:Flight,time:Float)->MiloStroke? {
-        let shot=Flight.clearanceShot(from:sample.position,to:[0,1.6,-0.25],duration:difficulty.returnTime)
+        let requested=playerReturnTarget
+        let target=requested.isFiniteVector ? V3(min(2.4,max(-2.4,requested.x)),min(1.9,max(1.15,requested.y)),
+                                                min(1.2,max(Court.netZ+0.8,requested.z))):V3(0,1.6,-0.25)
+        let shot=Flight.clearanceShot(from:sample.position,to:target,duration:difficulty.returnTime)
         let change=shot.velocity-sample.velocity
         guard simd_length(change)>0.1 else { return nil }
         let scale=assets.milo.scale.x,reach=simd_length(assets.robotRacket.position)*scale
@@ -956,6 +1112,8 @@ final class GameModel {
         guard let result,result.angularSpeed <= 18 else { return nil }
         return result
     }
+    private func miloReactionDelay()->Float { difficulty.reaction*0.75 }
+    private func miloTravelSpeed()->Float { difficulty.speed*1.2 }
     private func miloFace(normal:V3,height:Float)->simd_quatf {
         let face=simd_quatf(from:[0,0,1],to:simd_normalize(normal))
         let scale=assets.milo.scale.x,headLength=0.37*scale
@@ -982,11 +1140,24 @@ final class GameModel {
         let parent=assets.robotArm.parent?.transformMatrix(relativeTo:assets.root) ?? matrix_identity_float4x4
         return simd_normalize((simd_inverse(parent)*SIMD4(axis,0)).xyz)
     }
+    private func miloStrokeAngle(offset:Float,speed:Float)->Float {
+        // Keep the planned constant angular rate through the impact window.
+        // Outside it, preparation and follow-through settle without a sudden
+        // stop or a new return velocity being imposed on the shuttle.
+        if offset < -0.04 { return -speed*(0.04+0.035*(1-exp((offset+0.04)/0.035))) }
+        if offset > 0.04 { return speed*(0.04+0.045*(1-exp(-(offset-0.04)/0.045))) }
+        return speed*offset
+    }
+    private func approachMiloRotation(_ current:simd_quatf,to target:simd_quatf,rate:Float,dt:Float)->simd_quatf {
+        let angle=2*acos(min(1,max(0,abs(simd_dot(current.vector,target.vector)))))
+        guard angle>0.00001,dt>0 else { return current }
+        return simd_slerp(current,target,min(1,max(0,rate*dt)/angle))
+    }
     private func updateMiloResponse(_ dt:Float) {
         if miloStroke == nil,opponentTarget == nil { updateMiloRecovery(dt);return }
         miloPhase = .anticipating;assets.movement=0
-        guard sinceContact >= difficulty.reaction else { return }
-        if let opponentTarget { moveMilo(to:opponentTarget,speed:difficulty.speed,dt:dt) }
+        guard sinceContact >= miloReactionDelay() else { return }
+        if let opponentTarget { moveMilo(to:opponentTarget,speed:miloTravelSpeed(),dt:dt) }
         guard let stroke=miloStroke else { return }
         let headOffset=stroke.face.act(V3(0,0.37,0))*assets.milo.scale.x
         let wristTarget=stroke.point-headOffset
@@ -995,12 +1166,52 @@ final class GameModel {
         guard simd_length(direction) > 0.01 else { return }
         miloStrikeBase=simd_quatf(from:simd_normalize(assets.robotRacket.position),to:simd_normalize(direction))
         let offset=sinceContact-stroke.time
-        let angle=stroke.angularSpeed*min(0.10,max(-0.10,offset))
+        let angle=miloStrokeAngle(offset:offset,speed:stroke.angularSpeed)
         let aim=simd_quatf(angle:angle,axis:strokeAxisInParent(stroke.axis))*miloStrikeBase
-        if offset < -0.10 { assets.robotArm.orientation=simd_slerp(assets.robotArm.orientation,aim,min(1,dt*14)) }
-        else { miloPhase = .striking;assets.robotArm.orientation=aim }
-        assets.robotRacket.setOrientation(stroke.face,relativeTo:assets.root)
-        if offset > 0.16 { beginMiloRecovery(followThrough:false) }
+        let rate=offset < -0.10 ? 9:max(9,stroke.angularSpeed)
+        // Keep the world face from before its parent shoulder moves. Reading
+        // it afterward would rate-limit the wrist's compensation itself and
+        // tilt the strings during a faster, otherwise correctly aimed stroke.
+        let face=assets.robotRacket.orientation(relativeTo:assets.root)
+        assets.robotArm.orientation=approachMiloRotation(assets.robotArm.orientation,to:aim,rate:rate,dt:dt)
+        assets.robotRacket.setOrientation(approachMiloRotation(face,to:stroke.face,rate:8,dt:dt),relativeTo:assets.root)
+        if offset >= -0.06 { miloPhase = .striking }
+        if offset > 0.20 { beginMiloRecovery(followThrough:false) }
+    }
+    private func updateMiloRally(_ dt:Float) {
+        guard dt>0 else { return }
+        let steps=max(1,Int(ceil(dt*240))),step=dt/Float(steps)
+        for _ in 0..<steps {
+            elapsed += step;sinceContact += step
+            guard var ball=flight else { updateMiloRecovery(step);continue }
+            let previousBall=ball,oldPose=assets.robotRacket.transformMatrix(relativeTo:assets.root)
+            if lastHitter == .player { updateMiloResponse(step) }
+            else { updateMiloRecovery(step) }
+            ball.step(step)
+            let fault=RallyEvents.first(from:previousBall.position,to:ball.position)
+            flight=ball;assets.shuttle.position=ball.position
+            updateShuttleOrientation(velocity:ball.velocity,dt:step)
+            if lastHitter == .player,sinceContact>0.18 {
+                let newPose=assets.robotRacket.transformMatrix(relativeTo:assets.root)
+                let oldHead=(oldPose*SIMD4<Float>(0,0.37,0,1)).xyz
+                let newHead=(newPose*SIMD4<Float>(0,0.37,0,1)).xyz
+                let velocity=(newHead-oldHead)/step
+                let angular=RacketMotion.angularVelocity(from:oldPose,to:newPose,duration:step)
+                if let returned=contactReturn(previousBall:previousBall,currentBall:ball,oldPose:oldPose,
+                    newPose:newPose,headVelocity:velocity,angularVelocity:angular,kind:.coral,dt:step,
+                    side:.milo,beforeFault:fault?.fraction) {
+                    beginMiloRecovery(followThrough:true)
+                    flight=returned;lastHitter = .milo;sinceContact=0;message="Milo made contact. Your turn!"
+                    planPlayerGlide();resolveContactFlight(returned,hitter:.milo)
+                    rallyHits += 1;bestRally=max(bestRally,rallyHits)
+                    configurePreviewSwing()
+                    if soundEnabled { SoundBank.play(rallyHits%2 == 0 ? .hit:.hitAlt,
+                        strength:min(1,simd_length(flight?.velocity ?? .zero)/15),at:assets.shuttle) }
+                    continue
+                }
+            }
+            if let fault { resolveFault(fault,hitter:lastHitter) }
+        }
     }
     private func beginMiloRecovery(followThrough:Bool) {
         miloFollowThrough=followThrough ? miloStroke.map { sinceContact-$0.time }:nil
@@ -1009,17 +1220,22 @@ final class GameModel {
     }
     private func updateMiloRecovery(_ dt:Float) {
         miloRecoveryElapsed += dt
-        if let offset=miloFollowThrough,let stroke=miloStroke,miloRecoveryElapsed<0.11 {
-            let angle=stroke.angularSpeed*min(0.11,offset+miloRecoveryElapsed)
-            assets.robotArm.orientation=simd_quatf(angle:angle,axis:strokeAxisInParent(stroke.axis))*miloStrikeBase
-            assets.robotRacket.setOrientation(stroke.face,relativeTo:assets.root)
-            miloPhase = .striking;assets.movement=0;return
+        if let offset=miloFollowThrough,let stroke=miloStroke,miloRecoveryElapsed<0.18 {
+            let angle=miloStrokeAngle(offset:offset+miloRecoveryElapsed,speed:stroke.angularSpeed)
+            let aim=simd_quatf(angle:angle,axis:strokeAxisInParent(stroke.axis))*miloStrikeBase
+            let face=assets.robotRacket.orientation(relativeTo:assets.root)
+            assets.robotArm.orientation=approachMiloRotation(assets.robotArm.orientation,to:aim,rate:max(9,stroke.angularSpeed),dt:dt)
+            assets.robotRacket.setOrientation(approachMiloRotation(face,to:stroke.face,rate:8,dt:dt),relativeTo:assets.root)
+            miloPhase = .striking
+            moveMilo(to:[0.4,0,-8],speed:miloTravelSpeed()*0.55,dt:dt)
+            return
         }
         miloFollowThrough=nil;miloStroke=nil
-        moveMilo(to:[0.4,0,-8],speed:difficulty.speed*0.7,dt:dt)
+        let distance=simd_distance(assets.milo.position,V3(0.4,0,-8))
+        moveMilo(to:[0.4,0,-8],speed:min(miloTravelSpeed()*0.85,distance*5+0.12),dt:dt)
         let neutral=simd_quatf(angle:0,axis:[1,0,0])
-        assets.robotArm.orientation=simd_slerp(assets.robotArm.orientation,neutral,min(1,dt*8))
-        assets.robotRacket.orientation=simd_slerp(assets.robotRacket.orientation,neutral,min(1,dt*8))
+        assets.robotArm.orientation=approachMiloRotation(assets.robotArm.orientation,to:neutral,rate:5,dt:dt)
+        assets.robotRacket.orientation=approachMiloRotation(assets.robotRacket.orientation,to:neutral,rate:6,dt:dt)
         let settled=assets.movement<0.02 && abs(simd_dot(assets.robotArm.orientation.vector,neutral.vector))>0.9995
         miloPhase=settled ? .ready:.recovering
         if flight == nil,assets.robotReaction>0.3 { miloPhase = .celebrating }

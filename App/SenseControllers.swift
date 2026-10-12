@@ -206,6 +206,34 @@ import ShuttleCore
         previouslyTracked=true; status="Sense ready · Milo serves automatically · Trigger: start sooner · Menu: pause"
         return Pose(originFromGrip:measuredGrip,leftHand:left,measured:measured,rendered:rendered,headVelocity:velocityWorld,timestamp:anchor.timestamp)
     }
+    /// Prefer the opposite controller's live thumbstick. With one controller,
+    /// use the currently tracked racket hand's stick instead.
+    func movementInput(leftHand:Bool)->SIMD2<Float> {
+        guard configured,provider?.state == .running,previouslyTracked,let selected,
+              let racketIndex=devices.firstIndex(where:{ $0 === selected }),
+              accessories.indices.contains(racketIndex) else { return .zero }
+        let racketSide:Accessory.Chirality=leftHand ? .left:.right
+        guard accessories[racketIndex].inherentChirality == racketSide else { return .zero }
+        // Refresh uses a paired device/accessory snapshot, but disconnection
+        // can happen before its next poll. Read current connectivity for axes.
+        let connected=GCController.controllers()
+        let available=devices.indices.filter { index in
+            accessories.indices.contains(index) && connected.contains(where:{ $0 === devices[index] })
+        }
+        guard available.contains(racketIndex) else { return .zero }
+        let movementSide:Accessory.Chirality=leftHand ? .right:.left
+        let opposite=available.first { accessories[$0].inherentChirality == movementSide }
+        guard let index=opposite ?? (available.count == 1 ? racketIndex:nil) else { return .zero }
+        let input=devices[index].input
+        guard let stick=input.dpads[.thumbstick] ?? input.dpads[.leftThumbstick] ?? input.dpads[.rightThumbstick] else { return .zero }
+        // GameController supplies live, already-deadzoned axes. Court movement
+        // applies its own speed/boundary rules and fresh racket tracking gate.
+        return Self.movementAxes(x:stick.xAxis.value,y:stick.yAxis.value)
+    }
+    static func movementAxes(x:Float?,y:Float?)->SIMD2<Float> {
+        guard let x,let y,x.isFinite,y.isFinite else { return .zero }
+        return SIMD2(min(1,max(-1,x)),min(1,max(-1,y)))
+    }
     /// Dispatch after the game has committed this frame's measured pose and
     /// controller readiness, so a newly tracked controller can actually serve.
     func dispatchButtonActions() {

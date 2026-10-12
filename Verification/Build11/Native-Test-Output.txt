@@ -1,0 +1,1113 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project ShuttleClub.xcodeproj -scheme ShuttleClub -configuration Debug -destination "platform=visionOS Simulator,id=EB6EBD31-2711-44B4-A19B-A668479B0BE0" -parallel-testing-enabled NO -resultBundlePath /private/tmp/shuttle-build11-final.xcresult -derivedDataPath /private/tmp/shuttle-vision-build CODE_SIGNING_ALLOWED=NO test
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = NO
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  ShuttleCore: /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/Core
+
+Writing result bundle at path:
+	/private/tmp/shuttle-build11-final.xcresult
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (4 targets)
+    Target 'ShuttleClubTests' in project 'ShuttleClub'
+        ➜ Explicit dependency on target 'ShuttleClub' in project 'ShuttleClub'
+    Target 'ShuttleClub' in project 'ShuttleClub'
+        ➜ Explicit dependency on target 'ShuttleCore-product' in project 'ShuttleCore'
+    Target 'ShuttleCore-product' in project 'ShuttleCore'
+        ➜ Explicit dependency on target 'ShuttleCore' in project 'ShuttleCore'
+    Target 'ShuttleCore' in project 'ShuttleCore' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/Resources/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 7813910f8f64312ba200d36045950eab
+Build description path: /tmp/shuttle-vision-build/Build/Intermediates.noindex/XCBuildData/7813910f8f64312ba200d36045950eab.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/ShuttleClub.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -o /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache
+
+ProcessInfoPlistFile /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/Info.plist /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/Info.plist (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-infoPlistUtility /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/App/Info.plist -producttype com.apple.product-type.application -genpkginfo /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PkgInfo -expandbuildsettings -format binary -platform xrsimulator -additionalcontentfile /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/assetcatalog_generated_info.plist -o /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/Info.plist
+
+CopySwiftLibs /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub.debug.dylib --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/Frameworks --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/SystemExtensions --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/Extensions --platform xrsimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+Ignoring --strip-bitcode because --sign was not passed
+
+SwiftDriver ShuttleClubTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ShuttleClubTests -Onone @/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.SwiftFileList -DDEBUG -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -target arm64-apple-xros26.0-simulator -g -module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/shuttle-vision-build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache -output-file-map /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -sdk-module-cache-path /tmp/shuttle-vision-build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/shuttle-vision-build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-generated-files.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-own-target-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub-e700a37a07bc1680e23d56a33bb32436-VFS-xrsimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-project-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/include -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources-normal/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-Swift.h -working-directory /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision -experimental-emit-module-separately -disable-cmo
+
+ProcessInfoPlistFile /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/Info.plist /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/empty-ShuttleClubTests.plist (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-infoPlistUtility /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/empty-ShuttleClubTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -format binary -platform xrsimulator -o /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/Info.plist
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ ShuttleClubTests (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    
+
+SwiftCompile normal arm64 Compiling\ ControllerAlignmentCountdownTests.swift /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/Tests/ControllerAlignmentCountdownTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftCompile normal arm64 /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision/Tests/ControllerAlignmentCountdownTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-SwiftPerFileCompile ControllerAlignmentCountdownTests.swift
+
+SwiftDriverJobDiscovery normal arm64 Compiling ControllerAlignmentCountdownTests.swift (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for ShuttleClubTests (in target 'ShuttleClubTests' from project 'ShuttleClub')
+
+SwiftDriver\ Compilation\ Requirements ShuttleClubTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ShuttleClubTests -Onone @/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.SwiftFileList -DDEBUG -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -target arm64-apple-xros26.0-simulator -g -module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/shuttle-vision-build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache -output-file-map /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -sdk-module-cache-path /tmp/shuttle-vision-build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/shuttle-vision-build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-generated-files.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-own-target-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub-e700a37a07bc1680e23d56a33bb32436-VFS-xrsimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-project-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/include -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources-normal/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-Swift.h -working-directory /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision -experimental-emit-module-separately -disable-cmo
+
+SwiftDriver\ Compilation ShuttleClubTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name ShuttleClubTests -Onone @/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.SwiftFileList -DDEBUG -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -target arm64-apple-xros26.0-simulator -g -module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/shuttle-vision-build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 6 -I /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/shuttle-vision-build/SDKStatCaches.noindex/xrsimulator27.0-24M361-ddeb6230c2d320a853818128273d881a.sdkstatcache -output-file-map /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/shuttle-vision-build/ModuleCache.noindex -sdk-module-cache-path /tmp/shuttle-vision-build/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/shuttle-vision-build/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-generated-files.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-own-target-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClub-e700a37a07bc1680e23d56a33bb32436-VFS-xrsimulator/all-product-headers.yaml -Xcc -iquote -Xcc /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests-project-headers.hmap -Xcc -I/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/include -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources-normal/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources/arm64 -Xcc -I/tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests-Swift.h -working-directory /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision -experimental-emit-module-separately -disable-cmo
+
+Copy /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/Project/arm64-apple-xros-simulator.swiftsourceinfo /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftsourceinfo (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftsourceinfo /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/Project/arm64-apple-xros-simulator.swiftsourceinfo
+
+Copy /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/arm64-apple-xros-simulator.abi.json /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.abi.json (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.abi.json /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/arm64-apple-xros-simulator.abi.json
+
+Copy /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/arm64-apple-xros-simulator.swiftmodule /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClubTests.swiftmodule/arm64-apple-xros-simulator.swiftmodule
+
+Ld /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/ShuttleClubTests normal (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-xros26.0-simulator -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk -O0 -Xlinker -no_warn_duplicate_libraries -L/tmp/shuttle-vision-build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-xrsimulator -L/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -L/Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib -F/tmp/shuttle-vision-build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-xrsimulator -F/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -F/tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator -iframework /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/Library/Frameworks -iframework /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk/Developer/Library/Frameworks -filelist /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.LinkFileList -Xlinker -rpath -Xlinker @loader_path -Xlinker -rpath -Xlinker /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/PackageFrameworks -Xlinker -rpath -Xlinker @loader_path/Frameworks -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -bundle_loader /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub -Xlinker -object_path_lto -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/xrsimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.swiftmodule -Xlinker -needed_framework -Xlinker XCTest -framework XCTest -Xlinker -needed-lXCTestSwiftSupport -lXCTestSwiftSupport /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/ShuttleClub.debug.dylib -o /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/ShuttleClubTests
+
+CopySwiftLibs /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/ShuttleClubTests --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/Frameworks --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/PlugIns --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/SystemExtensions --scan-folder /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/Extensions --platform xrsimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+Ignoring --strip-bitcode because --sign was not passed
+
+ExtractAppIntentsMetadata (in target 'ShuttleClubTests' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name ShuttleClubTests --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/XRSimulator.platform/Developer/SDKs/XRSimulator27.0.sdk --xcode-version 27A266a --platform-family xrOS --deployment-target 26.0 --bundle-identifier com.shuttleclub.ShuttleClubTests --output /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest --target-triple arm64-apple-xros26.0-simulator --binary-file /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app/PlugIns/ShuttleClubTests.xctest/ShuttleClubTests --dependency-file /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests_dependency_info.dat --stringsdata-file /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.SwiftFileList --metadata-file-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests.DependencyMetadataFileList --static-metadata-file-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/ShuttleClubTests.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/shuttle-vision-build/Build/Intermediates.noindex/ShuttleClub.build/Debug-xrsimulator/ShuttleClubTests.build/Objects-normal/arm64/ShuttleClubTests.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-10-12 13:36:37.118 appintentsmetadataprocessor[42879:427209] Starting appintentsmetadataprocessor export
+2026-10-12 13:36:37.120 appintentsmetadataprocessor[42879:427209] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+Validate /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app (in target 'ShuttleClub' from project 'ShuttleClub')
+    cd /Users/pavann/.codex/.chatgpt-projects/g-p-6ac8a9e782a081918a115f97bcefa5fd/ShuttleClubVision
+    builtin-validationUtility /tmp/shuttle-vision-build/Build/Products/Debug-xrsimulator/ShuttleClub.app -shallow-bundle -infoplist-subpath Info.plist
+
+PruneExplicitPrecompiledModules /tmp/shuttle-vision-build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/shuttle-vision-build/SDKExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/shuttle-vision-build/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+2026-10-12 13:36:46.152288+0800 ShuttleClub[42880:427804] [assertions] failed to observe with mask <BLSXPCBacklightProxyObserverMask: 0x105b68920; didUpdateToState: YES; eventsArray: YES> error:<XPC error received on message reply handler (3:BSServiceConnectionErrorDomain) "The operation couldn’t be completed. XPC error received on message reply handler">
+2026-10-12 13:36:46.331020+0800 ShuttleClub[42880:427811] [plugin] AddInstanceForFactory: No factory registered for id <CFUUID 0x1058eaa80> F8BB1C28-BAE8-11D6-9C31-00039315CD46
+2026-10-12 13:36:46.434963+0800 ShuttleClub[42880:427381] [Entry] Opening the club immersive space
+2026-10-12 13:36:46.501034+0800 ShuttleClub[42880:427381] [XPCErrors] non-launching port is incompatible with service identifier "com.apple.PointerUI.pointeruid.default-service"
+2026-10-12 13:36:46.504010+0800 ShuttleClub[42880:427825] [connection] nw_socket_copy_info [C1:2] getsockopt TCP_INFO failed [102: Operation not supported on socket]
+2026-10-12 13:36:46.504101+0800 ShuttleClub[42880:427825] [] nw_socket_copy_info getsockopt TCP_INFO failed [102: Operation not supported on socket]
+2026-10-12 13:36:46.524652+0800 ShuttleClub[42880:427825] [carc] Invalidation handler: Connection cannot be formed.
+2026-10-12 13:36:46.526577+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.637710+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105861200 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.638534+0800 ShuttleClub[42880:427821] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105860fc0 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.665622+0800 ShuttleClub[42880:427821]      CA_UISoundClient.cpp:447   Got error -4 attempting to SetIntendedSpatialAudioExperience
+2026-10-12 13:36:46.666869+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1767  ReadPListFile: unable to open stream for LoudnessManager plist
+2026-10-12 13:36:46.667117+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1268  GetHardwarePlatformKey: cannot get acoustic ID
+2026-10-12 13:36:46.667402+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.667587+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.668020+0800 ShuttleClub[42880:427814] [AUSpatialMixerV2] [0x105842f80|InputElement #0|Initialize] Number of channels = 0 in AudioChannelLayout does not match number of channels = 2 in stream format.
+2026-10-12 13:36:46.668289+0800 ShuttleClub[42880:427814] [PersonalizedIRData] [IRDataLoader|CheckSupport] Invalid selection - no access to SAS.
+2026-10-12 13:36:46.693437+0800 ShuttleClub[42880:427814] [PersonalizedIRData] [IRDataLoader|CheckSupport] Invalid selection - no access to SAS.
+2026-10-12 13:36:46.699149+0800 ShuttleClub[42880:427814] [PersonalizedIRData] [IRDataLoader|CheckSupport] Invalid selection - no access to SAS.
+2026-10-12 13:36:46.699606+0800 ShuttleClub[42880:427814] [PersonalizedIRData] [IRDataLoader|CheckSupport] Invalid selection - no access to SAS.
+2026-10-12 13:36:46.699905+0800 ShuttleClub[42880:427814] [PersonalizedIRData] [IRDataLoader|CheckSupport] Invalid selection - no access to SAS.
+2026-10-12 13:36:46.700154+0800 ShuttleClub[42880:427814] [PersonalizedIRData] [IRDataLoader|CheckSupport] Invalid selection - no access to SAS.
+2026-10-12 13:36:46.725338+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.726521+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105861ec0 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.727224+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.727339+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.733366+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.734529+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105862100 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.735272+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.735424+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.742476+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.743365+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105861bc0 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.744144+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.744284+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.750274+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.751326+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105861980 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.754117+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.754314+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.760303+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.761310+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105862400 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.761935+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.762041+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.769334+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.771246+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105862580 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.771962+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.772064+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.777984+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.778889+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105862700 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.779591+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.779702+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.785628+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.787114+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105862880 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.787567+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.787625+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.794781+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.796179+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105862a00 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.796699+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.796767+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.802687+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.803603+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105862b80 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.804079+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.804189+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.810087+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.811032+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105862d00 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.811573+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.811694+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.818624+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.819736+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105862e80 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.820226+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.820290+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.826167+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.826992+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105863000 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.827478+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.827539+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.833435+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.834403+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105863180 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.834952+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.835030+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.841521+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.842749+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105863300 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.843316+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.843423+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.849318+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.850569+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105863480 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.851183+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.851260+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.856658+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.857730+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105863600 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.858299+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.858390+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.865380+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.866280+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105863780 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.866859+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.866956+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.872961+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.874262+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105863900 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.874980+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.875066+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.881049+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.882998+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105863a80 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.883728+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.883809+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.891260+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.893018+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105863c00 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.893973+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.894144+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.900139+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.901061+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105863d80 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.901580+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.901688+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.907666+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.908678+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x105863f00 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.909175+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.909236+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.916048+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.917720+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x1158ec0c0 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.918467+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.918607+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.924628+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.926019+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x1158ec240 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.926716+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.926861+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.932799+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.933901+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x1158ec3c0 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.934485+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.934574+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.941241+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.942472+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x1158ec540 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.943060+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.943159+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.949060+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.949991+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x1158ec6c0 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.950476+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.950557+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.955860+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.956830+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x1158ec840 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.957462+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.957536+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.964634+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.965860+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x1158ec9c0 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.966373+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.966438+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.972337+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.973419+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x1158ecb40 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.974177+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.974270+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.980368+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.981280+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x1158eccc0 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.981821+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.981899+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.988413+0800 ShuttleClub[42880:427381] [AVAudioSession Hang Risk]     AVAudioSession_iOS.mm:978   This method can lead to UI unresponsiveness if called on the main thread. Consider using the asynchronous activate/deactivate API instead for calls from the main thread.
+2026-10-12 13:36:46.990137+0800 ShuttleClub[42880:427381] [aqme]  SpatialExperienceHost.mm:200   SpatialExperienceHost@0x1158ece40 (sessionID 0x0): unable to configure room congruence subscriber with error:Error Domain=SpatialAudioServicesErrorDomain Code=2020631397 "xpc error" UserInfo={NSLocalizedDescription=xpc error}
+2026-10-12 13:36:46.990722+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:46.990835+0800 ShuttleClub[42880:427381] [AQ]        LoudnessManager.mm:1222  IsHardwareSupported: no plist loaded, returning false
+2026-10-12 13:36:49.221195+0800 ShuttleClub[42880:427812] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-12 13:36:49.221373+0800 ShuttleClub[42880:427812] CoreText performance note: Set a breakpoint on CTFontLogSuboptimalRequest to debug.
+2026-10-12 13:36:49.226166+0800 ShuttleClub[42880:427381] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-12 13:36:49.230651+0800 ShuttleClub[42880:427812] CoreText performance note: Client called CTFontCreateWithName() using name "System Font Bold" and got font with PostScript name ".SFUI-Bold". For best performance, only use PostScript names when calling this API.
+2026-10-12 13:36:49.351197+0800 ShuttleClub[42880:427381] [Foundation.IO] Could not locate file 'default-binaryarchive.metallib' in bundle.
+Test Suite 'All tests' started at 2026-10-12 13:36:49.876.
+Test Suite 'All tests' passed at 2026-10-12 13:36:49.876.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+IOSurfaceClientSetSurfaceNotify failed e00002c7
+2026-10-12 13:36:50.219604+0800 ShuttleClub[42880:427381] [Entry] Immersive scene received its first update
+◇ Test run started.
+↳ Testing Library Version: 2084
+↳ Target Platform: arm64-apple-xros1.0-simulator
+◇ Suite AutoGlideReceivingTests started.
+◇ Test receivingTargetIncludesTheStablePhysicalRacketOffset(side:) started.
+◇ Test case passing 1 argument side → -0.3 to receivingTargetIncludesTheStablePhysicalRacketOffset(side:) started.
+​◇ Test case passing 1 argument side → 0.3 to receivingTargetIncludesTheStablePhysicalRacketOffset(side:) started.
+​✔ Test receivingTargetIncludesTheStablePhysicalRacketOffset(side:) with 2 test cases passed after 0.465 seconds.
+◇ Test threeRealFeedsDoNotAccumulateTheSameHeldHandOffset(side:) started.
+◇ Test case passing 1 argument side → -0.3 to threeRealFeedsDoNotAccumulateTheSameHeldHandOffset(side:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.059985187, 0.04, 0.2496316), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.40563148, 0.04, 0.24961507), 
+STRING CONTACT: player, cork SIMD3<Float>(-0.6194957, 1.7925482, -0.3212367), strings SIMD3<Float>(-0.6003562, 1.7625691, -0.30293232), fraction 0.8710449
+IMPACT MOTION: time 7.366699, incoming SIMD3<Float>(-0.16020674, -6.438919, 2.5147066), outgoing SIMD3<Float>(0.05744828, -6.0525837, 2.3638241), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(0.0, 0.0, 0.0)
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.60587543, 0.04, 0.23919988), 
+​◇ Test case passing 1 argument side → 0.3 to threeRealFeedsDoNotAccumulateTheSameHeldHandOffset(side:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.6394893, 1.7939295, -0.32171082), strings SIMD3<Float>(0.62322426, 1.762696, -0.30273038), fraction 0.851518
+IMPACT MOTION: time 2.3000014, incoming SIMD3<Float>(0.26599455, -6.437446, 2.512468), outgoing SIMD3<Float>(-0.095381804, -6.0511994, 2.36172), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(0.0, 0.0, 0.0)
+RALLY FINISHED: milo, landing SIMD3<Float>(0.61685723, 0.04, 0.2386811), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.23269278, 0.04, 0.23118716), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.015874308, 0.04, 0.24965225), 
+​✔ Test threeRealFeedsDoNotAccumulateTheSameHeldHandOffset(side:) with 2 test cases passed after 0.555 seconds.
+✔ Suite AutoGlideReceivingTests passed after 1.024 seconds.
+◇ Suite ControllerAlignmentCountdownTests started.
+◇ Test capturesTheNaturalHoldAfterMenuPointingAndPreservesBothHands(left:) started.
+◇ Test case passing 1 argument left → false to capturesTheNaturalHoldAfterMenuPointingAndPreservesBothHands(left:) started.
+​◇ Test case passing 1 argument left → true to capturesTheNaturalHoldAfterMenuPointingAndPreservesBothHands(left:) started.
+​✔ Test capturesTheNaturalHoldAfterMenuPointingAndPreservesBothHands(left:) with 2 test cases passed after 0.336 seconds.
+◇ Test interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+◇ Test case passing 1 argument reason → .background to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​◇ Test case passing 1 argument reason → .input to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​◇ Test case passing 1 argument reason → .hand to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​◇ Test case passing 1 argument reason → .stale to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​◇ Test case passing 1 argument reason → .trackingLoss to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​◇ Test case passing 1 argument reason → .cancel to interruptedCaptureCannotOverwriteThePreviousFit(reason:) started.
+​✔ Test interruptedCaptureCannotOverwriteThePreviousFit(reason:) with 6 test cases passed after 1.001 seconds.
+◇ Test movingTheControllerRestartsTheFullStableHold(rotation:) started.
+◇ Test case passing 1 argument rotation → false to movingTheControllerRestartsTheFullStableHold(rotation:) started.
+​◇ Test case passing 1 argument rotation → true to movingTheControllerRestartsTheFullStableHold(rotation:) started.
+​✔ Test movingTheControllerRestartsTheFullStableHold(rotation:) with 2 test cases passed after 0.337 seconds.
+◇ Test triggerCannotStartARealServeUntilNaturalHoldCaptureCompletes() started.
+✔ Test triggerCannotStartARealServeUntilNaturalHoldCaptureCompletes() passed after 0.171 seconds.
+◇ Test tinyCumulativeDriftCannotBecomeAStableThreeSecondHold(rotation:) started.
+◇ Test case passing 1 argument rotation → false to tinyCumulativeDriftCannotBecomeAStableThreeSecondHold(rotation:) started.
+​◇ Test case passing 1 argument rotation → true to tinyCumulativeDriftCannotBecomeAStableThreeSecondHold(rotation:) started.
+​✔ Test tinyCumulativeDriftCannotBecomeAStableThreeSecondHold(rotation:) with 2 test cases passed after 0.338 seconds.
+◇ Test zeroElapsedTimeNeitherCancelsNorAdvancesPendingAlignment() started.
+✔ Test zeroElapsedTimeNeitherCancelsNorAdvancesPendingAlignment() passed after 0.168 seconds.
+✔ Suite ControllerAlignmentCountdownTests passed after 2.355 seconds.
+◇ Suite ControllerGripCalibrationTests started.
+◇ Test liveFitMovesMeasuredDisplayHandleAndHeadAndReloads() started.
+✔ Test liveFitMovesMeasuredDisplayHandleAndHeadAndReloads() passed after 0.008 seconds.
+◇ Test fitsAreSavedAndResetSeparatelyForEachControllerHand() started.
+✔ Test fitsAreSavedAndResetSeparatelyForEachControllerHand() passed after 0.010 seconds.
+◇ Test invalidLiveEditsCannotReplaceTheChosenSavedControllerFit() started.
+✔ Test invalidLiveEditsCannotReplaceTheChosenSavedControllerFit() passed after 0.006 seconds.
+◇ Test rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+◇ Test case passing 1 argument reason → .untracked to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .stale to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .wrongHand to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .invalidVelocity to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .invalidMatrix to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​◇ Test case passing 1 argument reason → .singularMatrix to rejectedSamplesCannotAdjustOrResetFit(reason:) started.
+​✔ Test rejectedSamplesCannotAdjustOrResetFit(reason:) with 6 test cases passed after 0.052 seconds.
+◇ Test inputHandAndBackgroundChangesRequireASelectedFreshGrip() started.
+✔ Test inputHandAndBackgroundChangesRequireASelectedFreshGrip() passed after 0.006 seconds.
+◇ Test alignAngleUsesCourtOrientationAndPreservesTheFittedHandlePosition() started.
+✔ Test alignAngleUsesCourtOrientationAndPreservesTheFittedHandlePosition() passed after 0.007 seconds.
+◇ Test activeRallyRejectsFitAndPausedFitKeepsFlightFrozenAndDisarmsContact() started.
+✔ Test activeRallyRejectsFitAndPausedFitKeepsFlightFrozenAndDisarmsContact() passed after 0.130 seconds.
+◇ Test idleRefitClearsSwingHistoryAndNextControllerSampleIsOnlyABaseline() started.
+✔ Test idleRefitClearsSwingHistoryAndNextControllerSampleIsOnlyABaseline() passed after 0.005 seconds.
+◇ Test reorderedAndDuplicatePacketsCannotMoveRacketOrRearmAfterLoss() started.
+✔ Test reorderedAndDuplicatePacketsCannotMoveRacketOrRearmAfterLoss() passed after 0.006 seconds.
+◇ Test foregroundAndRefitCannotReviveACachedControllerPacket() started.
+✔ Test foregroundAndRefitCannotReviveACachedControllerPacket() passed after 0.005 seconds.
+✔ Suite ControllerGripCalibrationTests passed after 0.242 seconds.
+◇ Suite CourtNavigationTests started.
+◇ Test stickDeadzoneRejectsJitterAndInvalidAxes() started.
+✔ Test stickDeadzoneRejectsJitterAndInvalidAxes() passed after 0.001 seconds.
+◇ Test forwardStickMapsTowardTheNetAndDiagonalMagnitudeIsBounded() started.
+✔ Test forwardStickMapsTowardTheNetAndDiagonalMagnitudeIsBounded() passed after 0.001 seconds.
+◇ Test accelerationAndDiagonalTravelStayWithinComfortSpeed(dt:) started.
+◇ Test case passing 1 argument dt → 0.033333335 to accelerationAndDiagonalTravelStayWithinComfortSpeed(dt:) started.
+​◇ Test case passing 1 argument dt → 0.016666668 to accelerationAndDiagonalTravelStayWithinComfortSpeed(dt:) started.
+​◇ Test case passing 1 argument dt → 0.011111111 to accelerationAndDiagonalTravelStayWithinComfortSpeed(dt:) started.
+​✔ Test accelerationAndDiagonalTravelStayWithinComfortSpeed(dt:) with 3 test cases passed after 0.004 seconds.
+◇ Test courtBoundsPreventNetAndWallOvershoot(direction:) started.
+◇ Test case passing 1 argument direction → SIMD2<Float>(1.0, 0.0) to courtBoundsPreventNetAndWallOvershoot(direction:) started.
+​◇ Test case passing 1 argument direction → SIMD2<Float>(-1.0, 0.0) to courtBoundsPreventNetAndWallOvershoot(direction:) started.
+​◇ Test case passing 1 argument direction → SIMD2<Float>(0.0, 1.0) to courtBoundsPreventNetAndWallOvershoot(direction:) started.
+​◇ Test case passing 1 argument direction → SIMD2<Float>(0.0, -1.0) to courtBoundsPreventNetAndWallOvershoot(direction:) started.
+​✔ Test courtBoundsPreventNetAndWallOvershoot(direction:) with 4 test cases passed after 0.016 seconds.
+◇ Test approachingAReceivingSpotSettlesWithoutOngoingDrift() started.
+✔ Test approachingAReceivingSpotSettlesWithoutOngoingDrift() passed after 0.001 seconds.
+◇ Test blockedOrInvalidElapsedFramesStopWithoutChangingPosition() started.
+✔ Test blockedOrInvalidElapsedFramesStopWithoutChangingPosition() passed after 0.001 seconds.
+◇ Test receivingPredictionUsesTheDescendingPlayerHalfReach() started.
+✔ Test receivingPredictionUsesTheDescendingPlayerHalfReach() passed after 0.001 seconds.
+◇ Test freshThumbstickMovesTheCourtWhileTheInterfaceStaysInPlace() started.
+✔ Test freshThumbstickMovesTheCourtWhileTheInterfaceStaysInPlace() passed after 0.125 seconds.
+◇ Test disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+◇ Test case passing 1 argument reason → .pause to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .courtMenu to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .settings to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .rackets to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .setup to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .background to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .alignment to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .stale to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​◇ Test case passing 1 argument reason → .wrongHand to disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) started.
+​✔ Test disabledAndStaleReadinessCannotContinueVirtualMotion(reason:) with 9 test cases passed after 1.173 seconds.
+◇ Test controllerSDKVelocityOnlyRotatesWithYawDuringVirtualSliding(yaw:) started.
+◇ Test case passing 1 argument yaw → 0.0 to controllerSDKVelocityOnlyRotatesWithYawDuringVirtualSliding(yaw:) started.
+​◇ Test case passing 1 argument yaw → 0.71 to controllerSDKVelocityOnlyRotatesWithYawDuringVirtualSliding(yaw:) started.
+​✔ Test controllerSDKVelocityOnlyRotatesWithYawDuringVirtualSliding(yaw:) with 2 test cases passed after 0.309 seconds.
+◇ Test repeatedFreshControllerPacketRemapsTheDisplayWithoutAddingMotionOrRevivingLoss() started.
+✔ Test repeatedFreshControllerPacketRemapsTheDisplayWithoutAddingMotionOrRevivingLoss() passed after 0.163 seconds.
+◇ Test autoGlideMovesAroundAFixedPhysicalHandWithoutInventingASwing() started.
+✔ Test autoGlideMovesAroundAFixedPhysicalHandWithoutInventingASwing() passed after 0.204 seconds.
+◇ Test realWorldHandMotionIsConvertedOnlyByYawWhileTheRootAlsoSlides() started.
+✔ Test realWorldHandMotionIsConvertedOnlyByYawWhileTheRootAlsoSlides() passed after 0.272 seconds.
+◇ Test recenterClearsTheVirtualOffsetAndStartsANewPhysicalMotionBaseline() started.
+✔ Test recenterClearsTheVirtualOffsetAndStartsANewPhysicalMotionBaseline() passed after 0.334 seconds.
+◇ Test handsFallbackAndChosenMovementPreferenceReloadWithoutOldTracking() started.
+✔ Test handsFallbackAndChosenMovementPreferenceReloadWithoutOldTracking() passed after 0.351 seconds.
+✔ Suite CourtNavigationTests passed after 2.961 seconds.
+◇ Suite FloatingMiloTests started.
+◇ Test floatingCharacterHasNoGroundContactRigAndHasAnElevatedEngine() started.
+✔ Test floatingCharacterHasNoGroundContactRigAndHasAnElevatedEngine() passed after 0.303 seconds.
+◇ Test restHeightsAndTheActualShoulderRacketChainStayUnchanged() started.
+✔ Test restHeightsAndTheActualShoulderRacketChainStayUnchanged() passed after 0.261 seconds.
+◇ Test bobBankAndThrustNeverMoveThePhysicalShoulderOrMeasuredStrings() started.
+✔ Test bobBankAndThrustNeverMoveThePhysicalShoulderOrMeasuredStrings() passed after 0.243 seconds.
+◇ Test movingBetweenRalliesStillBanksTheFloatingBody() started.
+✔ Test movingBetweenRalliesStillBanksTheFloatingBody() passed after 0.214 seconds.
+◇ Test reducedMotionRestoresHoverVisualsWithoutChangingTheRacketPose() started.
+✔ Test reducedMotionRestoresHoverVisualsWithoutChangingTheRacketPose() passed after 0.196 seconds.
+✔ Suite FloatingMiloTests passed after 1.220 seconds.
+◇ Suite FrameUpdateGateTests started.
+◇ Test queuedBurstPreservesElapsedTimeWithOneTaskAndReportsReadyOnce() started.
+✔ Test queuedBurstPreservesElapsedTimeWithOneTaskAndReportsReadyOnce() passed after 0.001 seconds.
+◇ Test backgroundProducerAccumulatesAnInterruptionWithoutClamping() started.
+✔ Test backgroundProducerAccumulatesAnInterruptionWithoutClamping() passed after 0.001 seconds.
+◇ Test cancellingQueuedSceneCannotRunItsUpdateOrReadyOnTheReplacement() started.
+✔ Test cancellingQueuedSceneCannotRunItsUpdateOrReadyOnTheReplacement() passed after 0.001 seconds.
+◇ Test teardownInsideFirstFrameSuppressesItsReadyCallback() started.
+✔ Test teardownInsideFirstFrameSuppressesItsReadyCallback() passed after 0.001 seconds.
+✔ Suite FrameUpdateGateTests passed after 0.003 seconds.
+◇ Suite GameLoopTests started.
+◇ Test missedServeAwardsOnePointAndCanRestart() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+✔ Test missedServeAwardsOnePointAndCanRestart() passed after 0.225 seconds.
+◇ Test pauseFreezesShuttleAndResumeContinues() started.
+✔ Test pauseFreezesShuttleAndResumeContinues() passed after 0.188 seconds.
+◇ Test controllerMenuCannotResumeShuttleBehindAnyCourtPanel() started.
+✔ Test controllerMenuCannotResumeShuttleBehindAnyCourtPanel() passed after 0.656 seconds.
+◇ Test controllerMenuNormallyPausesAndResumesTrackedFlight() started.
+✔ Test controllerMenuNormallyPausesAndResumesTrackedFlight() passed after 0.169 seconds.
+◇ Test stoppingPausedFlightClearsRallyAndAllowsAFreshServe() started.
+✔ Test stoppingPausedFlightClearsRallyAndAllowsAFreshServe() passed after 0.167 seconds.
+◇ Test permissionInterruptionDoesNotDisableAnIdleServe() started.
+✔ Test permissionInterruptionDoesNotDisableAnIdleServe() passed after 0.152 seconds.
+◇ Test serveWindupKeepsCorkAtVisibleStringsAndLaunchesFromReleasePose() started.
+✔ Test serveWindupKeepsCorkAtVisibleStringsAndLaunchesFromReleasePose() passed after 0.151 seconds.
+◇ Test pauseAndTrackingLossFreezeServePreparationUntilExplicitResume() started.
+✔ Test pauseAndTrackingLossFreezeServePreparationUntilExplicitResume() passed after 0.130 seconds.
+◇ Test preparationCannotResumeWithSamplesFromPreviousRacketHand() started.
+✔ Test preparationCannotResumeWithSamplesFromPreviousRacketHand() passed after 0.119 seconds.
+◇ Test inactivityAndRestartCannotLeakAPendingServe() started.
+✔ Test inactivityAndRestartCannotLeakAPendingServe() passed after 0.125 seconds.
+◇ Test deliberateFreeHandPinchStartsOneServeAndHeldPinchCannotReplayPoint() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+✔ Test deliberateFreeHandPinchStartsOneServeAndHeldPinchCannotReplayPoint() passed after 0.151 seconds.
+◇ Test freeHandPinchNeedsRacketTrackingAndMustRearmAfterSetup() started.
+✔ Test freeHandPinchNeedsRacketTrackingAndMustRearmAfterSetup() passed after 0.123 seconds.
+◇ Test pinchCannotCarryAnInactiveOpenHandIntoForegroundServe() started.
+✔ Test pinchCannotCarryAnInactiveOpenHandIntoForegroundServe() passed after 0.115 seconds.
+◇ Test automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) started.
+◇ Test case passing 1 argument mode → .practice to automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+​◇ Test case passing 1 argument mode → .targets to automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+​✔ Test automaticServeWaitsForReadinessAndFeedsAnotherPoint(mode:) with 2 test cases passed after 0.271 seconds.
+◇ Test automaticServeReadinessResetsForLossPausePanelAndBackground() started.
+✔ Test automaticServeReadinessResetsForLossPausePanelAndBackground() passed after 0.122 seconds.
+◇ Test automaticServeStopsAtMatchWinnerAndRestartRestoresReadiness() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.085653335, 0.04, 0.24743913), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.33581638, 0.04, 0.2474026), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.1941325, 0.04, 0.24731465), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.30772513, 0.04, 0.24721828), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.25149044, 0.04, 0.24743424), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.22098328, 0.04, 0.2474445), 
+✔ Test automaticServeStopsAtMatchWinnerAndRestartRestoresReadiness() passed after 0.254 seconds.
+◇ Test controllerTriggerCannotServeBehindPanelsOrInactiveScene() started.
+✔ Test controllerTriggerCannotServeBehindPanelsOrInactiveScene() passed after 0.109 seconds.
+◇ Test slowFrameUsesItsActualTimeAndInterruptionRequiresResume() started.
+✔ Test slowFrameUsesItsActualTimeAndInterruptionRequiresResume() passed after 0.230 seconds.
+◇ Test heldRacketHasZeroSwingSpeedAndContactBeforeFloorWinsFrame() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.37787083, 0.14728412, 0.2175816), strings SIMD3<Float>(0.40925696, 0.171966, 0.21511045), fraction 0.90154237
+IMPACT MOTION: time 2.5166714, incoming SIMD3<Float>(0.13447085, -7.3361607, 2.042162), outgoing SIMD3<Float>(0.1264026, 2.8464239, 0.40076956), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(0.0, 0.0, 0.0)
+✔ Test heldRacketHasZeroSwingSpeedAndContactBeforeFloorWinsFrame() passed after 0.146 seconds.
+◇ Test timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) started.
+◇ Test case passing 1 argument speed → 5.5 to timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) started.
+​◇ Test case passing 1 argument speed → 36.0 to timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) started.
+​✔ Test timestampLessHandMotionUsesRenderIntervalAndRetainsSpeedLimit(speed:) with 2 test cases passed after 0.223 seconds.
+◇ Test previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) started.
+◇ Test case passing 1 argument miss → false to previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34652096, 1.6236497, -0.25851655), strings SIMD3<Float>(0.34652096, 1.6010633, -0.22550185), fraction 0.680165
+IMPACT MOTION: time 2.3083322, incoming SIMD3<Float>(0.16203162, -6.55293, 2.4607148), outgoing SIMD3<Float>(0.15230973, 3.6759865, -12.038378), centre SIMD3<Float>(0.0, 3.2999969, -4.4000134), strings SIMD3<Float>(0.0, 3.2999969, -4.4000134)
+​◇ Test case passing 1 argument miss → true to previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37983727, 0.04, 0.2474455), 
+​✔ Test previewSwingUsesFrameEndpointsAndStillRequiresStringContact(miss:) with 2 test cases passed after 0.307 seconds.
+◇ Test miloMovementAndStrokeFreezeDuringPauseAndThenRecover() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647954, 1.6243565, -0.25914583), strings SIMD3<Float>(0.34647954, 1.6017702, -0.22613145), fraction 0.5529019
+IMPACT MOTION: time 2.3083358, incoming SIMD3<Float>(0.16204739, -6.5524335, 2.4609568), outgoing SIMD3<Float>(0.15232454, 3.2292454, -11.38678), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42573646, 1.0040913, -6.183857), strings SIMD3<Float>(0.42677093, 0.9710622, -6.206396), fraction 0.016534857
+IMPACT MOTION: time 3.0749907, incoming SIMD3<Float>(0.07229166, -3.9673386, -5.404051), outgoing SIMD3<Float>(-0.45822033, 13.078015, 6.374862), centre SIMD3<Float>(-0.17655371, 5.7509418, 3.6812208), strings SIMD3<Float>(-0.17655373, 5.750941, 3.681223)
+✔ Test miloMovementAndStrokeFreezeDuringPauseAndThenRecover() passed after 0.182 seconds.
+◇ Test inactiveRallyStaysPausedUntilExplicitResume() started.
+✔ Test inactiveRallyStaysPausedUntilExplicitResume() passed after 0.175 seconds.
+◇ Test timedSwingMissingStringsCannotReturn() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+✔ Test timedSwingMissingStringsCannotReturn() passed after 0.185 seconds.
+◇ Test shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) started.
+◇ Test case passing 1 argument implausible → false to shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.30016786, 3.1483138, -0.96246463), strings SIMD3<Float>(0.30410844, 3.1483138, -0.9226553), fraction 0.49332753
+IMPACT MOTION: time 2.057512, incoming SIMD3<Float>(0.19828607, -5.2239494, 3.011301), outgoing SIMD3<Float>(-0.3653148, -4.9105124, -2.7428784), centre SIMD3<Float>(0.0, 0.0, 0.0), strings SIMD3<Float>(-0.10482398, 0.0, -1.0589681)
+​◇ Test case passing 1 argument implausible → true to shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) started.
+​✔ Test shaftRotationUsesActualEdgeMotionAndRejectsImplausibleJumps(implausible:) with 2 test cases passed after 0.390 seconds.
+◇ Test targetHitAddsPointsAndNextMissResetsStreak() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647954, 1.6243565, -0.25914583), strings SIMD3<Float>(0.34647954, 1.6017702, -0.22613145), fraction 0.5529019
+IMPACT MOTION: time 2.3083358, incoming SIMD3<Float>(0.16204739, -6.5524335, 2.4609568), outgoing SIMD3<Float>(0.15232454, 3.2292454, -11.38678), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+RALLY FINISHED: player, landing SIMD3<Float>(0.43961495, 0.04, -7.2213197), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.085653335, 0.04, 0.24743913), 
+✔ Test targetHitAddsPointsAndNextMissResetsStreak() passed after 0.217 seconds.
+◇ Test quickMatchStopsAtWinner() started.
+RALLY FINISHED: milo, landing SIMD3<Float>(0.37981716, 0.04, 0.24713926), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.085653335, 0.04, 0.24743913), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.33581638, 0.04, 0.2474026), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.1941325, 0.04, 0.24731465), 
+RALLY FINISHED: milo, landing SIMD3<Float>(0.30772513, 0.04, 0.24721828), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.25149044, 0.04, 0.24743424), 
+RALLY FINISHED: milo, landing SIMD3<Float>(-0.22098328, 0.04, 0.2474445), 
+✔ Test quickMatchStopsAtWinner() passed after 0.380 seconds.
+◇ Test onlyTrackedInputsAreOfferedAndServeRequiresTracking() started.
+✔ Test onlyTrackedInputsAreOfferedAndServeRequiresTracking() passed after 0.176 seconds.
+◇ Test racketCannotChangeDuringRally() started.
+✔ Test racketCannotChangeDuringRally() passed after 0.172 seconds.
+◇ Test measuredIntersectionPlacesCorkAtVisibleStrings() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647954, 1.6243565, -0.25914583), strings SIMD3<Float>(0.34647954, 1.6017702, -0.22613145), fraction 0.5529019
+IMPACT MOTION: time 2.3083358, incoming SIMD3<Float>(0.16204739, -6.5524335, 2.4609568), outgoing SIMD3<Float>(0.15232454, 3.2292454, -11.38678), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+✔ Test measuredIntersectionPlacesCorkAtVisibleStrings() passed after 0.222 seconds.
+◇ Test lostHandPausesAndRecoveryNeedsExplicitResume() started.
+✔ Test lostHandPausesAndRecoveryNeedsExplicitResume() passed after 0.183 seconds.
+◇ Test staleHandDataCannotStartARally() started.
+✔ Test staleHandDataCannotStartARally() passed after 0.169 seconds.
+◇ Test lobbyInputChangesDiscardOldTrackingWithoutStartingProviders() started.
+✔ Test lobbyInputChangesDiscardOldTrackingWithoutStartingProviders() passed after 0.162 seconds.
+◇ Test racketHandChangeFreezesRallyAndRequiresNewPoseAndExplicitResume() started.
+✔ Test racketHandChangeFreezesRallyAndRequiresNewPoseAndExplicitResume() passed after 0.149 seconds.
+◇ Test setGripCorrectsOrientationAfterPalmFrameWithoutMovingPalm() started.
+✔ Test setGripCorrectsOrientationAfterPalmFrameWithoutMovingPalm() passed after 0.118 seconds.
+◇ Test miloCannotReturnByBodyProximityWithoutRacketContact() started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647954, 1.6243565, -0.25914583), strings SIMD3<Float>(0.34647954, 1.6017702, -0.22613145), fraction 0.5529019
+IMPACT MOTION: time 2.3083358, incoming SIMD3<Float>(0.16204739, -6.5524335, 2.4609568), outgoing SIMD3<Float>(0.15232454, 3.2292454, -11.38678), centre SIMD3<Float>(0.0, 2.9999826, -3.999996), strings SIMD3<Float>(0.0, 2.9999826, -3.999996)
+RALLY FINISHED: player, landing SIMD3<Float>(0.43961582, 0.04, -7.221386), 
+✔ Test miloCannotReturnByBodyProximityWithoutRacketContact() passed after 0.141 seconds.
+◇ Test miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.033333335 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34646142, 1.6238815, -0.25942183), strings SIMD3<Float>(0.34646142, 1.6012938, -0.22640556), fraction 0.38796896
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16204855, -6.5523963, 2.4609747), outgoing SIMD3<Float>(0.15232563, 3.230008, -11.387825), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42571726, 1.0039556, -6.184562), strings SIMD3<Float>(0.42675158, 0.97092736, -6.207103), fraction 0.016609503
+IMPACT MOTION: time 3.0749874, incoming SIMD3<Float>(0.07228872, -3.967046, -5.404286), outgoing SIMD3<Float>(-0.45819727, 13.078523, 6.375867), centre SIMD3<Float>(-0.17658947, 5.751271, 3.681793), strings SIMD3<Float>(-0.17658953, 5.751275, 3.6817915)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.016666668 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647724, 1.6242973, -0.25918114), strings SIMD3<Float>(0.34647724, 1.6017098, -0.22616509), fraction 0.776375
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16204755, -6.552428, 2.4609594), outgoing SIMD3<Float>(0.15232469, 3.2293496, -11.38692), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42573377, 1.0040854, -6.1839414), strings SIMD3<Float>(0.42676824, 0.97105646, -6.2064805), fraction 0.01604716
+IMPACT MOTION: time 3.0749865, incoming SIMD3<Float>(0.07229138, -3.967285, -5.4040914), outgoing SIMD3<Float>(-0.45820346, 13.078065, 6.374886), centre SIMD3<Float>(-0.17656802, 5.7512136, 3.6808774), strings SIMD3<Float>(-0.17656802, 5.7512136, 3.6808774)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.011111111 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34657183, 1.6267564, -0.25773916), strings SIMD3<Float>(0.34657183, 1.6041704, -0.22472532), fraction 0.16819349
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16208608, -6.551167, 2.4615486), outgoing SIMD3<Float>(0.15236092, 3.2262008, -11.38003), centre SIMD3<Float>(0.0, 3.0000186, -4.000009), strings SIMD3<Float>(0.0, 3.0000186, -4.000009)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42566863, 1.0168167, -6.1655803), strings SIMD3<Float>(0.42670423, 0.9837956, -6.1881313), fraction 0.6437839
+IMPACT MOTION: time 3.0694227, incoming SIMD3<Float>(0.07250992, -3.9488447, -5.415858), outgoing SIMD3<Float>(-0.4576145, 13.050556, 6.359334), centre SIMD3<Float>(-0.17628549, 5.5989556, 3.869848), strings SIMD3<Float>(-0.17628549, 5.5989556, 3.869848)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.033333335 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34646142, 1.6238815, -0.25942183), strings SIMD3<Float>(0.34646142, 1.6012938, -0.22640556), fraction 0.38796896
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16204855, -6.5523963, 2.4609747), outgoing SIMD3<Float>(0.15232563, 3.230008, -11.387825), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42202696, 1.1940056, -5.9086804), strings SIMD3<Float>(0.42316157, 1.1624475, -5.933233), fraction 0.009987964
+IMPACT MOTION: time 3.0249882, incoming SIMD3<Float>(0.07525957, -3.6284537, -5.6263843), outgoing SIMD3<Float>(-0.45639148, 11.256294, 6.111623), centre SIMD3<Float>(-0.16095398, 4.5628166, 3.373947), strings SIMD3<Float>(-0.160954, 4.5628166, 3.3739474)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.016666668 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647724, 1.6242973, -0.25918114), strings SIMD3<Float>(0.34647724, 1.6017098, -0.22616509), fraction 0.776375
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16204755, -6.552428, 2.4609594), outgoing SIMD3<Float>(0.15232469, 3.2293496, -11.38692), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42204344, 1.1941446, -5.908072), strings SIMD3<Float>(0.42317814, 1.1625855, -5.932623), fraction 0.009621896
+IMPACT MOTION: time 3.0249872, incoming SIMD3<Float>(0.07526228, -3.6287072, -5.626178), outgoing SIMD3<Float>(-0.45640066, 11.256641, 6.111315), centre SIMD3<Float>(-0.16098975, 4.563217, 3.3736036), strings SIMD3<Float>(-0.16098975, 4.563217, 3.3736036)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.011111111 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34657183, 1.6267564, -0.25773916), strings SIMD3<Float>(0.34657183, 1.6041704, -0.22472532), fraction 0.16819349
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16208608, -6.551167, 2.4615486), outgoing SIMD3<Float>(0.15236092, 3.2262008, -11.38003), centre SIMD3<Float>(0.0, 3.0000186, -4.000009), strings SIMD3<Float>(0.0, 3.0000186, -4.000009)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42196706, 1.2059478, -5.8891053), strings SIMD3<Float>(0.42310327, 1.1743989, -5.913672), fraction 0.1360171
+IMPACT MOTION: time 3.021276, incoming SIMD3<Float>(0.075489014, -3.609548, -5.6383686), outgoing SIMD3<Float>(-0.45567602, 11.233902, 6.0825953), centre SIMD3<Float>(-0.16058654, 4.5161853, 3.40044), strings SIMD3<Float>(-0.16058654, 4.5161853, 3.40044)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.033333335 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34646142, 1.6238815, -0.25942183), strings SIMD3<Float>(0.34646142, 1.6012938, -0.22640556), fraction 0.38796896
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16204855, -6.5523963, 2.4609747), outgoing SIMD3<Float>(0.15232563, 3.230008, -11.387825), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+STRING CONTACT: milo, cork SIMD3<Float>(0.41818547, 1.3667535, -5.6214905), strings SIMD3<Float>(0.4194371, 1.3370191, -5.648222), fraction 0.0046377024
+IMPACT MOTION: time 2.974989, incoming SIMD3<Float>(0.07835432, -3.2760737, -5.857747), outgoing SIMD3<Float>(-0.46195427, 9.648522, 5.928707), centre SIMD3<Float>(-0.14734267, 3.564205, 3.0761716), strings SIMD3<Float>(-0.14734267, 3.564205, 3.0761716)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.016666668 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647724, 1.6242973, -0.25918114), strings SIMD3<Float>(0.34647724, 1.6017098, -0.22616509), fraction 0.776375
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16204755, -6.552428, 2.4609594), outgoing SIMD3<Float>(0.15232469, 3.2293496, -11.38692), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.41820174, 1.3669071, -5.6208897), strings SIMD3<Float>(0.41945344, 1.3371716, -5.64762), fraction 0.004137308
+IMPACT MOTION: time 2.974988, incoming SIMD3<Float>(0.07835715, -3.2763336, -5.8575325), outgoing SIMD3<Float>(-0.4619236, 9.647397, 5.927112), centre SIMD3<Float>(-0.14733551, 3.563604, 3.0751417), strings SIMD3<Float>(-0.14733551, 3.563604, 3.0751417)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.011111111 to miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34657183, 1.6267564, -0.25773916), strings SIMD3<Float>(0.34657183, 1.6041704, -0.22472532), fraction 0.16819349
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16208608, -6.551167, 2.4615486), outgoing SIMD3<Float>(0.15236092, 3.2262008, -11.38003), centre SIMD3<Float>(0.0, 3.0000186, -4.000009), strings SIMD3<Float>(0.0, 3.0000186, -4.000009)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4181128, 1.3777676, -5.6012254), strings SIMD3<Float>(0.41936618, 1.3480501, -5.6279707), fraction 0.6265793
+IMPACT MOTION: time 2.9694257, incoming SIMD3<Float>(0.07859372, -3.2563744, -5.870264), outgoing SIMD3<Float>(-0.46131027, 9.627674, 5.903266), centre SIMD3<Float>(-0.1469475, 3.4709928, 3.1508014), strings SIMD3<Float>(-0.1469475, 3.4709928, 3.1508014)
+​✔ Test miloReturnAlsoTouchesVisibleStrings(difficulty:dt:) with 9 test cases passed after 1.256 seconds.
+◇ Test approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.033333335 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.3464883, 1.6227876, -0.25901324), strings SIMD3<Float>(0.3464883, 1.6002003, -0.22599751), fraction 0.39296538
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16202587, -6.553114, 2.4606302), outgoing SIMD3<Float>(0.15230432, 3.677168, -12.040436), centre SIMD3<Float>(0.0, 3.2999966, -4.3999953), strings SIMD3<Float>(0.0, 3.2999966, -4.3999953)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42353, 1.2669848, -6.3495464), strings SIMD3<Float>(0.4245708, 1.2347182, -6.373164), fraction 0.01689442
+IMPACT MOTION: time 3.0624876, incoming SIMD3<Float>(0.071158655, -3.6792092, -5.625458), outgoing SIMD3<Float>(-0.4545411, 12.7138405, 6.5351996), centre SIMD3<Float>(-0.17307042, 5.4784293, 3.7735746), strings SIMD3<Float>(-0.17307042, 5.4784293, 3.7735746)
+STRING CONTACT: player, cork SIMD3<Float>(-0.0005481189, 1.571013, -0.2523288), strings SIMD3<Float>(-0.0005481189, 1.5484248, -0.21931185), fraction 0.13481475
+IMPACT MOTION: time 4.891652, incoming SIMD3<Float>(-0.12615153, -6.955191, 1.8137544), outgoing SIMD3<Float>(-0.11858244, 2.5830965, -11.604062), centre SIMD3<Float>(0.0, 2.999997, -3.9999948), strings SIMD3<Float>(0.0, 2.999997, -3.9999948)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.016666668 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34650427, 1.6232109, -0.2587703), strings SIMD3<Float>(0.34650427, 1.6006238, -0.22575478), fraction 0.7863532
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.1620249, -6.5531445, 2.4606156), outgoing SIMD3<Float>(0.15230341, 3.6765034, -12.039519), centre SIMD3<Float>(0.0, 3.3000038, -4.399996), strings SIMD3<Float>(0.0, 3.3000038, -4.399996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4235468, 1.2671156, -6.34895), strings SIMD3<Float>(0.42458755, 1.2348479, -6.372566), fraction 0.017171048
+IMPACT MOTION: time 3.0624866, incoming SIMD3<Float>(0.071161166, -3.6794622, -5.625261), outgoing SIMD3<Float>(-0.45453623, 12.713394, 6.5343246), centre SIMD3<Float>(-0.17306326, 5.4780574, 3.7732313), strings SIMD3<Float>(-0.17306326, 5.4780574, 3.7732313)
+STRING CONTACT: player, cork SIMD3<Float>(-0.0005452916, 1.571085, -0.25227904), strings SIMD3<Float>(-0.0005452916, 1.548497, -0.21926224), fraction 0.26981416
+IMPACT MOTION: time 4.874997, incoming SIMD3<Float>(-0.12615673, -6.9552436, 1.813607), outgoing SIMD3<Float>(-0.11858733, 2.5827575, -11.603776), centre SIMD3<Float>(0.0, 2.999997, -3.999995), strings SIMD3<Float>(0.0, 2.999997, -3.999995)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.011111111 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34659842, 1.625677, -0.2573358), strings SIMD3<Float>(0.34659842, 1.6030911, -0.22432205), fraction 0.18298714
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16206369, -6.551877, 2.4612083), outgoing SIMD3<Float>(0.15233986, 3.673309, -12.032555), centre SIMD3<Float>(0.0, 3.2999969, -4.400012), strings SIMD3<Float>(0.0, 3.2999969, -4.400012)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42378065, 1.2638515, -6.353564), strings SIMD3<Float>(0.4248215, 1.2315669, -6.377165), fraction 0.393211
+IMPACT MOTION: time 3.0620155, incoming SIMD3<Float>(0.07113831, -3.6887925, -5.6188555), outgoing SIMD3<Float>(-0.45505655, 12.721654, 6.549887), centre SIMD3<Float>(-0.17332433, 5.4003487, 3.8950822), strings SIMD3<Float>(-0.17332442, 5.4003496, 3.8950841)
+STRING CONTACT: player, cork SIMD3<Float>(-0.00027876967, 1.5931922, -0.24984016), strings SIMD3<Float>(-0.0002787696, 1.5706049, -0.21682441), fraction 0.28711247
+IMPACT MOTION: time 4.8694267, incoming SIMD3<Float>(-0.12651134, -6.942674, 1.82095), outgoing SIMD3<Float>(-0.118920654, 2.5891364, -11.588928), centre SIMD3<Float>(0.0, 2.9999971, -4.000009), strings SIMD3<Float>(0.0, 2.9999971, -4.000009)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.033333335 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.3464883, 1.6227876, -0.25901324), strings SIMD3<Float>(0.3464883, 1.6002003, -0.22599751), fraction 0.39296538
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16202587, -6.553114, 2.4606302), outgoing SIMD3<Float>(0.15230432, 3.677168, -12.040436), centre SIMD3<Float>(0.0, 3.2999966, -4.3999953), strings SIMD3<Float>(0.0, 3.2999966, -4.3999953)
+STRING CONTACT: milo, cork SIMD3<Float>(0.41989702, 1.4423621, -6.062338), strings SIMD3<Float>(0.4210373, 1.4117192, -6.088022), fraction 0.009795372
+IMPACT MOTION: time 3.0124884, incoming SIMD3<Float>(0.07409702, -3.329433, -5.8577523), outgoing SIMD3<Float>(-0.45342213, 10.931957, 6.269557), centre SIMD3<Float>(-0.15781401, 4.3258095, 3.45314), strings SIMD3<Float>(-0.15781401, 4.3258095, 3.45314)
+STRING CONTACT: player, cork SIMD3<Float>(-3.7473106e-05, 1.6006455, -0.25581527), strings SIMD3<Float>(-3.7473103e-05, 1.5780587, -0.22280015), fraction 0.009602559
+IMPACT MOTION: time 4.6916533, incoming SIMD3<Float>(-0.14705697, -6.5801044, 2.0333865), outgoing SIMD3<Float>(-0.13823354, 2.9115713, -11.3623705), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.016666668 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34650427, 1.6232109, -0.2587703), strings SIMD3<Float>(0.34650427, 1.6006238, -0.22575478), fraction 0.7863532
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.1620249, -6.5531445, 2.4606156), outgoing SIMD3<Float>(0.15230341, 3.6765034, -12.039519), centre SIMD3<Float>(0.0, 3.3000038, -4.399996), strings SIMD3<Float>(0.0, 3.3000038, -4.399996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4199135, 1.4425097, -6.061744), strings SIMD3<Float>(0.4210539, 1.4118652, -6.0874276), fraction 0.009793952
+IMPACT MOTION: time 3.0124874, incoming SIMD3<Float>(0.07409968, -3.3296874, -5.8575506), outgoing SIMD3<Float>(-0.45343077, 10.931516, 6.268664), centre SIMD3<Float>(-0.15780686, 4.3255234, 3.4526823), strings SIMD3<Float>(-0.15780686, 4.3255234, 3.4526823)
+STRING CONTACT: player, cork SIMD3<Float>(-4.464279e-05, 1.6005996, -0.2558351), strings SIMD3<Float>(-4.4642657e-05, 1.5780128, -0.22282007), fraction 0.019219087
+IMPACT MOTION: time 4.6749954, incoming SIMD3<Float>(-0.14706808, -6.580167, 2.0332122), outgoing SIMD3<Float>(-0.138244, 2.9114037, -11.362375), centre SIMD3<Float>(0.0, 2.999997, -3.999995), strings SIMD3<Float>(0.0, 2.999997, -3.999995)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.011111111 to approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34659842, 1.625677, -0.2573358), strings SIMD3<Float>(0.34659842, 1.6030911, -0.22432205), fraction 0.18298714
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16206369, -6.551877, 2.4612083), outgoing SIMD3<Float>(0.15233986, 3.673309, -12.032555), centre SIMD3<Float>(0.0, 3.2999969, -4.400012), strings SIMD3<Float>(0.0, 3.2999969, -4.400012)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42014843, 1.4397413, -6.0666714), strings SIMD3<Float>(0.4212888, 1.4090807, -6.0923357), fraction 0.88396645
+IMPACT MOTION: time 3.0101652, incoming SIMD3<Float>(0.07407518, -3.3394337, -5.8508244), outgoing SIMD3<Float>(-0.45384908, 10.931864, 6.2851396), centre SIMD3<Float>(-0.15799552, 4.1911983, 3.623428), strings SIMD3<Float>(-0.15799552, 4.1911983, 3.623428)
+STRING CONTACT: player, cork SIMD3<Float>(0.00055835594, 1.6253471, -0.25596806), strings SIMD3<Float>(0.00055835606, 1.6027591, -0.22295135), fraction 0.7840407
+IMPACT MOTION: time 4.658314, incoming SIMD3<Float>(-0.14759049, -6.5609603, 2.0439086), outgoing SIMD3<Float>(-0.13873506, 2.92454, -11.345133), centre SIMD3<Float>(0.0, 2.9999971, -4.0000105), strings SIMD3<Float>(0.0, 2.9999971, -4.0000105)
+​✔ Test approachableMiloFeedsAllowASecondActualPlayerHit(difficulty:dt:) with 6 test cases passed after 0.935 seconds.
+◇ Test miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.033333335 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34646142, 1.6238815, -0.25942183), strings SIMD3<Float>(0.34646142, 1.6012938, -0.22640556), fraction 0.38796896
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16204855, -6.5523963, 2.4609747), outgoing SIMD3<Float>(0.15232563, 3.230008, -11.387825), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42571726, 1.0039556, -6.184562), strings SIMD3<Float>(0.42675158, 0.97092736, -6.207103), fraction 0.016609503
+IMPACT MOTION: time 3.0749874, incoming SIMD3<Float>(0.07228872, -3.967046, -5.404286), outgoing SIMD3<Float>(-0.45819727, 13.078523, 6.375867), centre SIMD3<Float>(-0.17658947, 5.751271, 3.681793), strings SIMD3<Float>(-0.17658953, 5.751275, 3.6817915)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.016666668 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647724, 1.6242973, -0.25918114), strings SIMD3<Float>(0.34647724, 1.6017098, -0.22616509), fraction 0.776375
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16204755, -6.552428, 2.4609594), outgoing SIMD3<Float>(0.15232469, 3.2293496, -11.38692), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42573377, 1.0040854, -6.1839414), strings SIMD3<Float>(0.42676824, 0.97105646, -6.2064805), fraction 0.01604716
+IMPACT MOTION: time 3.0749865, incoming SIMD3<Float>(0.07229138, -3.967285, -5.4040914), outgoing SIMD3<Float>(-0.45820346, 13.078065, 6.374886), centre SIMD3<Float>(-0.17656802, 5.7512136, 3.6808774), strings SIMD3<Float>(-0.17656802, 5.7512136, 3.6808774)
+​◇ Test case passing 2 arguments difficulty → .friendly, dt → 0.011111111 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34657183, 1.6267564, -0.25773916), strings SIMD3<Float>(0.34657183, 1.6041704, -0.22472532), fraction 0.16819349
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16208608, -6.551167, 2.4615486), outgoing SIMD3<Float>(0.15236092, 3.2262008, -11.38003), centre SIMD3<Float>(0.0, 3.0000186, -4.000009), strings SIMD3<Float>(0.0, 3.0000186, -4.000009)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42566863, 1.0168167, -6.1655803), strings SIMD3<Float>(0.42670423, 0.9837956, -6.1881313), fraction 0.6437839
+IMPACT MOTION: time 3.0694227, incoming SIMD3<Float>(0.07250992, -3.9488447, -5.415858), outgoing SIMD3<Float>(-0.4576145, 13.050556, 6.359334), centre SIMD3<Float>(-0.17628549, 5.5989556, 3.869848), strings SIMD3<Float>(-0.17628549, 5.5989556, 3.869848)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.033333335 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34646142, 1.6238815, -0.25942183), strings SIMD3<Float>(0.34646142, 1.6012938, -0.22640556), fraction 0.38796896
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16204855, -6.5523963, 2.4609747), outgoing SIMD3<Float>(0.15232563, 3.230008, -11.387825), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42202696, 1.1940056, -5.9086804), strings SIMD3<Float>(0.42316157, 1.1624475, -5.933233), fraction 0.009987964
+IMPACT MOTION: time 3.0249882, incoming SIMD3<Float>(0.07525957, -3.6284537, -5.6263843), outgoing SIMD3<Float>(-0.45639148, 11.256294, 6.111623), centre SIMD3<Float>(-0.16095398, 4.5628166, 3.373947), strings SIMD3<Float>(-0.160954, 4.5628166, 3.3739474)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.016666668 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647724, 1.6242973, -0.25918114), strings SIMD3<Float>(0.34647724, 1.6017098, -0.22616509), fraction 0.776375
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16204755, -6.552428, 2.4609594), outgoing SIMD3<Float>(0.15232469, 3.2293496, -11.38692), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42204344, 1.1941446, -5.908072), strings SIMD3<Float>(0.42317814, 1.1625855, -5.932623), fraction 0.009621896
+IMPACT MOTION: time 3.0249872, incoming SIMD3<Float>(0.07526228, -3.6287072, -5.626178), outgoing SIMD3<Float>(-0.45640066, 11.256641, 6.111315), centre SIMD3<Float>(-0.16098975, 4.563217, 3.3736036), strings SIMD3<Float>(-0.16098975, 4.563217, 3.3736036)
+​◇ Test case passing 2 arguments difficulty → .club, dt → 0.011111111 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34657183, 1.6267564, -0.25773916), strings SIMD3<Float>(0.34657183, 1.6041704, -0.22472532), fraction 0.16819349
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16208608, -6.551167, 2.4615486), outgoing SIMD3<Float>(0.15236092, 3.2262008, -11.38003), centre SIMD3<Float>(0.0, 3.0000186, -4.000009), strings SIMD3<Float>(0.0, 3.0000186, -4.000009)
+STRING CONTACT: milo, cork SIMD3<Float>(0.42196706, 1.2059478, -5.8891053), strings SIMD3<Float>(0.42310327, 1.1743989, -5.913672), fraction 0.1360171
+IMPACT MOTION: time 3.021276, incoming SIMD3<Float>(0.075489014, -3.609548, -5.6383686), outgoing SIMD3<Float>(-0.45567602, 11.233902, 6.0825953), centre SIMD3<Float>(-0.16058654, 4.5161853, 3.40044), strings SIMD3<Float>(-0.16058654, 4.5161853, 3.40044)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.033333335 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34646142, 1.6238815, -0.25942183), strings SIMD3<Float>(0.34646142, 1.6012938, -0.22640556), fraction 0.38796896
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16204855, -6.5523963, 2.4609747), outgoing SIMD3<Float>(0.15232563, 3.230008, -11.387825), centre SIMD3<Float>(0.0, 2.999997, -3.9999955), strings SIMD3<Float>(0.0, 2.999997, -3.9999955)
+STRING CONTACT: milo, cork SIMD3<Float>(0.41818547, 1.3667535, -5.6214905), strings SIMD3<Float>(0.4194371, 1.3370191, -5.648222), fraction 0.0046377024
+IMPACT MOTION: time 2.974989, incoming SIMD3<Float>(0.07835432, -3.2760737, -5.857747), outgoing SIMD3<Float>(-0.46195427, 9.648522, 5.928707), centre SIMD3<Float>(-0.14734267, 3.564205, 3.0761716), strings SIMD3<Float>(-0.14734267, 3.564205, 3.0761716)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.016666668 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34647724, 1.6242973, -0.25918114), strings SIMD3<Float>(0.34647724, 1.6017098, -0.22616509), fraction 0.776375
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16204755, -6.552428, 2.4609594), outgoing SIMD3<Float>(0.15232469, 3.2293496, -11.38692), centre SIMD3<Float>(0.0, 2.999997, -3.999996), strings SIMD3<Float>(0.0, 2.999997, -3.999996)
+STRING CONTACT: milo, cork SIMD3<Float>(0.41820174, 1.3669071, -5.6208897), strings SIMD3<Float>(0.41945344, 1.3371716, -5.64762), fraction 0.004137308
+IMPACT MOTION: time 2.974988, incoming SIMD3<Float>(0.07835715, -3.2763336, -5.8575325), outgoing SIMD3<Float>(-0.4619236, 9.647397, 5.927112), centre SIMD3<Float>(-0.14733551, 3.563604, 3.0751417), strings SIMD3<Float>(-0.14733551, 3.563604, 3.0751417)
+​◇ Test case passing 2 arguments difficulty → .challenge, dt → 0.011111111 to miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34657183, 1.6267564, -0.25773916), strings SIMD3<Float>(0.34657183, 1.6041704, -0.22472532), fraction 0.16819349
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16208608, -6.551167, 2.4615486), outgoing SIMD3<Float>(0.15236092, 3.2262008, -11.38003), centre SIMD3<Float>(0.0, 3.0000186, -4.000009), strings SIMD3<Float>(0.0, 3.0000186, -4.000009)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4181128, 1.3777676, -5.6012254), strings SIMD3<Float>(0.41936618, 1.3480501, -5.6279707), fraction 0.6265793
+IMPACT MOTION: time 2.9694257, incoming SIMD3<Float>(0.07859372, -3.2563744, -5.870264), outgoing SIMD3<Float>(-0.46131027, 9.627674, 5.903266), centre SIMD3<Float>(-0.1469475, 3.4709928, 3.1508014), strings SIMD3<Float>(-0.1469475, 3.4709928, 3.1508014)
+​✔ Test miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:dt:) with 9 test cases passed after 1.268 seconds.
+◇ Test miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.033333335, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34643063, 1.6251324, -0.25988907), strings SIMD3<Float>(0.34643063, 1.5937994, -0.23502466), fraction 0.38225505
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16207448, -6.551576, 2.4613683), outgoing SIMD3<Float>(0.15235001, 6.1948466, -7.5645638), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.45484722, 1.6872147, -5.6430492), strings SIMD3<Float>(0.45599782, 1.6523513, -5.662626), fraction 0.020130413
+IMPACT MOTION: time 3.3583164, incoming SIMD3<Float>(0.072137386, -4.5723605, -3.5818062), outgoing SIMD3<Float>(-0.46229315, 11.779722, 5.4494343), centre SIMD3<Float>(-0.21753071, 6.848802, 0.31826016), strings SIMD3<Float>(-0.21753071, 6.848802, 0.31826016)
+​◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.033333335, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34666562, 1.6155777, -0.25632024), strings SIMD3<Float>(0.34666562, 1.5795733, -0.23889273), fraction 0.42589635
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.1618764, -6.5578427, 2.4583602), outgoing SIMD3<Float>(0.15216382, 16.617268, -8.933016), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48048487, 1.6766526, -8.11239), strings SIMD3<Float>(0.4815127, 1.6415164, -8.131486), fraction 0.013513659
+IMPACT MOTION: time 4.4291334, incoming SIMD3<Float>(0.027214728, -7.651796, -1.5976821), outgoing SIMD3<Float>(-0.55004877, 12.503686, 8.975816), centre SIMD3<Float>(-0.21669386, 7.718839, 0.40374753), strings SIMD3<Float>(-0.21669386, 7.718839, 0.40374753)
+​◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.016666668, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34644857, 1.6254479, -0.2596163), strings SIMD3<Float>(0.34644857, 1.5941148, -0.23475185), fraction 0.76580673
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16207154, -6.551669, 2.4613237), outgoing SIMD3<Float>(0.15234725, 6.194608, -7.564486), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.45486203, 1.6874807, -5.642667), strings SIMD3<Float>(0.4560127, 1.6526172, -5.6622434), fraction 0.019835062
+IMPACT MOTION: time 3.3583155, incoming SIMD3<Float>(0.07213754, -4.572304, -3.5818422), outgoing SIMD3<Float>(-0.46231547, 11.779437, 5.448909), centre SIMD3<Float>(-0.21765946, 6.8506904, 0.31425473), strings SIMD3<Float>(-0.21765946, 6.8506904, 0.31425473)
+​◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.016666668, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.3466852, 1.6159456, -0.25602257), strings SIMD3<Float>(0.3466852, 1.5799412, -0.2385951), fraction 0.8530854
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16187346, -6.557935, 2.4583156), outgoing SIMD3<Float>(0.15216105, 16.617968, -8.933439), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4804983, 1.6775501, -8.112259), strings SIMD3<Float>(0.48152617, 1.642415, -8.131357), fraction 0.013054071
+IMPACT MOTION: time 4.429133, incoming SIMD3<Float>(0.027214143, -7.651695, -1.5977523), outgoing SIMD3<Float>(-0.5500297, 12.501654, 8.97497), centre SIMD3<Float>(-0.21703719, 7.7253337, 0.38955685), strings SIMD3<Float>(-0.21703719, 7.7253337, 0.38955685)
+​◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.011111111, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34655738, 1.6273448, -0.25795904), strings SIMD3<Float>(0.34655738, 1.5960112, -0.23309413), fraction 0.16012965
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.1620983, -6.55078, 2.461734), outgoing SIMD3<Float>(0.1523724, 6.193248, -7.5623574), centre SIMD3<Float>(0.0, 2.2000122, -3.0000079), strings SIMD3<Float>(0.0, 2.2000122, -3.0000079)
+STRING CONTACT: milo, cork SIMD3<Float>(0.45510685, 1.6837243, -5.64536), strings SIMD3<Float>(0.45625764, 1.6488459, -5.6649146), fraction 0.2884875
+IMPACT MOTION: time 3.358303, incoming SIMD3<Float>(0.07210522, -4.580106, -3.5786347), outgoing SIMD3<Float>(-0.4648078, 11.8528, 5.495261), centre SIMD3<Float>(-0.21589099, 6.81295, 0.4875612), strings SIMD3<Float>(-0.21589099, 6.81295, 0.4875612)
+​◇ Test case passing 2 arguments difficulty → .friendly, cadenceAndLob → (0.011111111, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.3467901, 1.6178867, -0.25442472), strings SIMD3<Float>(0.3467901, 1.5818826, -0.23699743), fraction 0.28975353
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16190206, -6.5569997, 2.4587538), outgoing SIMD3<Float>(0.15218793, 16.620867, -8.934006), centre SIMD3<Float>(0.0, 7.000029, -7.000018), strings SIMD3<Float>(0.0, 7.000029, -7.000018)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48081672, 1.6432844, -8.122283), strings SIMD3<Float>(0.48184448, 1.6080971, -8.141285), fraction 0.5999678
+IMPACT MOTION: time 4.432346, incoming SIMD3<Float>(0.027085653, -7.6649456, -1.5900319), outgoing SIMD3<Float>(-0.55543745, 12.708376, 9.091036), centre SIMD3<Float>(-0.20485102, 7.433216, 1.2115002), strings SIMD3<Float>(-0.20485102, 7.433216, 1.2115002)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.033333335, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34643063, 1.6251324, -0.25988907), strings SIMD3<Float>(0.34643063, 1.5937994, -0.23502466), fraction 0.38225505
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16207448, -6.551576, 2.4613683), outgoing SIMD3<Float>(0.15235001, 6.1948466, -7.5645638), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.45484462, 1.6873785, -5.6429214), strings SIMD3<Float>(0.456099, 1.6534519, -5.664074), fraction 0.011553248
+IMPACT MOTION: time 3.3583164, incoming SIMD3<Float>(0.07213918, -4.572124, -3.5818954), outgoing SIMD3<Float>(-0.47464156, 10.394123, 5.6021104), centre SIMD3<Float>(-0.20762442, 5.9592814, 0.5332947), strings SIMD3<Float>(-0.20762442, 5.9592814, 0.5332947)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.033333335, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34666562, 1.6155777, -0.25632024), strings SIMD3<Float>(0.34666562, 1.5795733, -0.23889273), fraction 0.42589635
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.1618764, -6.5578427, 2.4583602), outgoing SIMD3<Float>(0.15216382, 16.617268, -8.933016), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4804842, 1.6768501, -8.112349), strings SIMD3<Float>(0.48160052, 1.642599, -8.132983), fraction 0.0073226904
+IMPACT MOTION: time 4.4291334, incoming SIMD3<Float>(0.027215388, -7.6517277, -1.5977207), outgoing SIMD3<Float>(-0.56882405, 11.069494, 9.286939), centre SIMD3<Float>(-0.21445511, 6.9921107, 0.6559753), strings SIMD3<Float>(-0.21445511, 6.9921107, 0.6559753)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.016666668, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34644857, 1.6254479, -0.2596163), strings SIMD3<Float>(0.34644857, 1.5941148, -0.23475185), fraction 0.76580673
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16207154, -6.551669, 2.4613237), outgoing SIMD3<Float>(0.15234725, 6.194608, -7.564486), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.45485967, 1.6876307, -5.64255), strings SIMD3<Float>(0.4561141, 1.653704, -5.663702), fraction 0.011985443
+IMPACT MOTION: time 3.3583155, incoming SIMD3<Float>(0.07213919, -4.5720873, -3.5819237), outgoing SIMD3<Float>(-0.47464827, 10.393696, 5.601623), centre SIMD3<Float>(-0.20775317, 5.9605403, 0.5305481), strings SIMD3<Float>(-0.20775317, 5.9605403, 0.5305482)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.016666668, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.3466852, 1.6159456, -0.25602257), strings SIMD3<Float>(0.3466852, 1.5799412, -0.2385951), fraction 0.8530854
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16187346, -6.557935, 2.4583156), outgoing SIMD3<Float>(0.15216105, 16.617968, -8.933439), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48049763, 1.6777407, -8.112219), strings SIMD3<Float>(0.481614, 1.6434907, -8.132856), fraction 0.0070796246
+IMPACT MOTION: time 4.429133, incoming SIMD3<Float>(0.027214779, -7.6516294, -1.5977896), outgoing SIMD3<Float>(-0.5688577, 11.069128, 9.287035), centre SIMD3<Float>(-0.21485566, 6.9996066, 0.64384454), strings SIMD3<Float>(-0.21485566, 6.9996066, 0.64384454)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.011111111, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34655738, 1.6273448, -0.25795904), strings SIMD3<Float>(0.34655738, 1.5960112, -0.23309413), fraction 0.16012965
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.1620983, -6.55078, 2.461734), outgoing SIMD3<Float>(0.1523724, 6.193248, -7.5623574), centre SIMD3<Float>(0.0, 2.2000122, -3.0000079), strings SIMD3<Float>(0.0, 2.2000122, -3.0000079)
+STRING CONTACT: milo, cork SIMD3<Float>(0.45510402, 1.6839037, -5.6452203), strings SIMD3<Float>(0.45635858, 1.6499603, -5.6663504), fraction 0.27792284
+IMPACT MOTION: time 3.358303, incoming SIMD3<Float>(0.07210719, -4.5798464, -3.5787325), outgoing SIMD3<Float>(-0.47682142, 10.450607, 5.6403346), centre SIMD3<Float>(-0.20604996, 5.923122, 0.6671619), strings SIMD3<Float>(-0.20604996, 5.923122, 0.6671619)
+​◇ Test case passing 2 arguments difficulty → .club, cadenceAndLob → (0.011111111, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.3467901, 1.6178867, -0.25442472), strings SIMD3<Float>(0.3467901, 1.5818826, -0.23699743), fraction 0.28975353
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16190206, -6.5569997, 2.4587538), outgoing SIMD3<Float>(0.15218793, 16.620867, -8.934006), centre SIMD3<Float>(0.0, 7.000029, -7.000018), strings SIMD3<Float>(0.0, 7.000029, -7.000018)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48081607, 1.6434742, -8.122244), strings SIMD3<Float>(0.4819321, 1.6091671, -8.142782), fraction 0.593283
+IMPACT MOTION: time 4.432346, incoming SIMD3<Float>(0.027086284, -7.6648808, -1.5900688), outgoing SIMD3<Float>(-0.5737759, 11.244572, 9.391109), centre SIMD3<Float>(-0.2023807, 6.7010055, 1.360073), strings SIMD3<Float>(-0.2023807, 6.7010055, 1.360073)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.033333335, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34643063, 1.6251324, -0.25988907), strings SIMD3<Float>(0.34643063, 1.5937994, -0.23502466), fraction 0.38225505
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.16207448, -6.551576, 2.4613683), outgoing SIMD3<Float>(0.15235001, 6.1948466, -7.5645638), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.4530235, 1.7997079, -5.552497), strings SIMD3<Float>(0.45440444, 1.7672497, -5.5758333), fraction 0.0051518343
+IMPACT MOTION: time 3.3333168, incoming SIMD3<Float>(0.073398665, -4.4039483, -3.6444314), outgoing SIMD3<Float>(-0.4868432, 8.905251, 5.661394), centre SIMD3<Float>(-0.26957273, 6.0086913, -0.54302216), strings SIMD3<Float>(-0.26957273, 6.0086913, -0.54302216)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.033333335, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34666562, 1.6155777, -0.25632024), strings SIMD3<Float>(0.34666562, 1.5795733, -0.23889273), fraction 0.42589635
+IMPACT MOTION: time 2.3249989, incoming SIMD3<Float>(0.1618764, -6.5578427, 2.4583602), outgoing SIMD3<Float>(0.15216382, 16.617268, -8.933016), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48048356, 1.6770282, -8.112311), strings SIMD3<Float>(0.4817035, 1.6439188, -8.134725), fraction 0.0017410137
+IMPACT MOTION: time 4.4291334, incoming SIMD3<Float>(0.027215982, -7.6516666, -1.5977557), outgoing SIMD3<Float>(-0.5980792, 9.765782, 9.767902), centre SIMD3<Float>(-0.22077082, 6.5244765, 0.9169006), strings SIMD3<Float>(-0.22077082, 6.5244765, 0.9169006)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.016666668, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34644857, 1.6254479, -0.2596163), strings SIMD3<Float>(0.34644857, 1.5941148, -0.23475185), fraction 0.76580673
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16207154, -6.551669, 2.4613237), outgoing SIMD3<Float>(0.15234725, 6.194608, -7.564486), centre SIMD3<Float>(0.0, 2.199998, -2.999997), strings SIMD3<Float>(0.0, 2.199998, -2.999997)
+STRING CONTACT: milo, cork SIMD3<Float>(0.45303816, 1.7999809, -5.5521054), strings SIMD3<Float>(0.45441914, 1.7675225, -5.5754423), fraction 0.0043940395
+IMPACT MOTION: time 3.3333158, incoming SIMD3<Float>(0.0733989, -4.4038777, -3.6444726), outgoing SIMD3<Float>(-0.48681775, 8.90441, 5.6604204), centre SIMD3<Float>(-0.26979446, 6.010608, -0.5470276), strings SIMD3<Float>(-0.26979446, 6.010608, -0.5470276)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.016666668, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.3466852, 1.6159456, -0.25602257), strings SIMD3<Float>(0.3466852, 1.5799412, -0.2385951), fraction 0.8530854
+IMPACT MOTION: time 2.3083315, incoming SIMD3<Float>(0.16187346, -6.557935, 2.4583156), outgoing SIMD3<Float>(0.15216105, 16.617968, -8.933439), centre SIMD3<Float>(0.0, 6.999993, -6.999993), strings SIMD3<Float>(0.0, 6.999993, -6.999993)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48049703, 1.6779096, -8.112184), strings SIMD3<Float>(0.48171702, 1.6448017, -8.134599), fraction 0.0017861759
+IMPACT MOTION: time 4.429133, incoming SIMD3<Float>(0.027215341, -7.6515713, -1.5978227), outgoing SIMD3<Float>(-0.5980656, 9.763952, 9.767099), centre SIMD3<Float>(-0.22110699, 6.5309997, 0.90568537), strings SIMD3<Float>(-0.22110699, 6.5309997, 0.90568537)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.011111111, false) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.34655738, 1.6273448, -0.25795904), strings SIMD3<Float>(0.34655738, 1.5960112, -0.23309413), fraction 0.16012965
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.1620983, -6.55078, 2.461734), outgoing SIMD3<Float>(0.1523724, 6.193248, -7.5623574), centre SIMD3<Float>(0.0, 2.2000122, -3.0000079), strings SIMD3<Float>(0.0, 2.2000122, -3.0000079)
+STRING CONTACT: milo, cork SIMD3<Float>(0.45328364, 1.7964265, -5.5548735), strings SIMD3<Float>(0.454665, 1.763948, -5.5781846), fraction 0.52072185
+IMPACT MOTION: time 3.332378, incoming SIMD3<Float>(0.073367, -4.411898, -3.6412575), outgoing SIMD3<Float>(-0.49243855, 9.03637, 5.761751), centre SIMD3<Float>(-0.2660215, 5.9831495, -0.33576962), strings SIMD3<Float>(-0.2660215, 5.9831495, -0.33576962)
+​◇ Test case passing 2 arguments difficulty → .challenge, cadenceAndLob → (0.011111111, true) to miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) started.
+STRING CONTACT: player, cork SIMD3<Float>(0.3467901, 1.6178867, -0.25442472), strings SIMD3<Float>(0.3467901, 1.5818826, -0.23699743), fraction 0.28975353
+IMPACT MOTION: time 2.3138895, incoming SIMD3<Float>(0.16190206, -6.5569997, 2.4587538), outgoing SIMD3<Float>(0.15218793, 16.620867, -8.934006), centre SIMD3<Float>(0.0, 7.000029, -7.000018), strings SIMD3<Float>(0.0, 7.000029, -7.000018)
+STRING CONTACT: milo, cork SIMD3<Float>(0.48001435, 1.866114, -8.075182), strings SIMD3<Float>(0.48122728, 1.8333838, -8.0981455), fraction 0.7107052
+IMPACT MOTION: time 4.402717, incoming SIMD3<Float>(0.027837023, -7.586478, -1.6341401), outgoing SIMD3<Float>(-0.59934807, 9.638488, 9.7771435), centre SIMD3<Float>(-0.37819144, 8.381367, -1.6615962), strings SIMD3<Float>(-0.37819144, 8.381367, -1.6615962)
+​✔ Test miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:cadenceAndLob:) with 18 test cases passed after 2.675 seconds.
+✔ Suite GameLoopTests passed after 13.317 seconds.
+◇ Suite HandRacketPoseTests started.
+◇ Test handleOriginIsInsidePalmAndAxesFollowKnuckles() started.
+✔ Test handleOriginIsInsidePalmAndAxesFollowKnuckles() passed after 0.001 seconds.
+◇ Test mirroredHandsProduceProperFramesWithIndexSideExit() started.
+✔ Test mirroredHandsProduceProperFramesWithIndexSideExit() passed after 0.001 seconds.
+◇ Test measuredFrameFollowsWorldRotationAndTranslation() started.
+✔ Test measuredFrameFollowsWorldRotationAndTranslation() passed after 0.001 seconds.
+◇ Test missingWristOrMiddleAndDegenerateGeometryCannotCreateARacket() started.
+✔ Test missingWristOrMiddleAndDegenerateGeometryCannotCreateARacket() passed after 0.001 seconds.
+✔ Suite HandRacketPoseTests passed after 0.001 seconds.
+◇ Suite HandGripFitTests started.
+◇ Test defaultAndRotatedOffsetsAreRigidAndKeepTheHandleOrigin() started.
+✔ Test defaultAndRotatedOffsetsAreRigidAndKeepTheHandleOrigin() passed after 0.001 seconds.
+◇ Test fineAnglesFollowRacketAxesAndFaceTurnKeepsTheShaftDirection() started.
+✔ Test fineAnglesFollowRacketAxesAndFaceTurnKeepsTheShaftDirection() passed after 0.001 seconds.
+◇ Test fineAngleRangesClampAndLegacyQuaternionDataMigratesInPlace() started.
+✔ Test fineAngleRangesClampAndLegacyQuaternionDataMigratesInPlace() passed after 0.004 seconds.
+◇ Test normalizationHandlesExtremeFiniteValuesAndEquivalentSigns() started.
+✔ Test normalizationHandlesExtremeFiniteValuesAndEquivalentSigns() passed after 0.001 seconds.
+◇ Test leftAndRightFitsPersistSeparatelyAndResetIndependently() started.
+✔ Test leftAndRightFitsPersistSeparatelyAndResetIndependently() passed after 0.004 seconds.
+◇ Test nonfiniteAngleEditsCannotReplaceSavedFitsOrDecodeFromJSON() started.
+✔ Test nonfiniteAngleEditsCannotReplaceSavedFitsOrDecodeFromJSON() passed after 0.003 seconds.
+◇ Test invalidQuaternionsCannotReplacePreviousSavedData() started.
+✔ Test invalidQuaternionsCannotReplacePreviousSavedData() passed after 0.002 seconds.
+◇ Test corruptedPersistedDataFallsBackWithoutChangingTheOtherHand() started.
+✔ Test corruptedPersistedDataFallsBackWithoutChangingTheOtherHand() passed after 0.007 seconds.
+✔ Suite HandGripFitTests passed after 0.027 seconds.
+◇ Suite HandGripGestureTests started.
+◇ Test openThenCloseAcquiresExactlyOnceAndHeldClosedAtStartCannotAcquire() started.
+✔ Test openThenCloseAcquiresExactlyOnceAndHeldClosedAtStartCannotAcquire() passed after 0.001 seconds.
+◇ Test bothOpenAndCloseRequireContinuousDwellAtThresholds() started.
+✔ Test bothOpenAndCloseRequireContinuousDwellAtThresholds() passed after 0.001 seconds.
+◇ Test relaxedGripBriefOpenJitterAndMissingFingersDoNotDropRacket() started.
+✔ Test relaxedGripBriefOpenJitterAndMissingFingersDoNotDropRacket() passed after 0.001 seconds.
+◇ Test sustainedOpenReleasesOnceAndCanDeliberatelyGrabAgain() started.
+✔ Test sustainedOpenReleasesOnceAndCanDeliberatelyGrabAgain() passed after 0.001 seconds.
+◇ Test interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+◇ Test case passing 1 argument interruption → .missing to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .stale to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .reordered to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .gap to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .nonfiniteCurl to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .future to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​◇ Test case passing 1 argument interruption → .invalidTime to interruptedSamplesCannotCompleteAnArmedGrab(_:) started.
+​✔ Test interruptedSamplesCannotCompleteAnArmedGrab(_:) with 7 test cases passed after 0.007 seconds.
+◇ Test duplicateSamplesCannotArmGrabOrRelease() started.
+✔ Test duplicateSamplesCannotArmGrabOrRelease() passed after 0.001 seconds.
+◇ Test staleOrReorderedSamplesBreakReleaseDwellWithoutDropping() started.
+✔ Test staleOrReorderedSamplesBreakReleaseDwellWithoutDropping() passed after 0.001 seconds.
+◇ Test suspensionDisarmsAnOpenSequenceAndPartiallyCompletedGrab() started.
+✔ Test suspensionDisarmsAnOpenSequenceAndPartiallyCompletedGrab() passed after 0.001 seconds.
+◇ Test suspensionRequiresANewFullOpenDwellBeforeArming() started.
+✔ Test suspensionRequiresANewFullOpenDwellBeforeArming() passed after 0.001 seconds.
+◇ Test suspensionKeepsHoldingAndRestartsTheFullReleaseDwell() started.
+✔ Test suspensionKeepsHoldingAndRestartsTheFullReleaseDwell() passed after 0.001 seconds.
+◇ Test twoExtendedFingersWithOtherFingersMissingCannotReleaseTheHeldRacket() started.
+✔ Test twoExtendedFingersWithOtherFingersMissingCannotReleaseTheHeldRacket() passed after 0.001 seconds.
+◇ Test aMixedTrackedHandCannotReleaseEvenWhenItsMedianLooksOpen() started.
+✔ Test aMixedTrackedHandCannotReleaseEvenWhenItsMedianLooksOpen() passed after 0.001 seconds.
+◇ Test aFreshConfidentOpeningReleasesOnlyAfterItsOwnFullDwell() started.
+✔ Test aFreshConfidentOpeningReleasesOnlyAfterItsOwnFullDwell() passed after 0.001 seconds.
+◇ Test menuInteractionBreaksReleaseDwellEvenOnTheSameAnchorSample() started.
+✔ Test menuInteractionBreaksReleaseDwellEvenOnTheSameAnchorSample() passed after 0.001 seconds.
+◇ Test releaseConfidenceRejectsInvalidOrDegenerateMeasuredPairs() started.
+✔ Test releaseConfidenceRejectsInvalidOrDegenerateMeasuredPairs() passed after 0.001 seconds.
+◇ Test proximalCurlRecognizesStraightBentAndIntermediateFirstPhalanges() started.
+✔ Test proximalCurlRecognizesStraightBentAndIntermediateFirstPhalanges() passed after 0.001 seconds.
+◇ Test proximalMedianToleratesOneDifferentFingerAndPreservesMixedBends() started.
+✔ Test proximalMedianToleratesOneDifferentFingerAndPreservesMixedBends() passed after 0.001 seconds.
+◇ Test proximalCurlIsInvariantUnderMeasuredRotationTranslationAndHandSize() started.
+✔ Test proximalCurlIsInvariantUnderMeasuredRotationTranslationAndHandSize() passed after 0.001 seconds.
+◇ Test proximalCurlRejectsInsufficientInvalidAndTooShortMeasuredBones() started.
+✔ Test proximalCurlRejectsInsufficientInvalidAndTooShortMeasuredBones() passed after 0.001 seconds.
+◇ Test proximalAcquisitionCannotSubstituteForObservedFingertipReleaseConfidence() started.
+✔ Test proximalAcquisitionCannotSubstituteForObservedFingertipReleaseConfidence() passed after 0.001 seconds.
+◇ Test medianCurlIsInvariantUnderHandSizeRigidMovementAndOneNoisyFinger() started.
+✔ Test medianCurlIsInvariantUnderHandSizeRigidMovementAndOneNoisyFinger() passed after 0.001 seconds.
+◇ Test curlRejectsInsufficientInvalidAndDegenerateFingerData() started.
+✔ Test curlRejectsInsufficientInvalidAndDegenerateFingerData() passed after 0.001 seconds.
+✔ Suite HandGripGestureTests passed after 0.012 seconds.
+◇ Suite HandGripInteractionTests started.
+◇ Test anInitiallyClosedHandCannotAcquireServeOrCalibrate() started.
+✔ Test anInitiallyClosedHandCannotAcquireServeOrCalibrate() passed after 0.005 seconds.
+◇ Test anOpenThenClosedDwellAcquiresTheMeasuredRacketAndAllowsServe() started.
+✔ Test anOpenThenClosedDwellAcquiresTheMeasuredRacketAndAllowsServe() passed after 0.122 seconds.
+◇ Test gradualClosureSurvivesMoreThanTheOldPalmCacheLifetime() started.
+✔ Test gradualClosureSurvivesMoreThanTheOldPalmCacheLifetime() passed after 0.006 seconds.
+◇ Test nestedTrackingSetupClosesAllPanelsAndAutomaticallyLaunchesAfterARealGrab() started.
+✔ Test nestedTrackingSetupClosesAllPanelsAndAutomaticallyLaunchesAfterARealGrab() passed after 0.127 seconds.
+◇ Test closingSetupCannotStartWithNoGripOrResumeAnInterruptedRally() started.
+✔ Test closingSetupCannotStartWithNoGripOrResumeAnInterruptedRally() passed after 0.423 seconds.
+◇ Test unheldWristLossDiscardsTheOldPalmBeforeReacquisition() started.
+✔ Test unheldWristLossDiscardsTheOldPalmBeforeReacquisition() passed after 0.311 seconds.
+◇ Test trackedFingerBasesCanFinishAcquisitionWhileTipsAreOccluded() started.
+✔ Test trackedFingerBasesCanFinishAcquisitionWhileTipsAreOccluded() passed after 0.006 seconds.
+◇ Test fingerDataLossRequestsANewOpenInsteadOfPromisingAClosedGrab() started.
+✔ Test fingerDataLossRequestsANewOpenInsteadOfPromisingAClosedGrab() passed after 0.005 seconds.
+◇ Test partialOpenFingersAndMenuPinchingCannotReleaseTheHeldRacket() started.
+✔ Test partialOpenFingersAndMenuPinchingCannotReleaseTheHeldRacket() passed after 0.007 seconds.
+◇ Test fineAngleFitIsAppliedToTheHeldRacketAndCannotInventSwingMotion() started.
+✔ Test fineAngleFitIsAppliedToTheHeldRacketAndCannotInventSwingMotion() passed after 0.007 seconds.
+◇ Test relaxedAndMissingFingersRetainTheLockedMountWhileTheWristMoves() started.
+✔ Test relaxedAndMissingFingersRetainTheLockedMountWhileTheWristMoves() passed after 0.006 seconds.
+◇ Test wristLossBetweenRenderFramesPausesAndRecoveryIsOnlyABaseline() started.
+✔ Test wristLossBetweenRenderFramesPausesAndRecoveryIsOnlyABaseline() passed after 0.122 seconds.
+◇ Test sustainedOpenReleasePausesAFlightAndCannotCreateAContact() started.
+✔ Test sustainedOpenReleasePausesAFlightAndCannotCreateAContact() passed after 0.125 seconds.
+◇ Test anchorVelocityUsesSixtyHertzSampleTimeAndRepeatedRenderFramesAreStill() started.
+✔ Test anchorVelocityUsesSixtyHertzSampleTimeAndRepeatedRenderFramesAreStill() passed after 0.005 seconds.
+◇ Test staleOrUnheldSamplesCannotReplaceASavedHandFit() started.
+✔ Test staleOrUnheldSamplesCannotReplaceASavedHandFit() passed after 0.007 seconds.
+◇ Test duplicatedOrReorderedInputCannotTeleportTheHeldRacketOrInventSpeed() started.
+✔ Test duplicatedOrReorderedInputCannotTeleportTheHeldRacketOrInventSpeed() passed after 0.004 seconds.
+◇ Test pausedAlignmentPreservesTheHandleFreezesFlightAndClearsSwingHistory() started.
+✔ Test pausedAlignmentPreservesTheHandleFreezesFlightAndClearsSwingHistory() passed after 0.135 seconds.
+◇ Test inputAndHandPreferencesReloadSeparateFitsWithoutRevivingOldSamples() started.
+✔ Test inputAndHandPreferencesReloadSeparateFitsWithoutRevivingOldSamples() passed after 0.010 seconds.
+◇ Test twoMeasuredKnucklesCanAcquireWhenTheLittleKnuckleIsOccluded() started.
+✔ Test twoMeasuredKnucklesCanAcquireWhenTheLittleKnuckleIsOccluded() passed after 0.005 seconds.
+◇ Test backgroundOpenCloseCannotAcquireAndForegroundRequiresNewOpen() started.
+✔ Test backgroundOpenCloseCannotAcquireAndForegroundRequiresNewOpen() passed after 0.005 seconds.
+◇ Test backgroundPreservesLockedMountButCannotReleaseOrResumeWithoutFreshHand() started.
+✔ Test backgroundPreservesLockedMountButCannotReleaseOrResumeWithoutFreshHand() passed after 0.147 seconds.
+◇ Test expiredHandShowsRecoveryMessageAndResetFitPreservesPalmAndOtherHand() started.
+✔ Test expiredHandShowsRecoveryMessageAndResetFitPreservesPalmAndOtherHand() passed after 0.011 seconds.
+◇ Test noHandSamplesCannotOverwritePermissionOrProviderFailureFeedback() started.
+✔ Test noHandSamplesCannotOverwritePermissionOrProviderFailureFeedback() passed after 0.005 seconds.
+✔ Suite HandGripInteractionTests passed after 1.620 seconds.
+◇ Suite HandGripTrackerTests started.
+◇ Test translatedAndRotatedWristFollowsTheAcquiredMountExactly() started.
+✔ Test translatedAndRotatedWristFollowsTheAcquiredMountExactly() passed after 0.001 seconds.
+◇ Test movedAndLostKnucklesDoNotRefitAnAcquiredGrip() started.
+✔ Test movedAndLostKnucklesDoNotRefitAnAcquiredGrip() passed after 0.001 seconds.
+◇ Test missingWristHidesTheRacketAndFreshWristUsesCachedLocalMount() started.
+✔ Test missingWristHidesTheRacketAndFreshWristUsesCachedLocalMount() passed after 0.001 seconds.
+◇ Test missingMiddleDegenerateAndDistantInitialKnucklesCannotEstablishAMount() started.
+✔ Test missingMiddleDegenerateAndDistantInitialKnucklesCannotEstablishAMount() passed after 0.001 seconds.
+◇ Test resetRequiresFreshKnuckleAcquisition() started.
+✔ Test resetRequiresFreshKnuckleAcquisition() passed after 0.001 seconds.
+◇ Test mirroredHandsKeepProperRotationsWhenFollowingTheWrist() started.
+✔ Test mirroredHandsKeepProperRotationsWhenFollowingTheWrist() passed after 0.001 seconds.
+◇ Test invalidWristMatricesCannotCreateOrReviveAWorldPose() started.
+✔ Test invalidWristMatricesCannotCreateOrReviveAWorldPose() passed after 0.001 seconds.
+◇ Test captureLocksAnOpenHandPreviewThroughGrabClosure() started.
+✔ Test captureLocksAnOpenHandPreviewThroughGrabClosure() passed after 0.001 seconds.
+◇ Test invalidCaptureDoesNotAttachOrOverwriteAGoodMount() started.
+✔ Test invalidCaptureDoesNotAttachOrOverwriteAGoodMount() passed after 0.001 seconds.
+✔ Suite HandGripTrackerTests passed after 0.001 seconds.
+◇ Suite HandPalmFallbackTests started.
+◇ Test completeKnucklesKeepTheOriginalAuthoredBasis() started.
+✔ Test completeKnucklesKeepTheOriginalAuthoredBasis() passed after 0.001 seconds.
+◇ Test oneMissingSideProducesProperMirroredPalmFrames(missing:) started.
+◇ Test case passing 1 argument missing → .index to oneMissingSideProducesProperMirroredPalmFrames(missing:) started.
+​◇ Test case passing 1 argument missing → .little to oneMissingSideProducesProperMirroredPalmFrames(missing:) started.
+​✔ Test oneMissingSideProducesProperMirroredPalmFrames(missing:) with 2 test cases passed after 0.009 seconds.
+◇ Test partialPalmFrameFollowsMeasuredRigidWorldMotion(missing:) started.
+◇ Test case passing 1 argument missing → .index to partialPalmFrameFollowsMeasuredRigidWorldMotion(missing:) started.
+​◇ Test case passing 1 argument missing → .little to partialPalmFrameFollowsMeasuredRigidWorldMotion(missing:) started.
+​✔ Test partialPalmFrameFollowsMeasuredRigidWorldMotion(missing:) with 2 test cases passed after 0.001 seconds.
+◇ Test partialBasisRejectsLongitudinalFingerLengthSkew(missing:) started.
+◇ Test case passing 1 argument missing → .index to partialBasisRejectsLongitudinalFingerLengthSkew(missing:) started.
+​◇ Test case passing 1 argument missing → .little to partialBasisRejectsLongitudinalFingerLengthSkew(missing:) started.
+​✔ Test partialBasisRejectsLongitudinalFingerLengthSkew(missing:) with 2 test cases passed after 0.003 seconds.
+◇ Test partialAcquisitionKeepsItsMountWhenMoreKnucklesAppearOrDisappear(missing:) started.
+◇ Test case passing 1 argument missing → .index to partialAcquisitionKeepsItsMountWhenMoreKnucklesAppearOrDisappear(missing:) started.
+​◇ Test case passing 1 argument missing → .little to partialAcquisitionKeepsItsMountWhenMoreKnucklesAppearOrDisappear(missing:) started.
+​✔ Test partialAcquisitionKeepsItsMountWhenMoreKnucklesAppearOrDisappear(missing:) with 2 test cases passed after 0.001 seconds.
+◇ Test partialPalmCaptureKeepsTheHandleOffsetBounded() started.
+✔ Test partialPalmCaptureKeepsTheHandleOffsetBounded() passed after 0.001 seconds.
+◇ Test missingMiddleSingleKnuckleInvalidAndDegenerateDataCannotAcquire() started.
+✔ Test missingMiddleSingleKnuckleInvalidAndDegenerateDataCannotAcquire() passed after 0.001 seconds.
+✔ Suite HandPalmFallbackTests passed after 0.014 seconds.
+◇ Suite MiloAnimationTests started.
+◇ Test visualAnimationCannotMoveThePhysicalRacketRig() started.
+✔ Test visualAnimationCannotMoveThePhysicalRacketRig() passed after 0.145 seconds.
+◇ Test movingHoverBaseBobsWithinItsVisualEnvelope() started.
+✔ Test movingHoverBaseBobsWithinItsVisualEnvelope() passed after 0.003 seconds.
+◇ Test reactionsDecayInElapsedTimeAcrossDifferentFrameRates() started.
+✔ Test reactionsDecayInElapsedTimeAcrossDifferentFrameRates() passed after 0.001 seconds.
+◇ Test recoveringBetweenRalliesStillBanksAndPowersTheHoverEngine() started.
+✔ Test recoveringBetweenRalliesStillBanksAndPowersTheHoverEngine() passed after 0.001 seconds.
+◇ Test reducedMotionResetsVisualJointsWithoutChangingPhysicalPose() started.
+✔ Test reducedMotionResetsVisualJointsWithoutChangingPhysicalPose() passed after 0.001 seconds.
+✔ Suite MiloAnimationTests passed after 0.152 seconds.
+◇ Suite RacketMotionContactTests started.
+◇ Test fixedFaceAndTranslatedFaceKeepTheirMeasuredContactFractions() started.
+✔ Test fixedFaceAndTranslatedFaceKeepTheirMeasuredContactFractions() passed after 0.001 seconds.
+◇ Test aRotatingLocalChordCannotInventAContactOutsideTheWorldStrings() started.
+✔ Test aRotatingLocalChordCannotInventAContactOutsideTheWorldStrings() passed after 0.001 seconds.
+◇ Test aMovingEdgeCanStrikeWhileItsStringCentreHasNoVelocity() started.
+✔ Test aMovingEdgeCanStrikeWhileItsStringCentreHasNoVelocity() passed after 0.001 seconds.
+◇ Test measuredSampleDurationControlsAngularVelocityAndOppositeSignsAreEquivalent() started.
+✔ Test measuredSampleDurationControlsAngularVelocityAndOppositeSignsAreEquivalent() passed after 0.001 seconds.
+◇ Test rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+◇ Test case passing 1 argument dt → 0.033333335 to rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+​◇ Test case passing 1 argument dt → 0.016666668 to rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+​◇ Test case passing 1 argument dt → 0.011111111 to rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) started.
+​✔ Test rotatingContactTimeStaysConsistentAcrossFrameBoundaries(dt:) with 3 test cases passed after 0.001 seconds.
+◇ Test contactVelocityRotatesAndScalesTheActualOffCentreLever() started.
+✔ Test contactVelocityRotatesAndScalesTheActualOffCentreLever() passed after 0.001 seconds.
+◇ Test scaledStringsKeepTheCorkRadiusInWorldMetres() started.
+✔ Test scaledStringsKeepTheCorkRadiusInWorldMetres() passed after 0.001 seconds.
+◇ Test departingTangentialAndStationaryCorksCannotCreateReturns() started.
+✔ Test departingTangentialAndStationaryCorksCannotCreateReturns() passed after 0.001 seconds.
+◇ Test invalidPosesAndNonfiniteMotionCannotCreateContacts() started.
+✔ Test invalidPosesAndNonfiniteMotionCannotCreateContacts() passed after 0.001 seconds.
+✔ Suite RacketMotionContactTests passed after 0.003 seconds.
+◇ Suite RallyEventsTests started.
+◇ Test earliestFloorContactWinsOverLaterNetCrossing() started.
+✔ Test earliestFloorContactWinsOverLaterNetCrossing() passed after 0.001 seconds.
+◇ Test earliestNetContactWinsOverLaterFloorContact() started.
+✔ Test earliestNetContactWinsOverLaterFloorContact() passed after 0.001 seconds.
+◇ Test landingUsesFirstFloorPositionInsteadOfOvershootingEndpoint() started.
+✔ Test landingUsesFirstFloorPositionInsteadOfOvershootingEndpoint() passed after 0.001 seconds.
+◇ Test airborneShuttleMayCrossSidelineAndClearNet() started.
+✔ Test airborneShuttleMayCrossSidelineAndClearNet() passed after 0.001 seconds.
+◇ Test runawayDistanceHasSweptExitFraction() started.
+✔ Test runawayDistanceHasSweptExitFraction() passed after 0.001 seconds.
+◇ Test alreadyGroundedShuttleFaultsAtFrameStart() started.
+✔ Test alreadyGroundedShuttleFaultsAtFrameStart() passed after 0.001 seconds.
+◇ Test nonfiniteEndpointsAreRejected() started.
+✔ Test nonfiniteEndpointsAreRejected() passed after 0.001 seconds.
+✔ Suite RallyEventsTests passed after 0.005 seconds.
+◇ Suite SceneResourceReuseTests started.
+◇ Test repeatedPrimitivesShareResourcesAndKeepIndependentTransformsMaterialsAndParents() started.
+✔ Test repeatedPrimitivesShareResourcesAndKeepIndependentTransformsMaterialsAndParents() passed after 0.014 seconds.
+◇ Test primitiveKeysPreserveExactDimensionsRoundingAndNativeTopology() started.
+✔ Test primitiveKeysPreserveExactDimensionsRoundingAndNativeTopology() passed after 0.080 seconds.
+◇ Test authoredRingsLeavesAndFloorKeepTessellationAndUVKeys() started.
+✔ Test authoredRingsLeavesAndFloorKeepTessellationAndUVKeys() passed after 0.020 seconds.
+◇ Test twentyAuthoredRacketsReuseEveryMeshOnTheSecondBatchAndReportConstructionTime() started.
+SceneResourceReuse rackets=20 cold_ms=1741.1459684371948 warm_ms=1353.2190322875977 cold_generated=12 warm_generated=0 warm_hits=1420 cache_entries=12
+✔ Test twentyAuthoredRacketsReuseEveryMeshOnTheSecondBatchAndReportConstructionTime() passed after 3.511 seconds.
+◇ Test cacheStaysBoundedEvictsLeastUsedAndNeverInvalidatesLiveEntities() started.
+✔ Test cacheStaysBoundedEvictsLeastUsedAndNeverInvalidatesLiveEntities() passed after 0.463 seconds.
+◇ Test repeatedCourtBuildReusesCachedGeometryAndReportsMeshColdWarmTimes() started.
+SceneResourceReuse court_mesh_cold_ms=699.2889642715454 court_mesh_warm_ms=530.2689075469971 cached_cold_generated=159 cached_warm_generated=0 warm_hits=588 cache_entries=159 textures_not_reset=true
+✔ Test repeatedCourtBuildReusesCachedGeometryAndReportsMeshColdWarmTimes() passed after 1.344 seconds.
+✔ Suite SceneResourceReuseTests passed after 5.436 seconds.
+◇ Suite SenseGripFitTests started.
+◇ Test leftAndRightFitsPersistIndependentlyThroughCodable() started.
+✔ Test leftAndRightFitsPersistIndependentlyThroughCodable() passed after 0.005 seconds.
+◇ Test defaultMountKeepsHandleAtGripAndHeadAlongGripMinusZ() started.
+✔ Test defaultMountKeepsHandleAtGripAndHeadAlongGripMinusZ() passed after 0.001 seconds.
+◇ Test fineAdjustmentIsLocalToCalibratedBaseAndDoesNotRotateTranslation() started.
+✔ Test fineAdjustmentIsLocalToCalibratedBaseAndDoesNotRotateTranslation() passed after 0.001 seconds.
+◇ Test quarterTurnPresetsKeepTiltedShaftHandleAndHeadVelocityFixed() started.
+✔ Test quarterTurnPresetsKeepTiltedShaftHandleAndHeadVelocityFixed() passed after 0.001 seconds.
+◇ Test legacyRotationOrderMigrationPreservesSavedMountedPoseAndDoesNotRepeat() started.
+✔ Test legacyRotationOrderMigrationPreservesSavedMountedPoseAndDoesNotRepeat() passed after 0.005 seconds.
+◇ Test calibrationPreservesTrimAndTranslationAndFollowsMovedCourt() started.
+✔ Test calibrationPreservesTrimAndTranslationAndFollowsMovedCourt() passed after 0.001 seconds.
+◇ Test velocityUsesFittedHeadLeverArmAndAnchorLocalAngularVelocity() started.
+✔ Test velocityUsesFittedHeadLeverArmAndAnchorLocalAngularVelocity() passed after 0.001 seconds.
+◇ Test finiteBoundsClampButNonfiniteAndZeroQuaternionCannotPersist() started.
+✔ Test finiteBoundsClampButNonfiniteAndZeroQuaternionCannotPersist() passed after 0.004 seconds.
+◇ Test decoderRejectsNonfiniteAndMalformedPersistedData() started.
+✔ Test decoderRejectsNonfiniteAndMalformedPersistedData() passed after 0.001 seconds.
+✔ Suite SenseGripFitTests passed after 0.017 seconds.
+◇ Suite SenseMovementInputTests started.
+◇ Test missingOrNonfiniteMovementAxesStayNeutral() started.
+✔ Test missingOrNonfiniteMovementAxesStayNeutral() passed after 0.001 seconds.
+◇ Test finiteMovementAxesKeepDirectionWithinTheirBounds() started.
+✔ Test finiteMovementAxesKeepDirectionWithinTheirBounds() passed after 0.001 seconds.
+◇ Test stoppedControllerInputCannotMoveEitherRacketHand() started.
+✔ Test stoppedControllerInputCannotMoveEitherRacketHand() passed after 0.001 seconds.
+✔ Suite SenseMovementInputTests passed after 0.001 seconds.
+◇ Suite SenseRacketMountTests started.
+◇ Test racketExtendsFromGripTowardThumbAfterWorldMovement() started.
+✔ Test racketExtendsFromGripTowardThumbAfterWorldMovement() passed after 0.001 seconds.
+◇ Test mountIsAProperRigidRotation() started.
+✔ Test mountIsAProperRigidRotation() passed after 0.001 seconds.
+✔ Suite SenseRacketMountTests passed after 0.001 seconds.
+◇ Suite SenseTrackingQualityTests started.
+◇ Test angularMotionUsesTheVisibleHeadLeverArmAndWorldRotation() started.
+✔ Test angularMotionUsesTheVisibleHeadLeverArmAndWorldRotation() passed after 0.001 seconds.
+◇ Test invalidAngularVelocityCannotBecomeAValidStationaryRacket() started.
+✔ Test invalidAngularVelocityCannotBecomeAValidStationaryRacket() passed after 0.001 seconds.
+◇ Test stationaryAnchorCannotHideAnImplausiblyFastRotatingRacketHead() started.
+✔ Test stationaryAnchorCannotHideAnImplausiblyFastRotatingRacketHead() passed after 0.001 seconds.
+◇ Test weakOrStaleTrackingCannotArmContactEvenWithPlausibleMotion() started.
+✔ Test weakOrStaleTrackingCannotArmContactEvenWithPlausibleMotion() passed after 0.001 seconds.
+◇ Test stoppedAccessoryGetsOneAutomaticRecoveryWithoutRepeatedSessionStarts() started.
+✔ Test stoppedAccessoryGetsOneAutomaticRecoveryWithoutRepeatedSessionStarts() passed after 0.001 seconds.
+◇ Test failedConfigurationWaitsForRetryOrChangedConnectionsAndNeverRerunsStoppedWorld() started.
+✔ Test failedConfigurationWaitsForRetryOrChangedConnectionsAndNeverRerunsStoppedWorld() passed after 0.001 seconds.
+✔ Suite SenseTrackingQualityTests passed after 0.002 seconds.
+◇ Suite ServePinchGestureTests started.
+◇ Test heldPinchOnFirstAcquisitionCannotServe() started.
+✔ Test heldPinchOnFirstAcquisitionCannotServe() passed after 0.001 seconds.
+◇ Test deliberatePinchFiresOnceUntilTheFingersReopen() started.
+✔ Test deliberatePinchFiresOnceUntilTheFingersReopen() passed after 0.001 seconds.
+◇ Test partialReleaseAndThresholdJitterRequireANewSustainedHold() started.
+✔ Test partialReleaseAndThresholdJitterRequireANewSustainedHold() passed after 0.001 seconds.
+◇ Test untrackedOrStaleSampleDisarmsAndHeldReacquisitionDoesNotServe() started.
+✔ Test untrackedOrStaleSampleDisarmsAndHeldReacquisitionDoesNotServe() passed after 0.001 seconds.
+◇ Test sampleGapInterruptsHoldAndRequiresOpenHandAgain() started.
+✔ Test sampleGapInterruptsHoldAndRequiresOpenHandAgain() passed after 0.001 seconds.
+◇ Test duplicateAndBackwardSamplesCannotCompleteAFalseHold() started.
+✔ Test duplicateAndBackwardSamplesCannotCompleteAFalseHold() passed after 0.001 seconds.
+◇ Test invalidValuesAndExplicitResetRequireOpenHandAgain() started.
+✔ Test invalidValuesAndExplicitResetRequireOpenHandAgain() passed after 0.001 seconds.
+✔ Suite ServePinchGestureTests passed after 0.004 seconds.
+✔ Test run with 209 tests in 22 suites passed after 28.430 seconds.
+2026-10-12 13:37:18.983 xcodebuild[42834:426966] [MT] IDETestOperationsObserverDebug: 41.831 elapsed -- Testing started completed.
+2026-10-12 13:37:18.984 xcodebuild[42834:426966] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-12 13:37:18.984 xcodebuild[42834:426966] [MT] IDETestOperationsObserverDebug: 41.831 sec, +41.831 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/shuttle-build11-final.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started

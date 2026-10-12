@@ -15,6 +15,9 @@ struct GameLoopTests {
         let defaults=UserDefaults(suiteName:"ShuttleClub.GameLoopTests")!
         defaults.removePersistentDomain(forName:"ShuttleClub.GameLoopTests")
         let g=GameModel(gripDefaults:defaults);g.automaticServing=false; g.mode=mode; g.input = .hands; g.leftHand=false;g.musicEnabled=false; g.soundEnabled=false; g.racketKind = .coral
+        // Scripted measured swings use a fixed court reference; locomotion
+        // is exercised separately instead of changing these contact fixtures.
+        g.setCourtMovement(.stationary)
         ClubScene.robot(g.assets); g.assets.root.addChild(g.assets.milo); g.assets.milo.scale=[1.35,1.35,1.35]
         g.assets.root.addChild(g.assets.racket); g.assets.root.addChild(g.assets.shuttle)
         g.restart(); g.receiveHandPose(wrist(at:[2,1.6,-0.25])); return g
@@ -567,6 +570,76 @@ struct GameLoopTests {
         #expect(playerContact.side == .player)
         #expect(simd_distance(playerContact.cork,playerContact.stringPoint)<=0.040006)
         #expect(g.rallyHits == 3 && g.score.player == 0 && g.score.milo == 0)
+    }
+    @Test(arguments:Difficulty.allCases,[Float(1)/30,Float(1)/60,Float(1)/90])
+    func miloPreparationStrikeAndRecoveryHaveBoundedMotion(difficulty:Difficulty,dt:Float) throws {
+        let g=game();g.difficulty=difficulty;beginIncoming(g);swingIntoServe(g,dt:dt)
+        #expect(g.lastContact?.side == .player)
+        var contacted=false,recoveryTime:Float=0,prepared=false
+        for _ in 0..<1000 {
+            let arm=g.assets.robotArm.orientation
+            let racket=g.assets.robotRacket.orientation(relativeTo:g.assets.root)
+            let position=g.assets.milo.position
+            g.receiveHandPose(wrist(at:[2,1.6,-0.25]));g.update(dt)
+            let armAngle=2*acos(min(1,abs(simd_dot(arm.vector,g.assets.robotArm.orientation.vector))))
+            let racketAngle=2*acos(min(1,abs(simd_dot(racket.vector,g.assets.robotRacket.orientation(relativeTo:g.assets.root).vector))))
+            #expect(armAngle<=18*dt+0.002)
+            #expect(racketAngle<=18*dt+0.002)
+            #expect(simd_distance(position,g.assets.milo.position)<=difficulty.speed*1.2*dt+0.0001)
+            if g.miloPhase == .anticipating,armAngle>0.001 { prepared=true }
+            if g.lastContact?.side == .milo { contacted=true;recoveryTime += dt }
+            if recoveryTime>=0.5 || (!contacted && g.shuttleState == nil) { break }
+        }
+        #expect(prepared && contacted)
+        #expect(g.miloPhase == .recovering || g.miloPhase == .ready)
+    }
+    func swingLoftedServe(_ g:GameModel,high:Bool,dt:Float) {
+        guard let flight=g.shuttleState else { return }
+        var probe=flight,contactAt:Float=0
+        for _ in 0..<600 {
+            if probe.position.z >= -0.25 { break }
+            probe.step(1/240);contactAt += 1/240
+        }
+        let contact=probe.position,headVelocity=high ? V3(0,7,-7):V3(0,2.2,-3)
+        let angle:Float=high ? 1.12:0.9
+        for index in 0..<600 {
+            let time=min(0.14,max(-0.14,Float(index+1)*dt-contactAt))
+            g.receiveHandPose(wrist(at:contact+headVelocity*time,angle:angle));g.update(dt)
+            if g.lastContact?.side == .player || g.shuttleState == nil { return }
+        }
+    }
+    @Test(arguments:Difficulty.allCases,[(Float(1)/30,false),(Float(1)/30,true),
+                                       (Float(1)/60,false),(Float(1)/60,true),
+                                       (Float(1)/90,false),(Float(1)/90,true)])
+    func miloCountersWeakLoftsAndHighLobsThroughActualStrings(difficulty:Difficulty,cadenceAndLob:(dt:Float,high:Bool)) throws {
+        let (dt,high)=cadenceAndLob
+        let g=game();g.difficulty=difficulty;beginIncoming(g);swingLoftedServe(g,high:high,dt:dt)
+        let player=try #require(g.lastContact)
+        #expect(player.side == .player)
+        #expect(simd_distance(player.headVelocity,high ? V3(0,7,-7):V3(0,2.2,-3))<0.001)
+        var responseTime:Float=0
+        for _ in 0..<1000 {
+            g.receiveHandPose(wrist(at:[2,1.6,-0.25]));g.update(dt);responseTime += dt
+            if g.lastContact?.side == .milo || g.shuttleState == nil { break }
+        }
+        let robot=try #require(g.lastContact)
+        #expect(robot.side == .milo)
+        #expect(simd_distance(robot.cork,robot.stringPoint)<=0.040006)
+        #expect(g.rallyHits == 2 && g.score.player == 0 && g.score.milo == 0)
+        if high { #expect(responseTime>2) }
+        var outgoing=try #require(g.shuttleState),arrived=false
+        for _ in 0..<1000 {
+            let before=outgoing.position;outgoing.step(1/240)
+            if let height=Court.crossingHeight(from:before,to:outgoing.position) { #expect(height>=Court.netHeight) }
+            if before.z < -0.25,outgoing.position.z >= -0.25 {
+                let fraction=(-0.25-before.z)/(outgoing.position.z-before.z)
+                let position=before+(outgoing.position-before)*fraction
+                #expect(abs(position.x)<0.8 && position.y>1 && position.y<2.3)
+                arrived=true;break
+            }
+            if outgoing.position.y<=0.04 { break }
+        }
+        #expect(arrived)
     }
 }
 
