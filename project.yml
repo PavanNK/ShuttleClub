@@ -26,7 +26,7 @@ targets:
       path: App/Info.plist
       properties:
         CFBundleDisplayName: Shuttle Club
-        CFBundleVersion: "9"
+        CFBundleVersion: "10"
         CFBundleShortVersionString: "1.0"
         NSHandsTrackingUsageDescription: Your hand moves the virtual badminton racket.
         NSAccessoryTrackingUsageDescription: Your PS VR2 Sense controller moves the virtual badminton racket.

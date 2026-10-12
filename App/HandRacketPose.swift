@@ -11,11 +11,28 @@ enum HandRacketPose {
     }
 
     static func make(wrist:Joint,indexKnuckle:Joint,middleKnuckle:Joint,littleKnuckle:Joint)->simd_float4x4? {
-        let joints=[wrist,indexKnuckle,middleKnuckle,littleKnuckle]
-        guard joints.allSatisfy({ $0.isTracked && $0.position.isFiniteVector }) else { return nil }
-        let across=indexKnuckle.position-littleKnuckle.position
+        guard wrist.isTracked,wrist.position.isFiniteVector,
+              middleKnuckle.isTracked,middleKnuckle.position.isFiniteVector else { return nil }
+        let knuckles=[indexKnuckle,middleKnuckle,littleKnuckle]
+        guard knuckles.allSatisfy({
+            !$0.isTracked || ($0.position.isFiniteVector && simd_distance($0.position,wrist.position) <= 0.25)
+        }) else { return nil }
         let forward=middleKnuckle.position-wrist.position
-        guard simd_length(across)>0.015,simd_length(forward)>0.025 else { return nil }
+        guard simd_length(forward)>0.025 else { return nil }
+        let across:V3
+        if indexKnuckle.isTracked,littleKnuckle.isTracked {
+            // Preserve the existing complete-palm basis without projection.
+            across=indexKnuckle.position-littleKnuckle.position
+            guard simd_length(across)>0.015 else { return nil }
+        } else {
+            let measuredAcross:V3
+            if indexKnuckle.isTracked { measuredAcross=indexKnuckle.position-middleKnuckle.position }
+            else if littleKnuckle.isTracked { measuredAcross=middleKnuckle.position-littleKnuckle.position }
+            else { return nil }
+            let forwardDirection=simd_normalize(forward)
+            across=measuredAcross-forwardDirection*simd_dot(measuredAcross,forwardDirection)
+            guard simd_length(across)>=0.012 else { return nil }
+        }
         let y=simd_normalize(across)
         let normal=simd_cross(y,simd_normalize(forward))
         guard simd_length(normal)>0.25 else { return nil }
@@ -59,8 +76,8 @@ struct HandGripTracker {
             let knuckles = [indexKnuckle, middleKnuckle, littleKnuckle]
             // A corrupt distant joint must not become a permanent attachment.
             guard knuckles.allSatisfy({
-                $0.isTracked && $0.position.isFiniteVector &&
-                    simd_distance($0.position, wristPosition) <= 0.25
+                !$0.isTracked || ($0.position.isFiniteVector &&
+                    simd_distance($0.position, wristPosition) <= 0.25)
             }), let measuredGrip = HandRacketPose.make(
                 wrist: .init(position: wristPosition, isTracked: true),
                 indexKnuckle: indexKnuckle, middleKnuckle: middleKnuckle,

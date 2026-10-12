@@ -27,7 +27,7 @@ struct CourtView:View {
             Attachment(id:"controls") {
                 Group {
                     if game.showPlaySetup {
-                        PlaySetup(inCourt:true,onClose:{ game.showPlaySetup=false }).environment(game)
+                        PlaySetup(inCourt:true,onClose:{ game.finishTrackingSetup() }).environment(game)
                     } else if game.showSettings {
                         AudioSettings(onClose:{ game.showSettings=false }).environment(game)
                     } else if game.showRackets {
@@ -93,8 +93,8 @@ struct CourtControls:View {
                 Label("Milo serves in \(max(1,Int(ceil(game.nextServeCountdown))))…",systemImage:"figure.badminton").font(.caption.bold()).monospacedDigit()
             }
             HStack(spacing:12) {
-                if game.mode == .match && game.score.winner != nil { Button { game.restart() } label:{ Label("Play again",systemImage:"arrow.clockwise") }.accessibilityIdentifier("playAgain") }
-                else if game.paused { Button { game.paused=false;if game.soundEnabled { SoundBank.play(.pause) } } label:{ Label("Resume",systemImage:"play.fill") }.disabled(!tracked).accessibilityIdentifier("resumeRally") }
+                if game.mode == .match && game.score.winner != nil { Button { game.restart() } label:{ Label("Play again",systemImage:"arrow.clockwise") }.buttonStyle(.borderedProminent).accessibilityIdentifier("playAgain") }
+                else if game.paused { Button { game.paused=false;if game.soundEnabled { SoundBank.play(.pause) } } label:{ Label("Resume",systemImage:"play.fill") }.buttonStyle(.borderedProminent).disabled(!tracked).accessibilityIdentifier("resumeRally") }
                 else { Button { game.paused=true; if game.soundEnabled { SoundBank.play(.pause) } } label:{ Label("Pause",systemImage:"pause.fill") } }
                 Button { Logger(subsystem:"com.shuttleclub.vision",category:"Court").info("Court menu selected");if game.rallyInProgress { game.paused=true };game.showCourtMenu=true;if game.soundEnabled { SoundBank.play(.menu) } } label:{ Image(systemName:"ellipsis") }.accessibilityLabel("Open club menu")
             }.font(.system(size:13,weight:.bold,design:.rounded)).buttonStyle(.bordered).tint(.clubViolet)
@@ -121,7 +121,7 @@ struct CourtMenu:View {
             Button { game.showSettings=true } label:{ menuRow("Sound & comfort","Music, effects and animation","slider.horizontal.3") }
             HStack { Button("Align angle") { game.setGrip() }.disabled(game.input == .hands ? !game.canAdjustHandGrip:!game.canAdjustControllerGrip);Button("Recenter") { game.recenter() }.disabled(!game.canServe);Button("Restart") { game.restart();closeMenus() } }.buttonStyle(.bordered).font(.system(size:15,weight:.semibold))
             if !game.racketReady { RacketTrackingStatus(compact:true) }
-            Button { game.paused=false;closeMenus() } label:{ Label(game.rallyInProgress ? "Resume rally":"Back to court",systemImage:"play.fill") }.buttonStyle(ClubPrimaryButton(colour:.clubCoral)).disabled(!game.racketReady)
+            Button { if game.racketReady { game.paused=false };closeMenus() } label:{ Label(game.rallyInProgress ? "Resume rally":"Back to court",systemImage:"play.fill") }.buttonStyle(ClubPrimaryButton(colour:.clubCoral)).disabled(game.rallyInProgress && !game.racketReady)
             Button("Leave the court") { closeMenus();game.stop();navigation.playing=false }.font(.subheadline).frame(maxWidth:.infinity)
         }.padding(30).frame(width:510).foregroundStyle(Color.clubInk).tint(.clubViolet).background(Color.clubPaper,in:RoundedRectangle(cornerRadius:26))
     }

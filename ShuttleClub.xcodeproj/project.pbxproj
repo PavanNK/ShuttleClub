@@ -16,6 +16,7 @@
 		2C1BFFCF7010A6DC5EFEF9E4 /* SenseGripFitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AFB5FBA78D6B7A957C7CE2 /* SenseGripFitTests.swift */; };
 		2F294A7966FD6CA7364AB937 /* ControllerGripCalibrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74179E510A3A36B1E5C8AD63 /* ControllerGripCalibrationTests.swift */; };
 		3508A299513596923389AFB4 /* ClubLoop.wav in Resources */ = {isa = PBXBuildFile; fileRef = EE24A3ED4C0E2942BECD605A /* ClubLoop.wav */; };
+		3666566A2AC8BF7906E3FE67 /* HandRacketPoseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074F7170A1214D56C32960F4 /* HandRacketPoseTests.swift */; };
 		3A0410C6299940AD46DB9C9D /* ClubHeroMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BD0DFDFBAC3BF07CFB175F /* ClubHeroMenu.swift */; };
 		41D15DC271B89C39C9C4D5F2 /* Menu.wav in Resources */ = {isa = PBXBuildFile; fileRef = 573C262EAD63576C2834462F /* Menu.wav */; };
 		47E495215EBCEFF19AC5EFF9 /* RallyEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB2583F9DBC4BC5B416DBFA /* RallyEvents.swift */; };
@@ -75,6 +76,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		074F7170A1214D56C32960F4 /* HandRacketPoseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandRacketPoseTests.swift; sourceTree = "<group>"; };
 		0A51E006534A6E0DDCC38B3C /* FrameUpdateGateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameUpdateGateTests.swift; sourceTree = "<group>"; };
 		0BA8CB5941CBA4FB0BE475B1 /* Step.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Step.wav; sourceTree = "<group>"; };
 		0E47167F5A0B2DC43A2A544A /* Net.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Net.wav; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				683C8CAACF03DF9498834516 /* HandGripGestureTests.swift */,
 				E380B580FF933841151EDEA4 /* HandGripInteractionTests.swift */,
 				8F5956EE97D9FD0DC323C410 /* HandGripTrackerTests.swift */,
+				074F7170A1214D56C32960F4 /* HandRacketPoseTests.swift */,
 				467DCF528DF025CDA570C382 /* MiloAnimationTests.swift */,
 				A680D2138E200C0FD9396778 /* RacketMotionContactTests.swift */,
 				A6858D7F7E8EBE77C8976772 /* RallyEventsTests.swift */,
@@ -380,6 +383,7 @@
 				EF209F0A9B1C9BA20C53CCCC /* HandGripGestureTests.swift in Sources */,
 				EB37A0EFAB3D053EDABAB2EF /* HandGripInteractionTests.swift in Sources */,
 				2A41159160E06C7F47C02FC6 /* HandGripTrackerTests.swift in Sources */,
+				3666566A2AC8BF7906E3FE67 /* HandRacketPoseTests.swift in Sources */,
 				51165FB048073BFB9E5A1D58 /* MiloAnimationTests.swift in Sources */,
 				ACD3EEEE308880AC24C4E785 /* RacketMotionContactTests.swift in Sources */,
 				EC68B2C8304BF088E5A2D889 /* RallyEventsTests.swift in Sources */,

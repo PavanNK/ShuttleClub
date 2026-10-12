@@ -257,6 +257,8 @@ struct PlaySetup:View {
     @Environment(\.dismiss) private var dismiss
     @State private var adjustingController=false
     @State private var showingMore=false
+    @State private var fineTuningHand=false
+    @State private var fitNotice:String?
     var inCourt=false
     var onClose:(@MainActor ()->Void)? = nil
     var body:some View {
@@ -266,14 +268,19 @@ struct PlaySetup:View {
             } else {
                 setupContent
             }
-        }.onChange(of:game.input) { _,_ in adjustingController=false }
+        }.onAppear {
+            #if DEBUG
+            if inCourt,ProcessInfo.processInfo.arguments.contains("--preview-hand-angles") { fineTuningHand=true }
+            #endif
+        }.onChange(of:game.input) { _,_ in adjustingController=false;fineTuningHand=false;fitNotice=nil }
+            .onChange(of:game.leftHand) { _,_ in fineTuningHand=false;fitNotice=nil }
     }
     @ViewBuilder private var setupContent:some View {
-        VStack(alignment:.leading,spacing:20) {
+        VStack(alignment:.leading,spacing:16) {
             HStack {
                 Text("Ready your racket").font(.system(size:30,weight:.heavy,design:.rounded))
                 Spacer()
-                Button("Done",action:close).font(.system(size:16,weight:.bold,design:.rounded))
+                Button(inCourt ? "Back to court":"Done",action:close).font(.system(size:16,weight:.bold,design:.rounded))
                     .padding(.horizontal,16).frame(height:42)
                     .background(setupGold,in:RoundedRectangle(cornerRadius:15))
                     .buttonStyle(.plain).hoverEffect(.lift)
@@ -290,9 +297,19 @@ struct PlaySetup:View {
             if inCourt {
                 RacketTrackingStatus().padding(18).frame(maxWidth:.infinity,alignment:.leading)
                     .background(.white,in:RoundedRectangle(cornerRadius:22))
+                Text(game.input == .hands ? "Grab your racket, then hold your hand comfortably in front of you. Align angle makes the racket stand upright from that pose." : "Hold your controller comfortably in front of you. Align angle makes the racket stand upright from that pose.")
+                    .font(.system(size:14)).foregroundStyle(Color.clubInk.opacity(0.70))
+                    .fixedSize(horizontal:false,vertical:true)
                 gripControls
-                Text("Fit saves separately for your left and right \(game.input == .hands ? "hands":"controllers").")
-                    .font(.system(size:14)).foregroundStyle(Color.clubInk.opacity(0.65))
+                if let fitNotice {
+                    Label(fitNotice,systemImage:"checkmark.circle.fill")
+                        .font(.system(size:14,weight:.semibold)).foregroundStyle(Color.clubViolet)
+                        .accessibilityIdentifier("gripFitSaved")
+                } else {
+                    Text("Fit saves separately for your left and right \(game.input == .hands ? "hands":"controllers").")
+                        .font(.system(size:14)).foregroundStyle(Color.clubInk.opacity(0.65))
+                }
+                if game.input == .hands { handAngleControls }
             } else {
                 VStack(alignment:.leading,spacing:9) {
                     Text(game.input == .hands ? "Open. Close. Rally." : "Your controller, your racket.")
@@ -321,7 +338,7 @@ struct PlaySetup:View {
             } label: {
                 Text(inCourt ? "Pace & tracking options":"Milo’s pace").font(.system(size:16,weight:.semibold,design:.rounded))
             }.tint(.clubViolet)
-            Text(inCourt ? (game.rallyInProgress ? "Close setup, then resume your rally." : "Close setup. Milo serves after two ready seconds.") : "Tracking and grip fitting start when you enter the court.")
+            Text(footer)
                 .font(.system(size:14)).foregroundStyle(Color.clubInk.opacity(0.65))
                 .fixedSize(horizontal:false,vertical:true)
         }.padding(28).frame(width:560).foregroundStyle(Color.clubInk).tint(.clubViolet)
@@ -355,14 +372,17 @@ struct PlaySetup:View {
     }
     @ViewBuilder private var gripControls:some View {
         HStack(spacing:12) {
-            Button("Align angle") { game.setGrip() }
+            Button("Align angle",action:alignFit)
                 .accessibilityIdentifier(game.input == .hands ? "calibrateGrip":"calibrateControllerGrip")
                 .frame(maxWidth:.infinity).frame(height:46)
                 .background(setupGold,in:RoundedRectangle(cornerRadius:16))
                 .disabled(game.input == .hands ? !game.canAdjustHandGrip:!game.canAdjustControllerGrip)
                 .opacity(canAdjustFit ? 1:0.45)
             if game.input == .hands {
-                Button("Reset hand fit") { game.resetHandGrip() }
+                Button("Reset hand fit") {
+                    guard game.canAdjustHandGrip else { return }
+                    game.resetHandGrip();fitNotice="Fit reset for your \(selectedHand) hand."
+                }
                     .accessibilityIdentifier("resetHandGrip")
                     .frame(maxWidth:.infinity).frame(height:46)
                     .background(.white,in:RoundedRectangle(cornerRadius:16))
@@ -378,6 +398,65 @@ struct PlaySetup:View {
             }
         }.font(.system(size:16,weight:.bold,design:.rounded)).buttonStyle(.plain).hoverEffect(.lift)
     }
+    private var selectedHand:String { game.leftHand ? "left":"right" }
+    private var footer:String {
+        guard inCourt else { return "Tracking and grip fitting start when you enter the court." }
+        if game.paused {
+            if game.racketReady { return "Return to court, then choose Resume. Play stays paused until you do." }
+            return game.input == .hands ? "Play is paused and tracking is still waiting. Return to court, grab your racket, then Resume." : "Play is paused and tracking is still waiting. Keep your \(selectedHand) controller in view, then Resume."
+        }
+        if !game.racketReady {
+            return game.input == .hands ? "Tracking is still waiting. Return to court, then open your \(selectedHand) palm and close to grab." : "Tracking is still waiting. Keep your \(selectedHand) controller in view, or use Retry tracking."
+        }
+        if game.mode == .match,game.score.winner != nil { return "Return to court and choose Play again for a new match." }
+        if game.rallyInProgress { return "Return to court to continue your rally." }
+        if game.automaticServing { return "Return to court. Milo serves after two ready seconds." }
+        return game.input == .hands ? "Return to court. Pinch with your free hand to start a serve." : "Return to court. Press the trigger to start a serve."
+    }
+    private var handAngleControls:some View {
+        DisclosureGroup(isExpanded:$fineTuningHand) {
+            VStack(alignment:.leading,spacing:12) {
+                Text("Adjust one angle at a time while watching your racket. Changes save for this hand.")
+                    .font(.system(size:13)).foregroundStyle(Color.clubInk.opacity(0.65))
+                handAngleSlider("Front/back tilt",keyPath:\.tiltDegrees,range:-60...60,identifier:"handFitTilt")
+                handAngleSlider("Side tilt",keyPath:\.sideTiltDegrees,range:-45...45,identifier:"handFitSideTilt")
+                handAngleSlider("Face turn",keyPath:\.faceTurnDegrees,range:-90...90,identifier:"handFitFaceTurn")
+            }.padding(.top,10).disabled(!game.canAdjustHandGrip)
+            if !game.canAdjustHandGrip {
+                Text(game.handRacketHeld ? (game.canServe || game.paused ? "Keep your selected hand in view to adjust." : "Pause play to adjust the angle.") : "Grab your racket with your selected hand to adjust.")
+                    .font(.system(size:13)).foregroundStyle(Color.clubInk.opacity(0.65)).padding(.top,8)
+            }
+        } label: {
+            Text("Fine-tune angle").font(.system(size:16,weight:.semibold,design:.rounded))
+        }.tint(.clubViolet).accessibilityIdentifier("handFineTuneAngle")
+    }
+    private func handAngleBinding(_ keyPath:WritableKeyPath<HandGripFit,Float>)->Binding<Float> {
+        Binding(get:{ game.handGripFit[keyPath:keyPath] },set:{ value in
+            guard game.canAdjustHandGrip else { return }
+            var fit=game.handGripFit;fit[keyPath:keyPath]=value
+            game.setHandGripFit(fit);fitNotice="Angle saved for your \(selectedHand) hand."
+        })
+    }
+    private func handAngleSlider(_ title:String,keyPath:WritableKeyPath<HandGripFit,Float>,range:ClosedRange<Float>,identifier:String)->some View {
+        let binding=handAngleBinding(keyPath)
+        return VStack(spacing:5) {
+            HStack {
+                Text(title).font(.system(size:14,weight:.semibold))
+                Spacer()
+                Text(String(format:"%+.0f°",Double(binding.wrappedValue))).font(.caption).monospacedDigit().foregroundStyle(.secondary)
+            }
+            Slider(value:binding,in:range,step:1) { Text(title) }.accessibilityIdentifier(identifier)
+        }
+    }
+    private func alignFit() {
+        guard canAdjustFit else { return }
+        game.setGrip()
+        fitNotice="Angle saved for your \(selectedHand) \(game.input == .hands ? "hand":"controller")."
+    }
     private var canAdjustFit:Bool { game.input == .hands ? game.canAdjustHandGrip:game.canAdjustControllerGrip }
-    private func close() { if let onClose { onClose() } else { dismiss() } }
+    private func close() {
+        if let onClose { onClose() }
+        else if inCourt { game.finishTrackingSetup() }
+        else { dismiss() }
+    }
 }

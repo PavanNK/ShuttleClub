@@ -75,7 +75,6 @@ final class GameModel {
     @ObservationIgnored private var handGripTracker = HandGripTracker()
     @ObservationIgnored private var handGripGesture = HandGripGesture()
     @ObservationIgnored private var openWristFromGrip:simd_float4x4?
-    @ObservationIgnored private var openGripTimestamp:Double = 0
     @ObservationIgnored private var pendingHandHasTimestamp = false
     @ObservationIgnored private var lastHandInputTimestamp:Double?
     @ObservationIgnored private var pendingHandLeft:Bool?
@@ -142,7 +141,7 @@ final class GameModel {
     var handGripLocked:Bool { input == .hands && handGripGesture.isHeld && heldHandLeft == leftHand }
     var handAcquisitionReady:Bool {
         input == .hands && sceneActive && handVisible && pendingHandLeft == leftHand &&
-        openWristFromGrip != nil && CACurrentMediaTime()-openGripTimestamp <= 0.35 &&
+        openWristFromGrip != nil && handGripGesture.isArmed &&
         TrackingGate.accepts(age:CACurrentMediaTime()-wristTimestamp,fullPosition:true,speed:0)
     }
     var canAdjustHandGrip:Bool {
@@ -253,16 +252,18 @@ final class GameModel {
                         receiveFreeHandPinch(distance:distance,timestamp:anchor.timestamp)
                         continue
                     }
-                    guard update.event != .removed,anchor.isTracked,let skeleton=anchor.handSkeleton else {
+                    guard update.event != .removed,anchor.isTracked else {
                         _=handGripGesture.update(curl:nil,timestamp:anchor.timestamp,now:CACurrentMediaTime())
                         receiveHandPose(nil); continue
                     }
+                    let skeleton=anchor.handSkeleton
                     func measuredJoint(_ name:HandSkeleton.JointName)->HandRacketPose.Joint {
-                        let joint=skeleton.joint(name)
+                        guard let joint=skeleton?.joint(name) else {
+                            return .init(position:anchor.originFromAnchorTransform.columns.3.xyz,isTracked:false)
+                        }
                         let transform=anchor.originFromAnchorTransform*joint.anchorFromJointTransform
                         return .init(position:transform.columns.3.xyz,isTracked:joint.isTracked)
                     }
-                    let wrist=skeleton.joint(.wrist)
                     let fingers:[(HandSkeleton.JointName,HandSkeleton.JointName)]=[
                         (.indexFingerKnuckle,.indexFingerTip),(.middleFingerKnuckle,.middleFingerTip),
                         (.ringFingerKnuckle,.ringFingerTip),(.littleFingerKnuckle,.littleFingerTip)]
@@ -270,10 +271,22 @@ final class GameModel {
                         let a=measuredJoint(knuckle),b=measuredJoint(tip)
                         return a.isTracked && b.isTracked ? (a.position,b.position):nil
                     }
-                    receiveHandInput(worldFromWrist:anchor.originFromAnchorTransform*wrist.anchorFromJointTransform,
-                                     wristTracked:wrist.isTracked,indexKnuckle:measuredJoint(.indexFingerKnuckle),
+                    let proximalFingers:[(HandSkeleton.JointName,HandSkeleton.JointName)]=[
+                        (.indexFingerKnuckle,.indexFingerIntermediateBase),(.middleFingerKnuckle,.middleFingerIntermediateBase),
+                        (.ringFingerKnuckle,.ringFingerIntermediateBase),(.littleFingerKnuckle,.littleFingerIntermediateBase)]
+                    let trackedProximal=proximalFingers.compactMap { knuckle,intermediate -> (knuckle:V3,intermediate:V3)? in
+                        let a=measuredJoint(knuckle),b=measuredJoint(intermediate)
+                        return a.isTracked && b.isTracked ? (a.position,b.position):nil
+                    }
+                    // The tracked hand anchor is at the wrist. Retain that
+                    // measured pose when finger joints become occluded.
+                    let wrist=anchor.originFromAnchorTransform
+                    let fallbackCurl=trackedFingers.count < 2 ?
+                        HandGripGesture.proximalCurl(wrist:wrist.columns.3.xyz,trackedFingers:trackedProximal):nil
+                    receiveHandInput(worldFromWrist:wrist,
+                                     wristTracked:anchor.isTracked,indexKnuckle:measuredJoint(.indexFingerKnuckle),
                                      middleKnuckle:measuredJoint(.middleFingerKnuckle),littleKnuckle:measuredJoint(.littleFingerKnuckle),
-                                     trackedFingers:trackedFingers,timestamp:anchor.timestamp)
+                                     trackedFingers:trackedFingers,timestamp:anchor.timestamp,observedCurl:fallbackCurl)
                 }
             }
         } catch {
@@ -290,6 +303,7 @@ final class GameModel {
         handRacketHeld=held && valid != nil;pendingHandHasTimestamp=timestamp != nil
         pendingHandLeft=valid == nil ? nil:leftHand
         if valid == nil {
+            if !handGripGesture.isHeld { openWristFromGrip=nil }
             servePinch.reset();nextServeCountdown=2
             // Loss and recovery can arrive between render frames. Disarm at
             // the loss event so recovery always establishes a fresh baseline.
@@ -299,7 +313,7 @@ final class GameModel {
     }
     func receiveHandInput(worldFromWrist:simd_float4x4,wristTracked:Bool,
                           indexKnuckle:HandRacketPose.Joint,middleKnuckle:HandRacketPose.Joint,littleKnuckle:HandRacketPose.Joint,
-                          trackedFingers:[(knuckle:V3,tip:V3)],timestamp:Double,now:Double=CACurrentMediaTime()) {
+                          trackedFingers:[(knuckle:V3,tip:V3)],timestamp:Double,now:Double=CACurrentMediaTime(),observedCurl:Float?=nil) {
         guard input == .hands else { return }
         guard sceneActive else { handGripGesture.suspend();return }
         guard timestamp.isFinite,now.isFinite,now >= timestamp else {
@@ -307,14 +321,18 @@ final class GameModel {
             receiveHandPose(nil,timestamp:timestamp,held:false);return
         }
         if let previous=lastHandInputTimestamp,timestamp <= previous {
-            if timestamp < previous { _=handGripGesture.update(curl:nil,timestamp:timestamp,now:now) }
+            if timestamp < previous {
+                _=handGripGesture.update(curl:nil,timestamp:timestamp,now:now)
+                if !handGripGesture.isHeld { openWristFromGrip=nil }
+            }
             return
         }
         lastHandInputTimestamp=timestamp
         let wristUsable=wristTracked && Self.usableControllerPose(worldFromWrist) &&
             TrackingGate.accepts(age:now-timestamp,fullPosition:true,speed:0)
-        let curl=wristUsable ? HandGripGesture.curl(wrist:worldFromWrist.columns.3.xyz,trackedFingers:trackedFingers):nil
+        let curl=wristUsable ? (observedCurl ?? HandGripGesture.curl(wrist:worldFromWrist.columns.3.xyz,trackedFingers:trackedFingers)):nil
         guard wristUsable else {
+            if !handGripGesture.isHeld { openWristFromGrip=nil }
             _=handGripGesture.update(curl:nil,timestamp:timestamp,now:now)
             receiveHandPose(nil,timestamp:timestamp,held:false);return
         }
@@ -322,14 +340,22 @@ final class GameModel {
                                        indexKnuckle:indexKnuckle,middleKnuckle:middleKnuckle,littleKnuckle:littleKnuckle)
         // Cache the open palm frame, then attach it rigidly to the wrist when
         // the fist closes. Finger deformation never rotates a held racket.
-        if !handGripGesture.isHeld,let preview,curl.map({$0 >= 1.65}) == true {
+        let completePalm=indexKnuckle.isTracked && middleKnuckle.isTracked && littleKnuckle.isTracked
+        if !handGripGesture.isHeld,let preview,curl.map({$0 >= 1.65}) == true,
+           completePalm || openWristFromGrip == nil {
+            // An occluded side knuckle may provide an initial fallback, but
+            // must not replace a complete palm frame with a different angle.
             openWristFromGrip=simd_inverse(worldFromWrist)*preview
-            openGripTimestamp=timestamp
         }
         // Closing fingers may occlude knuckles. Acquisition can use only a
-        // recently measured open-palm frame; an absent palm cannot arm a grab.
-        let candidateReady=openWristFromGrip != nil && now-openGripTimestamp <= 0.35
-        let event=handGripGesture.update(curl:handGripGesture.isHeld || candidateReady ? curl:nil,timestamp:timestamp,now:now)
+        // measured wrist-local open-palm frame through a gradual closure.
+        // Fresh wrist samples and the gesture's ordered dwell still gate it;
+        // actual unheld tracking loss discards the acquisition mount.
+        let candidateReady=openWristFromGrip != nil
+        let releaseAllowed = !showCourtMenu && !showSettings && !showRackets && !showPlaySetup &&
+            HandGripGesture.confidentOpenRelease(wrist:worldFromWrist.columns.3.xyz,trackedFingers:trackedFingers)
+        let event=handGripGesture.update(curl:handGripGesture.isHeld || candidateReady ? curl:nil,timestamp:timestamp,now:now,
+                                         releaseAllowed:releaseAllowed)
         if event == .grabbed {
             if let offset=openWristFromGrip {
                 if !handGripTracker.capture(worldFromWrist:worldFromWrist,worldFromGrip:worldFromWrist*offset) { handGripGesture.reset() }
@@ -343,8 +369,8 @@ final class GameModel {
             }
         } else if event == .released {
             heldHandLeft=nil
-            if let preview {
-                openWristFromGrip=simd_inverse(worldFromWrist)*preview;openGripTimestamp=timestamp
+            if let preview,completePalm || openWristFromGrip == nil {
+                openWristFromGrip=simd_inverse(worldFromWrist)*preview
             }
             handGripTracker.reset();lastPoseTimestamp=0;poseValid=false;racketSpeed = .zero;racketAngularVelocity = .zero
             trackingWasValid=false;nextServeCountdown=2;servePinch.reset()
@@ -359,7 +385,13 @@ final class GameModel {
             trackingMessage="Racket held. Open your hand fully for a moment to release."
         } else {
             grip=openWristFromGrip.map { worldFromWrist*$0 } ?? preview
-            trackingMessage=candidateReady ? "Close your hand to grab. Once held, relax your fingers.":"Show your open palm and knuckles to place the racket."
+            if candidateReady,handGripGesture.isArmed {
+                trackingMessage="Close your hand to grab. Once held, relax your fingers."
+            } else if candidateReady {
+                trackingMessage="Open your hand first, then close it to grab. Keep the bases of your fingers in view."
+            } else {
+                trackingMessage="Show your open palm and knuckles to place the racket."
+            }
         }
         receiveHandPose(grip,timestamp:timestamp,held:handGripGesture.isHeld)
     }
@@ -383,7 +415,7 @@ final class GameModel {
         servePinch.reset()
         nextServeCountdown=2
         pendingWrist=nil;wristTimestamp=0;handVisible=false;handRacketHeld=false;controllerReady=false
-        handGripTracker.reset();handGripGesture.reset();openWristFromGrip=nil;openGripTimestamp=0;pendingHandHasTimestamp=false
+        handGripTracker.reset();handGripGesture.reset();openWristFromGrip=nil;pendingHandHasTimestamp=false
         lastHandInputTimestamp=nil;pendingHandLeft=nil;heldHandLeft=nil
         lastPoseTimestamp=0;trackingWasValid=false;poseValid=false;racketSpeed = .zero;racketAngularVelocity = .zero;oldHead = .zero
         measuredRacket=matrix_identity_float4x4;previousMeasuredRacket=matrix_identity_float4x4
@@ -421,6 +453,19 @@ final class GameModel {
         guard sceneActive,!paused || trackedRacketReady else { return }
         paused.toggle()
     }
+    /// Return from tracking setup to the actual court, including when setup
+    /// was reached through another panel. Paused rallies still need Resume.
+    func finishTrackingSetup() {
+        showPlaySetup=false;showCourtMenu=false;showSettings=false;showRackets=false
+        nextServeCountdown=2;servePinch.reset();handGripGesture.suspend()
+        if paused {
+            message=racketReady ? "Racket ready. Resume when you're comfortable.":"Show your selected racket hand, then Resume."
+        } else if racketReady {
+            message="Racket ready. Milo will serve after two ready seconds."
+        } else {
+            message=input == .hands ? "Open your \(leftHand ? "left":"right") hand, then close it to grab.":"Connect your selected controller to start."
+        }
+    }
     func sceneActivityChanged(active:Bool) {
         // Permission sheets can make an idle court inactive. There is no rally
         // to pause then, and a disabled Serve button would prevent starting it.
@@ -428,7 +473,7 @@ final class GameModel {
         if !active {
             servePinch.reset();nextServeCountdown=2;handGripGesture.suspend()
             pendingWrist=nil;wristTimestamp=0;pendingHandLeft=nil;handVisible=false;handRacketHeld=false
-            openWristFromGrip=nil;openGripTimestamp=0
+            openWristFromGrip=nil
             lastControllerGrip=nil;controllerGripTimestamp=0;controllerGripLeft=nil;controllerReady=false
             lastPoseTimestamp=0;poseValid=false;racketSpeed = .zero;racketAngularVelocity = .zero;trackingWasValid=false
             assets.racket.isEnabled=false
@@ -458,11 +503,11 @@ final class GameModel {
         setHandGripFit(fit)
         message="Racket aligned from your comfortable grip. Saved for this hand."
     }
-    private func setHandGripFit(_ requested:HandGripFit) {
+    func setHandGripFit(_ requested:HandGripFit) {
         guard canAdjustHandGrip,let wrist=pendingWrist else { return }
+        guard HandGripFitStore.save(requested,left:leftHand,defaults:controllerGripDefaults) else { return }
         let fit=requested.normalized()
         if leftHand { leftHandGripFit=fit } else { rightHandGripFit=fit }
-        HandGripFitStore.save(fit,left:leftHand,defaults:controllerGripDefaults)
         let pose=simd_inverse(assets.root.transformMatrix(relativeTo:nil))*wrist*fit.offset
         measuredRacket=pose;previousMeasuredRacket=pose;assets.racket.transform=Transform(matrix:pose)
         lastPoseTimestamp=0;poseValid=false;racketSpeed = .zero;racketAngularVelocity = .zero;oldHead=(pose*SIMD4<Float>(0,0.37,0,1)).xyz

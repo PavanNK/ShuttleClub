@@ -39,8 +39,11 @@ struct RacketTrackingStatus: View {
     }
     private var detail: String {
         if ready {
-            if game.paused { return "Tracking is ready. Resume when you're comfortable." }
-            return game.input == .hands ? "Grip locked. Relax your fingers and swing." : "Trigger starts a serve. Menu pauses play."
+            let panelOpen=game.showPlaySetup || game.showCourtMenu || game.showRackets || game.showSettings
+            if game.paused { return panelOpen ? "Tracking is ready. Return to court, then Resume." : "Tracking is ready. Resume when you're comfortable." }
+            if panelOpen { return "Tracking is ready. Return to court to play." }
+            if game.canServe,game.automaticServing { return "Racket ready. Milo serves after two ready seconds." }
+            return game.input == .hands ? "Grip locked. Relax your fingers and swing." : "Ready to swing. Menu pauses play."
         }
         if !game.trackingMessage.isEmpty { return game.trackingMessage }
         if game.input == .sense { return "Pair it in Vision Pro Bluetooth settings, then keep it in view." }

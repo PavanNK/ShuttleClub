@@ -1,31 +1,25 @@
-Verified 11 October 2026 with Xcode 27.0 / visionOS 27 SDK.
-Deployment target: visionOS 26.0. Current source/simulator build: 1.0 (9).
+Verified 12 October 2026 with Xcode 27 / visionOS 27 SDK.
+Deployment target: visionOS 26. Current source/simulator: 1.0 (10).
 
-PASS: Native simulator — 145 tests in 16 suites, 14.754 seconds; TEST SUCCEEDED.
-PASS: Shared-physics package — 16 tests in one suite.
-PASS: Unsigned Vision Pro Release SDK compile; BUILD SUCCEEDED. No hardware used.
-PASS: Milo feasible arm/face/impulse planning; all difficulties at 30/60/90 Hz return to the reachable descending player hitting area.
-PASS: Friendly/Club rallies continue through a second actual player string contact at 30/60/90 Hz.
-PASS: Timestamp-less input uses render intervals for quality and velocity; 5.5 m/s accepted at 30 Hz, >35 m/s rejected. Native timestamps unchanged.
-PASS: Variable-frame debug preview retains 5.5 m/s motion and requires actual string contact; 0.8 m miss produces no return.
-PASS: 1,000 queued callbacks produce one pending MainActor task with full elapsed time; background producer, cancellation and readiness regressions.
-PASS: Exact-mesh sharing with original topology, UVs, transforms and collision parents; 256-entry LRU eviction preserves live entities.
-PASS: Warm 20-racket batch generates zero extra meshes (1,420 cache hits); warm court generates zero extra meshes (612 hits, 164 retained entries).
-PASS: Prior grip acquisition/holding/release, background recovery, saved fits, controller ordering/recovery, rotating contact, impact velocity, automatic serving and panel guards.
-PASS: Actual native rally/miss recordings and paused cork/string screenshot visually inspected.
+PASS: 173 native tests in 17 suites, 16.035 seconds; TEST SUCCEEDED, zero failures/skips.
+PASS: Unsigned Vision Pro Release SDK build; BUILD SUCCEEDED. No physical hardware used.
+PASS: Nested tracking setup closes every court panel and allows the automatic countdown, windup and first flight after measured grab input.
+PASS: Gradual closure survives the former 0.35-second palm-cache expiry with continuous fresh wrist samples.
+PASS: Measured partial-palm basis, finger-base acquisition with occluded tips, and retained held mount during finger dropout.
+PASS: Partial/mixed fingers and menu interactions cannot release; full visible opening still releases after dwell.
+PASS: Lost/reordered/background input disarms acquisition; feedback correctly requests another open gesture.
+PASS: Per-hand angle controls, legacy migration, invalid edit rejection, preserved handle position and contact-disabled fit baseline.
+PASS: No grip cannot start, paused rally cannot resume automatically, existing hand/controller/contact/physics/serving regressions.
+PASS: Default and expanded native setup screenshots inspected; controls fit the viewport.
+PRIOR PASS: Shared physics 16 tests; source unchanged from build 9.
 
-Evidence: Verification/Build9/README.md, Native-Test-Summary.json, Native-Test-Output.txt, Core-Test-Output.txt, Contact-Measurements.json, Recording-Metadata.json and Source-Manifest.json.
-Test log: /private/tmp/shuttle-build9-verified-tests.log
-Result: /private/tmp/shuttle-vision-build/Logs/Test/Test-ShuttleClub-2026.10.11_23-18-42-+0800.xcresult
-Core log: /private/tmp/shuttle-build9-core-tests.log
-Release compile: /private/tmp/shuttle-build9-verified-release.log
+Evidence: Verification/Build10/README.md, Native-Test-Summary.json, Native-Test-Output.txt, Release-Build-Output.txt, Source-Manifest.json, Hand-Tracking-Setup.png and Hand-Angle-Setup.png.
+Result bundle: /private/tmp/shuttle-vision-build/Logs/Test/Test-ShuttleClub-2026.10.12_12-45-06-+0800.xcresult
+Test log: /private/tmp/shuttle-build10-final-tests.log
+Release log: /private/tmp/shuttle-build10-final-release.log
 
-NO PHYSICAL ACCESS: The user declined Vision Pro access. No device query, install or launch was performed for build 9. It is unsigned and not installed.
-PRIOR STATUS: Signed build 8 succeeded, but installation failed with CoreDevice 4016 (required usage assertions). Last independently confirmed installed version: 1.0 (7).
-Prior setup/menu/icon captures remain historical captures in Preview; reference PNGs are not scene backdrops.
-
-LIMITS: Recordings/tests use artificial poses, not physical tracking. Initial serves are authored launches from visible strings; player and subsequent robot returns require actual collision. Process logs cover a slightly different interval from each video. Compression preserves the full timeline; encoded duration rounding is below one frame.
-NOT VERIFIED: Physical grip thresholds/comfort, hand/Sense tracking and latency, pairing/mapping/haptics, fast real swings, frame rate/thermal behaviour, headset audio and launcher appearance.
-Physics parameters remain provisional; visuals visibly differ from the reference. No exact-match percentage is claimed.
-Simulator startup logged backlight/audio warnings; recordings logged CoreText font notes. Tests/builds succeeded; these logs do not establish audio or frame-rate quality.
-No external asset-generation service used; geometry, textures, icon, music and effects were authored locally.
+NO PHYSICAL ACCESS: The user disabled Vision Pro access. Build 10 is unsigned and not installed. No device query/install/launch occurred.
+PRIOR INSTALLATION: Last independently confirmed installed version 1.0 (7). Signed build 8 installation failed with CoreDevice 4016. Historical build 9 clips use prior source/artificial poses.
+LIMITS: Tests use artificial measured joints/poses; setup screenshots cannot provide hardware tracking. Proximal recognition thresholds, hand sizes, holding comfort, latency, fast real swings, pairing/haptics, headset performance/audio and launcher appearance remain unverified.
+Simulator startup logged backlight/spatial-audio XPC warnings; tests/builds passed. These logs do not prove audio quality.
+No external asset-generation service used. Physics parameters remain provisional; visuals are a recreation and no exact-match percentage is claimed.

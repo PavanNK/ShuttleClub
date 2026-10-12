@@ -37,7 +37,7 @@ struct HandGripInteractionTests {
     /// its knuckle ray produces a known, hand-size-independent measured curl.
     private func sample(_ game: GameModel, wrist pose: simd_float4x4,
                         curl: Float? = 1.1, jointsTracked: Bool = true,littleTracked:Bool = true,
-                        wristTracked: Bool = true, timestamp: Double, now: Double? = nil) {
+                        wristTracked: Bool = true, timestamp: Double, now: Double? = nil,observedCurl:Float?=nil) {
         let local: [V3] = [[0.035, 0.08, 0], [0, 0.09, 0], [-0.035, 0.065, 0]]
         func world(_ point: V3) -> V3 { (pose * SIMD4<Float>(point, 1)).xyz }
         let fingers: [(knuckle: V3, tip: V3)] = curl.map { value in
@@ -47,7 +47,7 @@ struct HandGripInteractionTests {
             indexKnuckle: .init(position: world(local[0]), isTracked: jointsTracked),
             middleKnuckle: .init(position: world(local[1]), isTracked: jointsTracked),
             littleKnuckle: .init(position: world(local[2]), isTracked: jointsTracked && littleTracked),
-            trackedFingers: littleTracked ? fingers:Array(fingers.prefix(2)), timestamp: timestamp, now: now ?? timestamp)
+            trackedFingers: littleTracked ? fingers:Array(fingers.prefix(2)), timestamp: timestamp, now: now ?? timestamp,observedCurl:observedCurl)
     }
 
     /// Simulate acquisition history, then render its final, fresh measured
@@ -59,6 +59,14 @@ struct HandGripInteractionTests {
         try #require(game.handRacketHeld)
         game.update(1 / 90)
         try #require(game.racketReady)
+    }
+
+    /// Recovery follows samples already at the present high-water timestamp.
+    /// Let the clock advance before replaying a fresh acquisition history.
+    /// One initial wait avoids gaps caused by unrelated MainActor test work.
+    private func grabFresh(_ game:GameModel,wrist pose:simd_float4x4) async throws {
+        try await Task.sleep(for:.milliseconds(300))
+        try grab(game,wrist:pose)
     }
 
     private func beginIncoming(_ game: GameModel, wrist pose: simd_float4x4) throws {
@@ -121,6 +129,126 @@ struct HandGripInteractionTests {
         #expect(game.isPreparingServe && !game.canServe)
         #expect(game.serveCountdown == 0.65 && game.shuttleState == nil)
         #expect(game.lastContact == nil && game.rallyHits == 0)
+    }
+
+    @Test func gradualClosureSurvivesMoreThanTheOldPalmCacheLifetime() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved),pose=wrist(),start=CACurrentMediaTime()-0.82
+        for i in 0...5 { sample(game,wrist:pose,curl:1.9,timestamp:start+Double(i)*0.02) }
+        for i in 6...35 { sample(game,wrist:pose,curl:1.45,timestamp:start+Double(i)*0.02) }
+        for i in 36...41 { sample(game,wrist:pose,curl:1.1,timestamp:start+Double(i)*0.02) }
+        game.update(1/90)
+        #expect(game.handRacketHeld && game.handGripLocked && game.racketReady)
+        #expect(game.handHeadVelocity == .zero)
+    }
+
+    @Test func nestedTrackingSetupClosesAllPanelsAndAutomaticallyLaunchesAfterARealGrab() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved,withRobot:true),pose=wrist()
+        game.automaticServing=true;game.showCourtMenu=true;game.showPlaySetup=true
+        try grab(game,wrist:pose)
+        for _ in 0..<45 { sample(game,wrist:pose,timestamp:CACurrentMediaTime());game.update(0.05) }
+        #expect(!game.isPreparingServe && game.shuttleState == nil)
+        game.finishTrackingSetup()
+        #expect(!game.showPlaySetup && !game.showCourtMenu && !game.showSettings && !game.showRackets)
+        for _ in 0..<38 { sample(game,wrist:pose,timestamp:CACurrentMediaTime());game.update(0.05) }
+        #expect(!game.isPreparingServe && game.shuttleState == nil)
+        for _ in 0..<5 { sample(game,wrist:pose,timestamp:CACurrentMediaTime());game.update(0.05) }
+        #expect(game.isPreparingServe && game.shuttleState == nil)
+        for _ in 0..<15 { sample(game,wrist:pose,timestamp:CACurrentMediaTime());game.update(0.05) }
+        #expect(!game.isPreparingServe && game.shuttleState != nil && game.lastContact == nil)
+    }
+
+    @Test func closingSetupCannotStartWithNoGripOrResumeAnInterruptedRally() async throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved,withRobot:true),pose=wrist()
+        game.automaticServing=true;game.showPlaySetup=true;game.showCourtMenu=true
+        game.finishTrackingSetup()
+        for _ in 0..<60 { sample(game,wrist:pose,curl:1.9,timestamp:CACurrentMediaTime());game.update(0.05) }
+        #expect(!game.handRacketHeld && !game.isPreparingServe && game.shuttleState == nil)
+        try await grabFresh(game,wrist:pose);try beginIncoming(game,wrist:pose)
+        game.paused=true;game.showPlaySetup=true;game.showCourtMenu=true
+        let before=try #require(game.shuttleState).position
+        game.finishTrackingSetup()
+        for _ in 0..<45 { sample(game,wrist:pose,timestamp:CACurrentMediaTime());game.update(0.05) }
+        #expect(game.paused && game.shuttleState?.position == before)
+        #expect(!game.showPlaySetup && !game.showCourtMenu)
+    }
+
+    @Test func unheldWristLossDiscardsTheOldPalmBeforeReacquisition() async throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved),pose=wrist(),start=CACurrentMediaTime()-0.46
+        for i in 0...5 { sample(game,wrist:pose,curl:1.9,timestamp:start+Double(i)*0.02) }
+        sample(game,wrist:pose,wristTracked:false,timestamp:start+0.12)
+        for i in 0...16 { sample(game,wrist:pose,timestamp:start+0.14+Double(i)*0.02) }
+        game.update(1/90)
+        #expect(!game.handRacketHeld && !game.handAcquisitionReady && !game.racketReady)
+        try await grabFresh(game,wrist:pose);#expect(game.racketReady)
+    }
+
+    @Test func trackedFingerBasesCanFinishAcquisitionWhileTipsAreOccluded() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved),pose=wrist(),start=CACurrentMediaTime()-0.24
+        for i in 0...5 { sample(game,wrist:pose,curl:1.9,timestamp:start+Double(i)*0.02) }
+        for i in 0...5 {
+            sample(game,wrist:pose,curl:nil,timestamp:start+0.12+Double(i)*0.02,observedCurl:1.1)
+        }
+        game.update(1/90)
+        #expect(game.handRacketHeld && game.racketReady)
+        let mount=simd_inverse(pose)*displayed(game),time=CACurrentMediaTime()
+        for i in 0...20 {
+            sample(game,wrist:pose,curl:nil,timestamp:time+Double(i)*0.02,observedCurl:1.9)
+        }
+        #expect(game.handRacketHeld)
+        expectPose(displayed(game),pose*mount)
+    }
+
+    @Test func fingerDataLossRequestsANewOpenInsteadOfPromisingAClosedGrab() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved),pose=wrist(),start=CACurrentMediaTime()-0.52
+        for i in 0...5 { sample(game,wrist:pose,curl:1.9,timestamp:start+Double(i)*0.02) }
+        sample(game,wrist:pose,curl:nil,timestamp:start+0.12)
+        #expect(!game.handAcquisitionReady && game.trackingMessage.contains("Open your hand first"))
+        for i in 7...12 { sample(game,wrist:pose,timestamp:start+Double(i)*0.02) }
+        #expect(!game.handRacketHeld)
+        for i in 13...18 { sample(game,wrist:pose,curl:1.9,timestamp:start+Double(i)*0.02) }
+        for i in 19...26 { sample(game,wrist:pose,timestamp:start+Double(i)*0.02) }
+        game.update(1/90)
+        #expect(game.handRacketHeld && game.racketReady)
+    }
+
+    @Test func partialOpenFingersAndMenuPinchingCannotReleaseTheHeldRacket() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved),pose=wrist();try grab(game,wrist:pose)
+        let start=CACurrentMediaTime()
+        for i in 0...20 { sample(game,wrist:pose,curl:1.9,littleTracked:false,timestamp:start+Double(i)*0.02) }
+        #expect(game.handRacketHeld && game.handGripLocked)
+        game.showPlaySetup=true
+        for i in 21...41 { sample(game,wrist:pose,curl:1.9,timestamp:start+Double(i)*0.02) }
+        #expect(game.handRacketHeld && game.handGripLocked)
+        game.finishTrackingSetup()
+        for i in 42...55 { sample(game,wrist:pose,curl:1.9,timestamp:start+Double(i)*0.02) }
+        #expect(game.handRacketHeld)
+        for i in 56...58 { sample(game,wrist:pose,curl:1.9,timestamp:start+Double(i)*0.02) }
+        #expect(!game.handRacketHeld && !game.handGripLocked)
+    }
+
+    @Test func fineAngleFitIsAppliedToTheHeldRacketAndCannotInventSwingMotion() throws {
+        let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
+        let game=fixture(saved),pose=wrist();try grab(game,wrist:pose)
+        let before=displayed(game),mount=simd_inverse(pose)*before
+        game.showPlaySetup=true
+        let fit=HandGripFit(tiltDegrees:22,sideTiltDegrees:-13,faceTurnDegrees:40)
+        game.setHandGripFit(fit)
+        expectPose(displayed(game),pose*mount*fit.offset)
+        #expect(simd_distance(displayed(game).columns.3,before.columns.3)<0.0001)
+        #expect(game.handHeadVelocity == .zero && game.lastContact == nil)
+        #expect(HandGripFitStore.load(left:false,defaults:saved) == fit.normalized())
+        #expect(HandGripFitStore.load(left:true,defaults:saved) == HandGripFit())
+        game.setHandGripFit(HandGripFit(tiltDegrees:.nan))
+        #expect(game.handGripFit == fit.normalized())
+        sample(game,wrist:pose,timestamp:CACurrentMediaTime());game.update(1/90)
+        #expect(game.handHeadVelocity == .zero)
     }
 
     @Test func relaxedAndMissingFingersRetainTheLockedMountWhileTheWristMoves() throws {
@@ -317,14 +445,12 @@ struct HandGripInteractionTests {
         #expect(afterHandChange.lastContact == nil && !afterHandChange.racketReady)
     }
 
-    @Test func missingInitialLittleKnuckleCannotArmGrabAndExplainsPalmRecovery() throws {
+    @Test func twoMeasuredKnucklesCanAcquireWhenTheLittleKnuckleIsOccluded() throws {
         let (saved,name)=try defaults();defer { saved.removePersistentDomain(forName:name) }
         let game=fixture(saved),pose=wrist(),start=CACurrentMediaTime()-0.24
         for i in 0...5 { sample(game,wrist:pose,curl:1.9,littleTracked:false,timestamp:start+Double(i)*0.02) }
         for i in 0...5 { sample(game,wrist:pose,littleTracked:false,timestamp:start+0.12+Double(i)*0.02) }
-        #expect(!game.handRacketHeld && !game.handAcquisitionReady && !game.racketReady)
-        #expect(game.trackingMessage.contains("palm"))
-        game.reconfigureTracking();try grab(game,wrist:pose)
+        game.update(1/90)
         #expect(game.handRacketHeld && game.racketReady)
     }
 

@@ -604,9 +604,9 @@ struct GameLoopTests {
         let expected=world*local
         for column in 0..<4 { #expect(simd_distance(actual[column],expected[column])<0.0001) }
     }
-    @Test func incompleteOrDegenerateGeometryCannotCreateARacket() {
+    @Test func missingWristOrMiddleAndDegenerateGeometryCannotCreateARacket() {
         let positions:[V3]=[.zero,[0.04,0.09,0],[0,0.1,0],[-0.035,0.085,0]]
-        for missing in 0..<4 {
+        for missing in [0,2] {
             let joints=positions.enumerated().map { joint($0.element,tracked:$0.offset != missing) }
             #expect(HandRacketPose.make(wrist:joints[0],indexKnuckle:joints[1],middleKnuckle:joints[2],littleKnuckle:joints[3]) == nil)
         }

@@ -19,6 +19,23 @@ struct HandGripGestureTests {
         return events
     }
 
+    private func fingers(_ ratios:[Float])->[(knuckle:V3,tip:V3)] {
+        ratios.enumerated().map { index,ratio in
+            let knuckle=V3(Float(index+1)*0.02,0.07,0)
+            return (knuckle:knuckle,tip:knuckle*ratio)
+        }
+    }
+
+    private func proximalFingers(_ alignments:[Float])->[(knuckle:V3,intermediate:V3)] {
+        alignments.enumerated().map { index,alignment in
+            let angle=Float(index)*0.12
+            let direction=V3(sin(angle),cos(angle),0),tangent=V3(cos(angle),-sin(angle),0)
+            let knuckle=direction*(0.07+Float(index)*0.01)
+            let firstBone=(direction*alignment+tangent*sqrt(max(0,1-alignment*alignment)))*0.03
+            return (knuckle:knuckle,intermediate:knuckle+firstBone)
+        }
+    }
+
     @Test func openThenCloseAcquiresExactlyOnceAndHeldClosedAtStartCannotAcquire() {
         var gesture = HandGripGesture()
         var events: [HandGripGesture.Event] = []
@@ -226,6 +243,162 @@ struct HandGripGestureTests {
         }
         event = gesture.update(curl: 1.8, timestamp: 0.66, now: 0.66)
         #expect(event == .released && !gesture.isHeld)
+    }
+
+    @Test func twoExtendedFingersWithOtherFingersMissingCannotReleaseTheHeldRacket() throws {
+        let pairs=fingers([1.9,1.9])
+        let curl=try #require(HandGripGesture.curl(wrist:.zero,trackedFingers:pairs))
+        let allowed=HandGripGesture.confidentOpenRelease(wrist:.zero,trackedFingers:pairs)
+        #expect(curl >= HandGripGesture.openCurl && !allowed)
+        var gesture=HandGripGesture()
+        let acquired=acquire(&gesture)
+        #expect(acquired == [.grabbed])
+        for index in 0...25 {
+            let time=0.24+Double(index)*0.02
+            let event=gesture.update(curl:curl,timestamp:time,now:time,releaseAllowed:allowed)
+            #expect(event == nil && gesture.isHeld)
+        }
+    }
+
+    @Test func aMixedTrackedHandCannotReleaseEvenWhenItsMedianLooksOpen() throws {
+        for ratios:[Float] in [[1.9,1.9,1.1],[1.9,1.9,1.9,1.1]] {
+            let pairs=fingers(ratios)
+            let curl=try #require(HandGripGesture.curl(wrist:.zero,trackedFingers:pairs))
+            let allowed=HandGripGesture.confidentOpenRelease(wrist:.zero,trackedFingers:pairs)
+            #expect(curl >= HandGripGesture.openCurl && !allowed)
+            var gesture=HandGripGesture()
+            let acquired=acquire(&gesture)
+            #expect(acquired == [.grabbed])
+            for index in 0...20 {
+                let time=0.24+Double(index)*0.02
+                let event=gesture.update(curl:curl,timestamp:time,now:time,releaseAllowed:allowed)
+                #expect(event == nil && gesture.isHeld)
+            }
+        }
+    }
+
+    @Test func aFreshConfidentOpeningReleasesOnlyAfterItsOwnFullDwell() throws {
+        var gesture=HandGripGesture()
+        let acquired=acquire(&gesture)
+        #expect(acquired == [.grabbed])
+        let uncertain=fingers([1.9,1.9])
+        let uncertainCurl=try #require(HandGripGesture.curl(wrist:.zero,trackedFingers:uncertain))
+        let uncertainAllowed=HandGripGesture.confidentOpenRelease(wrist:.zero,trackedFingers:uncertain)
+        for index in 0...10 {
+            let time=0.24+Double(index)*0.02
+            let event=gesture.update(curl:uncertainCurl,timestamp:time,now:time,releaseAllowed:uncertainAllowed)
+            #expect(event == nil && gesture.isHeld)
+        }
+        let opened=fingers([1.9,1.9,1.9])
+        let openCurl=try #require(HandGripGesture.curl(wrist:.zero,trackedFingers:opened))
+        let openAllowed=HandGripGesture.confidentOpenRelease(wrist:.zero,trackedFingers:opened)
+        #expect(openAllowed)
+        for index in 0...14 {
+            let time=0.46+Double(index)*0.02
+            let event=gesture.update(curl:openCurl,timestamp:time,now:time,releaseAllowed:openAllowed)
+            #expect(event == nil && gesture.isHeld)
+        }
+        let event=gesture.update(curl:openCurl,timestamp:0.76,now:0.76,releaseAllowed:openAllowed)
+        #expect(event == .released && !gesture.isHeld)
+    }
+
+    @Test func menuInteractionBreaksReleaseDwellEvenOnTheSameAnchorSample() {
+        var gesture=HandGripGesture()
+        let acquired=acquire(&gesture)
+        #expect(acquired == [.grabbed])
+        for time in [0.24,0.34,0.44] {
+            let event=gesture.update(curl:1.8,timestamp:time,now:time)
+            #expect(event == nil && gesture.isHeld)
+        }
+        let sameSample=gesture.update(curl:1.8,timestamp:0.44,now:0.44,releaseAllowed:false)
+        #expect(sameSample == nil && gesture.isHeld)
+        for index in 0...10 {
+            let time=0.46+Double(index)*0.02
+            let event=gesture.update(curl:1.8,timestamp:time,now:time,releaseAllowed:false)
+            #expect(event == nil && gesture.isHeld)
+        }
+        for index in 0...14 {
+            let time=0.68+Double(index)*0.02
+            let event=gesture.update(curl:1.8,timestamp:time,now:time)
+            #expect(event == nil && gesture.isHeld)
+        }
+        let event=gesture.update(curl:1.8,timestamp:0.98,now:0.98)
+        #expect(event == .released && !gesture.isHeld)
+    }
+
+    @Test func releaseConfidenceRejectsInvalidOrDegenerateMeasuredPairs() {
+        let opened=fingers([1.9,1.9,1.9,1.9])
+        #expect(HandGripGesture.confidentOpenRelease(wrist:.zero,trackedFingers:opened))
+        #expect(!HandGripGesture.confidentOpenRelease(wrist:[.nan,0,0],trackedFingers:opened))
+        #expect(!HandGripGesture.confidentOpenRelease(wrist:.zero,trackedFingers:fingers([1.9,.nan,1.9])))
+        #expect(!HandGripGesture.confidentOpenRelease(wrist:.zero,trackedFingers:[opened[0],opened[1],(.zero,[0,0.1,0])]))
+        #expect(!HandGripGesture.confidentOpenRelease(wrist:.zero,trackedFingers:[opened[0],opened[1],([0,0.08,0],[0,.infinity,0])]))
+    }
+
+    @Test func proximalCurlRecognizesStraightBentAndIntermediateFirstPhalanges() throws {
+        let open=try #require(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:proximalFingers([1,0.95])))
+        let closed=try #require(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:proximalFingers([0,0.2])))
+        let halfway=try #require(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:proximalFingers([0.65,0.65])))
+        #expect(abs(open-1.9)<0.0001 && open >= HandGripGesture.openCurl)
+        #expect(abs(closed-1.1)<0.0001 && closed <= HandGripGesture.closedCurl)
+        #expect(abs(halfway-1.5)<0.0001 && halfway > HandGripGesture.closedCurl && halfway < HandGripGesture.openCurl)
+    }
+
+    @Test func proximalMedianToleratesOneDifferentFingerAndPreservesMixedBends() throws {
+        let open=try #require(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:proximalFingers([1,1,0])))
+        let closed=try #require(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:proximalFingers([0,0,1])))
+        let mixed=try #require(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:proximalFingers([0,1])))
+        #expect(abs(open-1.9)<0.0001 && abs(closed-1.1)<0.0001 && abs(mixed-1.5)<0.0001)
+    }
+
+    @Test func proximalCurlIsInvariantUnderMeasuredRotationTranslationAndHandSize() throws {
+        let original=proximalFingers([0.65,0.7,0.3])
+        let expected=try #require(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:original))
+        let rotation=simd_quatf(angle:1.1,axis:simd_normalize(V3(1,2,-0.5))),translation=V3(0.4,1.2,-0.7)
+        for scale:Float in [0.4,0.5,1,2] {
+            let transformed=original.map { pair in
+                (knuckle:rotation.act(pair.knuckle*scale)+translation,
+                 intermediate:rotation.act(pair.intermediate*scale)+translation)
+            }
+            let actual=try #require(HandGripGesture.proximalCurl(wrist:translation,trackedFingers:transformed))
+            #expect(abs(actual-expected)<0.0001)
+        }
+    }
+
+    @Test func proximalCurlRejectsInsufficientInvalidAndTooShortMeasuredBones() {
+        let valid=proximalFingers([1,1])
+        #expect(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:[]) == nil)
+        #expect(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:[valid[0]]) == nil)
+        #expect(HandGripGesture.proximalCurl(wrist:[.nan,0,0],trackedFingers:valid) == nil)
+        let invalid:[(knuckle:V3,intermediate:V3)]=[
+            ([.nan,0,0],[0,0.1,0]),([0,0.08,0],[.infinity,0,0]),
+            ([0,0.08,0],[0,0.08,0]),([0,0.08,0],[0,0.084,0]),
+            ([0,0.019,0],[0,0.049,0]),(.zero,[0,0.03,0])]
+        for pair in invalid {
+            #expect(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:[valid[0],pair]) == nil)
+        }
+    }
+
+    @Test func proximalAcquisitionCannotSubstituteForObservedFingertipReleaseConfidence() throws {
+        let open=try #require(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:proximalFingers([1,1,1])))
+        let closed=try #require(HandGripGesture.proximalCurl(wrist:.zero,trackedFingers:proximalFingers([0,0,0])))
+        let releaseAllowed=HandGripGesture.confidentOpenRelease(wrist:.zero,trackedFingers:[])
+        #expect(!releaseAllowed)
+        var gesture=HandGripGesture(),events:[HandGripGesture.Event]=[]
+        for index in 0...5 {
+            let time=Double(index)*0.02
+            if let event=gesture.update(curl:open,timestamp:time,now:time,releaseAllowed:releaseAllowed) { events.append(event) }
+        }
+        for index in 0...5 {
+            let time=0.12+Double(index)*0.02
+            if let event=gesture.update(curl:closed,timestamp:time,now:time,releaseAllowed:releaseAllowed) { events.append(event) }
+        }
+        #expect(events == [.grabbed] && gesture.isHeld)
+        for index in 0...25 {
+            let time=0.24+Double(index)*0.02
+            let event=gesture.update(curl:open,timestamp:time,now:time,releaseAllowed:releaseAllowed)
+            #expect(event == nil && gesture.isHeld)
+        }
     }
 
     @Test func medianCurlIsInvariantUnderHandSizeRigidMovementAndOneNoisyFinger() throws {
