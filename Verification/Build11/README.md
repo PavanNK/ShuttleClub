@@ -2,7 +2,9 @@
 
 All **209 native tests in 22 suites passed in 28.430 seconds**, with zero failures or skipped tests. The final unsigned Vision Pro Release compile passed, with version **1.0 (11)** and bundle identifier `com.shuttleclub.vision`. See the [Xcode summary](Native-Test-Summary.json), [complete test output](Native-Test-Output.txt), and [Release output](Release-Build-Output.txt).
 
-No physical Vision Pro query, signing, installation or launch occurred. This build is not installed. These checks use simulator rendering and artificial measured inputs; they do not establish physical holding comfort, controller recognition, haptics, movement comfort, latency or headset performance. No external asset-generation service was used. The shared physics source is unchanged from its last direct 16-test pass in build 9.
+No physical Vision Pro query, signing, installation or launch occurred during the earlier test/capture phase. These checks use simulator rendering and artificial measured inputs; they do not establish physical holding comfort, controller recognition, haptics, movement comfort, latency or headset performance. No external asset-generation service was used. The shared physics source is unchanged from its last direct 16-test pass in build 9.
+
+Later on 12 October, the user authorized physical installation. The same verified source was built as a signed Release app, installed successfully, and independently read back from the physical Vision Pro as **Shuttle Club 1.0 (11)**, replacing build 7. [Deployment evidence](Device-Install-Summary.json) records the outcome without device identifiers or signing-account details. Remote opening timed out after 30 seconds; a subsequent filtered process query returned no matching process. Open Shuttle Club manually. Installation does not validate physical gameplay. The development profile expires on **18 October 2026 at 19:24:07 Singapore time**.
 
 ## Corrected behavior
 

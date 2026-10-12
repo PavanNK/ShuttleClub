@@ -2,7 +2,9 @@
 
 These checks are pending. Build success and simulator tests do not imply that they passed.
 
-Current build 11 passed **209 native tests in 22 suites in 28.430 seconds** and the final unsigned Vision Pro Release compile for version 1.0 (11), `com.shuttleclub.vision`. No physical-device query, signing, install or launch occurred; the last independently confirmed installed version is 1.0 (7). Final-source native screenshots and rally/miss recordings have been inspected using artificial hand input. The shared-physics package is unchanged from its last direct 16-test run in build 9.
+Current build 11 passed **209 native tests in 22 suites in 28.430 seconds** and the final unsigned Vision Pro Release compile for version 1.0 (11), `com.shuttleclub.vision`. That earlier test/capture phase on 12 October 2026 used no signing or physical-device access. Final-source native screenshots and rally/miss recordings have been inspected using artificial hand input. The shared-physics package is unchanged from its last direct 16-test run in build 9.
+
+The user subsequently authorised physical installation on 12 October. A signed Release build from unchanged source `be46483` succeeded, strict code-signature verification passed, and the embedded development profile matched the app's signing entitlements. Installation succeeded; an independent query confirms **1.0 (11)**, upgraded from 1.0 (7). Remote launch timed out after 30 seconds, and a separate successful process query found no running app; open Shuttle Club manually. The profile expires on **18 October 2026 at 11:24:07 UTC / 19:24:07 Singapore time**. The [sanitised installation record](Verification/Build11/Device-Install-Summary.json) establishes deployment only. Physical grip, gameplay, controller fit and movement comfort remain unverified.
 
 ## Earlier validation records
 

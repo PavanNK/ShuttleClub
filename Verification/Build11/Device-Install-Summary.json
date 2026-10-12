@@ -1,0 +1,43 @@
+{
+  "phase": "Physical installation authorized by the user after the earlier simulator-only verification phase",
+  "recorded_utc": "2026-10-12T06:07:34.482091+00:00",
+  "source_commit": "be46483eec20c5edad9715312312d931b264015e",
+  "source_manifest_matches": true,
+  "device": {
+    "kind": "physical Apple Vision Pro",
+    "os_version": "27.0.1",
+    "developer_mode_enabled": true
+  },
+  "signed_app": {
+    "configuration": "Release",
+    "bundle_identifier": "com.shuttleclub.vision",
+    "version": "1.0",
+    "build": "11",
+    "executable_sha256": "03b7fed9a6d4a4ead1b2ca46164c536106881ea5e87c9235eb81af823c01d168",
+    "build_result": "BUILD SUCCEEDED",
+    "strict_signature_verification": "Passed on calling host with keychain access before installation",
+    "profile_application_identifier_matches": true,
+    "target_device_in_profile": true,
+    "profile_expires_utc": "2026-10-18T11:24:07Z",
+    "profile_expires_singapore": "2026-10-18T19:24:07+08:00"
+  },
+  "installation": {
+    "result": "success",
+    "previous_build": "7",
+    "independently_read_back": {
+      "name": "Shuttle Club",
+      "bundle_identifier": "com.shuttleclub.vision",
+      "version": "1.0",
+      "build": "11"
+    }
+  },
+  "remote_launch": {
+    "result": "timeout",
+    "timeout_seconds": 30,
+    "independent_process_query_result": "success",
+    "matching_process_count": 0,
+    "running_app_confirmed": false,
+    "next_step": "Open Shuttle Club manually on the headset."
+  },
+  "validation_scope": "Installation and installed version are confirmed. Physical grip comfort, gameplay, tracking, haptics, movement comfort, audio and headset performance have not been validated. Device identifiers, serial numbers and signing-account details are omitted."
+}
